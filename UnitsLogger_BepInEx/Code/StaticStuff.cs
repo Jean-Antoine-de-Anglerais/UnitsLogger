@@ -131,7 +131,6 @@ namespace UnitsLogger_BepInEx
         public static BaseStats GetBaseStats(this BaseSimObject actor) => (BaseStats)Reflection.GetField(actor.GetType(), actor, "stats");
         #endregion
 
-
         #region SetIsTracked
         public static void SetIsTracked(this BaseSystemData data, bool is_tracked)
         {
