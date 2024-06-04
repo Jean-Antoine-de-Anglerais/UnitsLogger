@@ -40,6 +40,23 @@ namespace UnitsLogger_BepInEx
             unit_statistic += !(logger.initial_kills == 0) ? $"\r{"creature_statistics_kills".GetLocalization()} - {logger.initial_kills}" : "";
             unit_statistic += !(logger.initial_children == 0) ? $"\r{"creature_statistics_children".GetLocalization()} - {logger.initial_children}" : "";
 
+            unit_statistic += $"\r\rИзначальные характеристики:\r";
+            foreach (var stat in logger.initial_characteristics)
+            {
+                switch (stat.Key)
+                {
+                    case "armor":
+                        unit_statistic += $"{stat.Key} - {stat.Value}%\r";
+                        break;
+                    case "critical_chance":
+                        unit_statistic += $"{stat.Key} - {stat.Value * 100f}%\r";
+                        break;
+                    default:
+                        unit_statistic += $"{stat.Key} - {stat.Value}\r";
+                        break;
+                }
+            }
+
             unit_statistic += $"\r\rИстория жизни:\r";
 
             List<(double, string, DataType)> sortedList = logger.main_dict; // Ранее это вызывало бесконечную рекурсию, из-за которой игра завершалась

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HarmonyLib;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnitsLogger_BepInEx
@@ -68,6 +69,8 @@ namespace UnitsLogger_BepInEx
         public bool initial_is_group_leader = false;
         // Изначальная текстура юнита
         public Texture2D initial_texture = new Texture2D(10, 10);
+        // Изначальные характеристики юнита
+        public Dictionary<string, float> initial_characteristics = new Dictionary<string, float>();
 
         public bool was_initialized = false;
 
@@ -121,7 +124,10 @@ namespace UnitsLogger_BepInEx
                 {
                     initial_name = actor.GetActorData().name;
                     initial_traits.AddRange(actor.GetActorData().traits);
-                    initial_items.AddRange(actor.GetActorData().items);
+                    if (actor.GetActorData().items != null)
+                    {
+                        initial_items.AddRange(actor.GetActorData().items);
+                    }
                     initial_children = actor.GetActorData().children;
                     initial_profession = actor.GetActorData().profession;
                     initial_citizenship = actor.kingdom?.data.name;
@@ -132,6 +138,11 @@ namespace UnitsLogger_BepInEx
                     initial_is_group_leader = actor.is_group_leader;
                     initial_texture = UnitAvatarSaver.SaveInitialAvatar(actor);
                     was_initialized = true;
+
+                    foreach (var stat in actor.GetBaseStats().getList())
+                    {
+                        initial_characteristics.Add(stat.id, stat.value);
+                    }
                 }
             }
         }
@@ -151,7 +162,10 @@ namespace UnitsLogger_BepInEx
                 {
                     initial_name = actor.GetActorData().name;
                     initial_traits.AddRange(actor.GetActorData().traits);
-                    initial_items = actor.GetActorData().items;
+                    if (actor.GetActorData().items != null)
+                    {
+                        initial_items.AddRange(actor.GetActorData().items);
+                    }
                     initial_children = actor.GetActorData().children;
                     initial_profession = actor.GetActorData().profession;
                     initial_citizenship = actor.kingdom?.data.name;
@@ -162,6 +176,11 @@ namespace UnitsLogger_BepInEx
                     initial_is_group_leader = actor.is_group_leader;
                     initial_texture = UnitAvatarSaver.SaveInitialAvatar(actor);
                     was_initialized = true;
+
+                    foreach (var stat in actor.GetBaseStats().getList())
+                    {
+                        initial_characteristics.Add(stat.id, stat.value);
+                    }
                 }
             }
         }
