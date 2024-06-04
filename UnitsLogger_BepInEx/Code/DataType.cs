@@ -15,6 +15,7 @@
         Moods,
         Food,
         KilledUnits,
-        ManufacturedItems
+        ManufacturedItem,
+        SocialCharacteristics
     }
 }

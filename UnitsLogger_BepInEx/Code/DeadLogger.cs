@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.Random;
 
 namespace UnitsLogger_BepInEx
 {
@@ -93,6 +92,10 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил профессию на {("profession_" + stat.Item2).GetLocalization()}\r";
                 }
+                else if (stat.Item3 == DataType.Food)
+                {
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит съел {stat.Item2.GetLocalization()}\r";
+                }
                 else if (stat.Item3 == DataType.Moods)
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил настроение на {("mood_" + stat.Item2).GetLocalization()}\r";
@@ -101,9 +104,9 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит убил {stat.Item2}\r";
                 }
-                else if (stat.Item3 == DataType.Food)
+                else if (stat.Item3 == DataType.SocialCharacteristics)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит съел {stat.Item2.GetLocalization()}\r";
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит увеличил характеристику {stat.Item2.GetLocalization()} на 1\r";
                 }
             }
 

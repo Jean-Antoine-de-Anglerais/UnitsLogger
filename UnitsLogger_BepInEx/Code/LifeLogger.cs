@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnitsLogger_BepInEx
@@ -41,6 +40,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, ItemData)> manufactured_items = new List<(double, ItemData)>();
         // Случаи убийства кого-либо
         public List<(double, string, DataType)> killed_units = new List<(double, string, DataType)>();
+        // Случаи изменение социальных характеристик, не связанные с чертами и чем-то таким
+        public List<(double, string, DataType)> social_characteristics = new List<(double, string, DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -103,6 +104,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(received_moods);
                 temp_dict.AddRange(eaten_food);
                 temp_dict.AddRange(killed_units);
+                temp_dict.AddRange(social_characteristics);
 
                 return temp_dict;
             }

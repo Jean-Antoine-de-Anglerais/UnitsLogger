@@ -1,7 +1,4 @@
-﻿using ai;
-using ai.behaviours;
-using BepInEx;
-using System.Collections.Generic;
+﻿using BepInEx;
 
 namespace UnitsLogger_BepInEx
 {
@@ -396,6 +393,63 @@ namespace UnitsLogger_BepInEx
 
                 logger?.eaten_food.Add((World.world.getCurWorldTime(), pAsset.id, DataType.Food));
             }
+        }
+        #endregion
+
+        #region Изменение социальных характеристик юнита
+        public static bool updateAttributes_Prefix(ActorData __instance, ActorAsset pAsset, Race pRace, bool pForce = false)
+        {
+            if (pAsset.unit)
+            {
+                float num = __instance.getAge();
+                if ((num % 3f == 0f && num <= 100f) || pForce)
+                {
+                    switch (pRace.preferred_attribute.GetRandom())
+                    {
+                        case "intelligence":
+                            __instance.intelligence++;
+                            if (StaticStuff.GetIsTracked(__instance))
+                            {
+                                Actor actor = World.world.units.get(__instance.id);
+                                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), "intelligence", DataType.SocialCharacteristics));
+                            }
+                            break;
+                        case "diplomacy":
+                            __instance.diplomacy++;
+                            if (StaticStuff.GetIsTracked(__instance))
+                            {
+                                Actor actor = World.world.units.get(__instance.id);
+                                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), "diplomacy", DataType.SocialCharacteristics));
+                            }
+                            break;
+                        case "warfare":
+                            __instance.warfare++;
+                            if (StaticStuff.GetIsTracked(__instance))
+                            {
+                                Actor actor = World.world.units.get(__instance.id);
+                                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), "warfare", DataType.SocialCharacteristics));
+                            }
+                            break;
+                        case "stewardship":
+                            __instance.stewardship++;
+                            if (StaticStuff.GetIsTracked(__instance))
+                            {
+                                Actor actor = World.world.units.get(__instance.id);
+                                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), "stewardship", DataType.SocialCharacteristics));
+                            }
+                            break;
+                    }
+                }
+            }
+            return false;
         }
         #endregion
     }
