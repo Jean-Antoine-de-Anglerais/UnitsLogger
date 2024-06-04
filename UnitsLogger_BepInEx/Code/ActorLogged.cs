@@ -2,7 +2,7 @@
 
 namespace UnitsLogger_BepInEx
 {
-    public class ActorLogged : Actor
+    public class ActorLogged
     {
         /* Уникальный ID
          * Имя
@@ -118,7 +118,7 @@ namespace UnitsLogger_BepInEx
         public string id = "";
 
         // Имя
-        public new string name = "";
+        public string name = "";
 
         // Дата рождения
         public string born_in = "";
