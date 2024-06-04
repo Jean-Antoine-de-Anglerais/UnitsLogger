@@ -46,13 +46,13 @@ namespace UnitsLogger_BepInEx
                 switch (stat.Key)
                 {
                     case "armor":
-                        unit_statistic += $"{stat.Key} - {stat.Value}%\r";
+                        unit_statistic += $"{stat.Key.GetLocalization()} - {stat.Value}%\r";
                         break;
                     case "critical_chance":
-                        unit_statistic += $"{stat.Key} - {stat.Value * 100f}%\r";
+                        unit_statistic += $"{stat.Key.GetLocalization()} - {stat.Value * 100f}%\r";
                         break;
                     default:
-                        unit_statistic += $"{stat.Key} - {stat.Value}\r";
+                        unit_statistic += $"{stat.Key.GetLocalization()} - {stat.Value}\r";
                         break;
                 }
             }
@@ -206,13 +206,13 @@ namespace UnitsLogger_BepInEx
                 switch (stat.id)
                 {
                     case "armor":
-                        unit_statistic += $"{stat.id} - {stat.value}%\r";
+                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value}%\r";
                         break;
                     case "critical_chance":
-                        unit_statistic += $"{stat.id} - {stat.value * 100f}%\r";
+                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value * 100f}%\r";
                         break;
                     default:
-                        unit_statistic += $"{stat.id} - {stat.value}\r";
+                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value}\r";
                         break;
                 }
             }
