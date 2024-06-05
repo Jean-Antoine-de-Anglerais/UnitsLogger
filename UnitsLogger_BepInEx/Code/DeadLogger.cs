@@ -1,4 +1,6 @@
 ﻿using BepInEx;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -42,18 +44,27 @@ namespace UnitsLogger_BepInEx
             unit_statistic += $"\r\rИзначальные характеристики:\r";
             foreach (var stat in logger.initial_characteristics.getList())
             {
-                switch (stat.id)
+                BaseStatAsset asset = stat.getAsset();
+                if (asset.tooltip_multiply_for_visual_number != 1f)
                 {
-                    case "armor":
-                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value}%\r";
-                        break;
-                    case "critical_chance":
-                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value * 100f}%\r";
-                        break;
-                    default:
-                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value}\r";
-                        break;
+                    stat.value *= asset.tooltip_multiply_for_visual_number;
                 }
+
+                string text;
+                if (stat.value != (float)((int)stat.value))
+                {
+                    text = stat.value.ToString("0.0");
+                }
+                else
+                {
+                    text = stat.value.ToString();
+                }
+                if (asset.show_as_percents)
+                {
+                    text += "%";
+                }
+
+                unit_statistic += $"{stat.id.GetLocalization()} - {text}\r";
             }
 
             unit_statistic += $"\r\rИстория жизни:\r";
@@ -206,18 +217,27 @@ namespace UnitsLogger_BepInEx
 
             foreach (var stat in actor.GetBaseStats().getList())
             {
-                switch (stat.id)
+                BaseStatAsset asset = stat.getAsset();
+                if (asset.tooltip_multiply_for_visual_number != 1f)
                 {
-                    case "armor":
-                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value}%\r";
-                        break;
-                    case "critical_chance":
-                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value * 100f}%\r";
-                        break;
-                    default:
-                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value}\r";
-                        break;
+                    stat.value *= asset.tooltip_multiply_for_visual_number;
                 }
+
+                string text;
+                if (stat.value != (float)((int)stat.value))
+                {
+                    text = stat.value.ToString("0.0");
+                }
+                else
+                {
+                    text = stat.value.ToString();
+                }
+                if (asset.show_as_percents)
+                {
+                    text += "%";
+                }
+
+                unit_statistic += $"{stat.id.GetLocalization()}: {text}\r";
             }
 
             if (actor_logged.items.Count != 0)
