@@ -36,7 +36,7 @@ namespace UnitsLogger_BepInEx
             string unit_statistic = $"{"Изначальные характеристики юнита".GetLocalization()}:";
             unit_statistic += $"\r{"Имя".GetLocalization()} - {logger.initial_name}";
             unit_statistic += !(logger.initial_traits.Count == 0) ? $"\r{"traits".GetLocalization()} - {string.Join(", ", logger.initial_traits.Select(t => ("trait_" + t).GetLocalization()))}" : "";
-            unit_statistic += $"\r{"Профессия".GetLocalization()} - {logger.initial_profession.ToString().GetLocalization()}" + (logger.initial_is_group_leader ? $", {"Генерал".GetLocalization()}" : "");
+            unit_statistic += $"\r{"Профессия".GetLocalization()} - {("profession_" + logger.initial_profession.ToString()).GetLocalization()}" + (logger.initial_is_group_leader ? $", {"Генерал".GetLocalization()}" : "");
             unit_statistic += !logger.initial_mood.IsNullOrWhiteSpace() ? $"\r{"creature_statistics_mood".GetLocalization()} - {("mood_" + logger.initial_mood).GetLocalization()}" : "";
             unit_statistic += !(logger.initial_kills == 0) ? $"\r{"creature_statistics_kills".GetLocalization()} - {logger.initial_kills}" : "";
             unit_statistic += !(logger.initial_children == 0) ? $"\r{"creature_statistics_children".GetLocalization()} - {logger.initial_children}" : "";
