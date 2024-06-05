@@ -68,16 +68,16 @@ namespace UnitsLogger_BepInEx
             {
                 foreach (var resourc in actor.inventory.getResources())
                 {
-                    resources.Add(resourc.Value.id.GetLocalization(), resourc.Value.amount);
+                    resources.Add(resourc.Value.id.GetLocal(), resourc.Value.amount);
                 }
             }
-            profession = ("profession_" + data.profession.ToString()).GetLocalization();
+            profession = ("profession_" + data.profession.ToString()).GetLocal();
 
             name = actor.getName();
             born_in = actor.base_data.created_time.GetDateFromTime();
             dead_in = (World.world.getCurWorldTime()).GetDateFromTime();
-            favorite_food = data.favoriteFood.GetLocalization();
-            mood = ("mood_" + data.mood).GetLocalization();
+            favorite_food = data.favoriteFood.GetLocal();
+            mood = ("mood_" + data.mood).GetLocal();
 
             influence = actor.getInfluence();
             hunger = (int)((float)data.hunger / (float)actor.asset.maxHunger * 100f);
@@ -91,19 +91,19 @@ namespace UnitsLogger_BepInEx
 
             foreach (var trait in data.traits)
             {
-                traits.Add(("trait_" + trait).GetLocalization());
+                traits.Add(("trait_" + trait).GetLocal());
             }
 
             place_of_death = (data.x, data.y);
 
-            gender = ("gender_" + data.gender.ToString()).GetLocalization();
+            gender = ("gender_" + data.gender.ToString()).GetLocal();
             kills = data.kills;
 
-            species = actor.asset.nameLocale.GetLocalization();
+            species = actor.asset.nameLocale.GetLocal();
 
             if ((PersonalityAsset)Reflection.GetField(actor.GetType(), actor, "s_personality") != null)
             {
-                personality = ("personality_" + ((PersonalityAsset)Reflection.GetField(actor.GetType(), actor, "s_personality")).id).GetLocalization();
+                personality = ("personality_" + ((PersonalityAsset)Reflection.GetField(actor.GetType(), actor, "s_personality")).id).GetLocal();
             }
 
             children = data.children;

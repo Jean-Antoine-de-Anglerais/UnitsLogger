@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="Code\AuxiliarySpace.cs" />
     <Compile Include="Code\ActorLogged.cs" />
+    <Compile Include="Code\CustomDictionary.cs" />
     <Compile Include="Code\LifeLogger.cs" />
     <Compile Include="Code\Main.cs" />
     <Compile Include="Code\DataType.cs" />
@@ -96,6 +97,19 @@
     <Compile Include="Code\DeadLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Code\ReflectionUtility.cs" />
+    <Compile Include="Resources\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\en.json" />
+    <EmbeddedResource Include="Resources\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Resources\ru.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

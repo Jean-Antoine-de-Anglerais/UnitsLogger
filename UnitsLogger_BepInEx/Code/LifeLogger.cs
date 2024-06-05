@@ -90,7 +90,7 @@ namespace UnitsLogger_BepInEx
                 List<(double, string, DataType)> received_professions_list = new List<(double, string, DataType)>();
                 foreach (var profession in received_professions)
                 {
-                    received_professions_list.Add((profession.Item1, (profession.Item2.ToString()).GetLocalization(), profession.Item3));
+                    received_professions_list.Add((profession.Item1, (profession.Item2.ToString()).GetLocal(), profession.Item3));
                 }
 
                 temp_dict.AddRange(received_traits);

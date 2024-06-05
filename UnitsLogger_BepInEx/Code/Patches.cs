@@ -220,7 +220,7 @@ namespace UnitsLogger_BepInEx
 
                 if (pDeadUnit != null)
                 {
-                    logger?.killed_units.Add((World.world.getCurWorldTime(), $"существо вида {pDeadUnit.asset.nameLocale.GetLocalization()}, по имени {pDeadUnit.getName()}", DataType.KilledUnits));
+                    logger?.killed_units.Add((World.world.getCurWorldTime(), $"существо вида {pDeadUnit.asset.nameLocale.GetLocal()}, по имени {pDeadUnit.getName()}", DataType.KilledUnits));
                 }
             }
 

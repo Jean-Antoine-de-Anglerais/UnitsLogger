@@ -34,67 +34,67 @@ namespace UnitsLogger_BepInEx
                 Localizer.SetLocalization("en", "actor_set_untracked", "Trait Editor now adds traits to the creature");
                 Localizer.SetLocalization("ru", "actor_set_untracked", "Теперь вы не отслеживаете жизненный путь этого юнита!");
 
-                Localizer.SetLocalization("en", "item_mat_base", "Base");
-                Localizer.SetLocalization("ru", "item_mat_base", "Базовый");
+                CustomDictionary.SetLocal("item_mat_base", "Base");
+                CustomDictionary.SetLocal("item_mat_base", "Базовый");
 
-                Localizer.SetLocalization("en", "Генерал", "General");
-                Localizer.SetLocalization("ru", "Генерал", "Генерал");
+                CustomDictionary.SetLocal("Генерал", "General");
+                CustomDictionary.SetLocal("Генерал", "Генерал");
 
-                Localizer.SetLocalization("en", "Гражданская принадлежность", "Civil affiliation");
-                Localizer.SetLocalization("ru", "Гражданская принадлежность", "Гражданская принадлежность");
+                CustomDictionary.SetLocal("Гражданская принадлежность", "Civil affiliation");
+                CustomDictionary.SetLocal("Гражданская принадлежность", "Гражданская принадлежность");
 
-                Localizer.SetLocalization("en", "Профессия", "Profession");
-                Localizer.SetLocalization("ru", "Профессия", "Профессия");
+                CustomDictionary.SetLocal("Профессия", "Profession");
+                CustomDictionary.SetLocal("Профессия", "Профессия");
 
-                Localizer.SetLocalization("en", "Политические характеристики", "Political characteristics");
-                Localizer.SetLocalization("ru", "Политические характеристики", "Политические характеристики");
+                CustomDictionary.SetLocal("Политические характеристики", "Political characteristics");
+                CustomDictionary.SetLocal("Политические характеристики", "Политические характеристики");
 
-                Localizer.SetLocalization("en", "Тип", "Type");
-                Localizer.SetLocalization("ru", "Тип", "Тип");
+                CustomDictionary.SetLocal("Тип", "Type");
+                CustomDictionary.SetLocal("Тип", "Тип");
 
-                Localizer.SetLocalization("en", "Год создания", "Year of creation");
-                Localizer.SetLocalization("ru", "Год создания", "Год создания");
+                CustomDictionary.SetLocal("Год создания", "Year of creation");
+                CustomDictionary.SetLocal("Год создания", "Год создания");
 
-                Localizer.SetLocalization("en", "Имя", "Name");
-                Localizer.SetLocalization("ru", "Имя", "Имя");
+                CustomDictionary.SetLocal("Имя", "Name");
+                CustomDictionary.SetLocal("Имя", "Имя");
 
-                Localizer.SetLocalization("en", "Создатель", "Creator");
-                Localizer.SetLocalization("ru", "Создатель", "Создатель");
+                CustomDictionary.SetLocal("Создатель", "Creator");
+                CustomDictionary.SetLocal("Создатель", "Создатель");
 
-                Localizer.SetLocalization("en", "Создан в государстве", "Was created in");
-                Localizer.SetLocalization("ru", "Создан в государстве", "Создан в государстве");
+                CustomDictionary.SetLocal("Создан в государстве", "Was created in");
+                CustomDictionary.SetLocal("Создан в государстве", "Создан в государстве");
 
-                Localizer.SetLocalization("en", "Модификаторы", "Modifiers");
-                Localizer.SetLocalization("ru", "Модификаторы", "Модификаторы");
+                CustomDictionary.SetLocal("Модификаторы", "Modifiers");
+                CustomDictionary.SetLocal("Модификаторы", "Модификаторы");
 
-                Localizer.SetLocalization("en", "Биологический вид", "Biological species");
-                Localizer.SetLocalization("ru", "Биологический вид", "Биологический вид");
+                CustomDictionary.SetLocal("Биологический вид", "Biological species");
+                CustomDictionary.SetLocal("Биологический вид", "Биологический вид");
 
-                Localizer.SetLocalization("en", "Место смерти", "Place of death");
-                Localizer.SetLocalization("ru", "Место смерти", "Место смерти");
+                CustomDictionary.SetLocal("Место смерти", "Place of death");
+                CustomDictionary.SetLocal("Место смерти", "Место смерти");
 
-                Localizer.SetLocalization("en", "Сводка о смерти юнита", "Unit death report");
-                Localizer.SetLocalization("ru", "Сводка о смерти юнита", "Сводка о смерти юнита");
+                CustomDictionary.SetLocal("Сводка о смерти юнита", "Unit death report");
+                CustomDictionary.SetLocal("Сводка о смерти юнита", "Сводка о смерти юнита");
 
-                Localizer.SetLocalization("en", "Пол", "Gender");
-                Localizer.SetLocalization("ru", "Пол", "Пол");
+                CustomDictionary.SetLocal("Пол", "Gender");
+                CustomDictionary.SetLocal("Пол", "Пол");
 
                 foreach (var profession in UnitProfession.GetValues(typeof(UnitProfession)))
                 {
-                    Localizer.SetLocalization("en", "profession_" + profession.ToString(), profession.ProfessionsLocalizationEn());
-                    Localizer.SetLocalization("ru", "profession_" + profession.ToString(), profession.ProfessionsLocalizationRu());
+                    CustomDictionary.SetLocal("profession_" + profession.ToString(), profession.ProfessionsLocalizationEn());
+                    CustomDictionary.SetLocal("profession_" + profession.ToString(), profession.ProfessionsLocalizationRu());
                 }
 
                 foreach (var gender in ActorGender.GetValues(typeof(ActorGender)))
                 {
-                    Localizer.SetLocalization("en", "gender_" + gender.ToString(), gender.GendersLocalizationEn());
-                    Localizer.SetLocalization("ru", "gender_" + gender.ToString(), gender.GendersLocalizationRu());
+                    CustomDictionary.SetLocal("gender_" + gender.ToString(), gender.GendersLocalizationEn());
+                    CustomDictionary.SetLocal("gender_" + gender.ToString(), gender.GendersLocalizationRu());
                 }
 
                 foreach (var quality in ItemQuality.GetValues(typeof(ItemQuality)))
                 {
-                    Localizer.SetLocalization("en", "quality_" + quality.ToString(), quality.QualityLocalizationEn());
-                    Localizer.SetLocalization("ru", "quality_" + quality.ToString(), quality.QualityLocalizationRu());
+                    CustomDictionary.SetLocal("quality_" + quality.ToString(), quality.QualityLocalizationEn());
+                    CustomDictionary.SetLocal("quality_" + quality.ToString(), quality.QualityLocalizationRu());
                 }
                 #endregion
 
