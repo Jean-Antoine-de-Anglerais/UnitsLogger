@@ -40,18 +40,18 @@ namespace UnitsLogger_BepInEx
             unit_statistic += !(logger.initial_children == 0) ? $"\r{"creature_statistics_children".GetLocalization()} - {logger.initial_children}" : "";
 
             unit_statistic += $"\r\rИзначальные характеристики:\r";
-            foreach (var stat in logger.initial_characteristics)
+            foreach (var stat in logger.initial_characteristics.getList())
             {
-                switch (stat.Key)
+                switch (stat.id)
                 {
                     case "armor":
-                        unit_statistic += $"{stat.Key.GetLocalization()} - {stat.Value}%\r";
+                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value}%\r";
                         break;
                     case "critical_chance":
-                        unit_statistic += $"{stat.Key.GetLocalization()} - {stat.Value * 100f}%\r";
+                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value * 100f}%\r";
                         break;
                     default:
-                        unit_statistic += $"{stat.Key.GetLocalization()} - {stat.Value}\r";
+                        unit_statistic += $"{stat.id.GetLocalization()} - {stat.value}\r";
                         break;
                 }
             }

@@ -71,7 +71,7 @@ namespace UnitsLogger_BepInEx
         // Изначальная текстура юнита
         public Texture2D initial_texture = new Texture2D(10, 10);
         // Изначальные характеристики юнита
-        public Dictionary<string, float> initial_characteristics = new Dictionary<string, float>();
+        public BaseStats initial_characteristics = new BaseStats();
 
         public bool was_initialized = false;
 
@@ -140,11 +140,7 @@ namespace UnitsLogger_BepInEx
                     initial_is_group_leader = actor.is_group_leader;
                     initial_texture = UnitAvatarSaver.SaveInitialAvatar(actor);
                     was_initialized = true;
-
-                    foreach (var stat in actor.GetBaseStats().getList())
-                    {
-                        initial_characteristics.Add(stat.id, stat.value);
-                    }
+                    initial_characteristics.getList().AddRange(actor.GetBaseStats().getList());
                 }
             }
         }
@@ -178,11 +174,7 @@ namespace UnitsLogger_BepInEx
                     initial_is_group_leader = actor.is_group_leader;
                     initial_texture = UnitAvatarSaver.SaveInitialAvatar(actor);
                     was_initialized = true;
-
-                    foreach (var stat in actor.GetBaseStats().getList())
-                    {
-                        initial_characteristics.Add(stat.id, stat.value);
-                    }
+                    initial_characteristics.getList().AddRange(actor.GetBaseStats().getList());
                 }
             }
         }

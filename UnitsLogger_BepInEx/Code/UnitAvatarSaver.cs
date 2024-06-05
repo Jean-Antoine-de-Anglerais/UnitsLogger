@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace UnitsLogger_BepInEx
 {
-
     // Сохранение спрайта юнита
     public class UnitAvatarSaver : MonoBehaviour
     {
