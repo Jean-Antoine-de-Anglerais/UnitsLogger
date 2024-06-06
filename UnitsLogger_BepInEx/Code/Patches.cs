@@ -452,5 +452,23 @@ namespace UnitsLogger_BepInEx
             return false;
         }
         #endregion
+
+        #region Выпадение за границу мира
+        public static void checkDeathOutsideMap(Actor __instance, Actor pActor)
+        {
+            if (StaticStuff.GetIsTracked(__instance))
+            {
+                if (!__instance.inMapBorder())
+                {
+                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+
+                    if (logger?.dead_reason == DeadReason.Null)
+                    {
+                        logger.dead_reason = DeadReason.WorldBorder;
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }

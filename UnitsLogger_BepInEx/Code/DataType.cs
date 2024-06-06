@@ -2,6 +2,7 @@
 {
     public enum DataType
     {
+        Null,
         Names,
         ReceivedTraits,
         LostTraits,

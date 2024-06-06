@@ -136,7 +136,7 @@ namespace UnitsLogger_BepInEx
                 prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "changeMood_Prefix")));
 
                 harmony.Patch(AccessTools.Method(typeof(Actor), "newKillAction"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "newKillAction_Prefix"))); 
+                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "newKillAction_Prefix")));
 
                 harmony.Patch(AccessTools.Method(typeof(Actor), "consumeCityFoodItem"),
                 prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "consumeCityFoodItem_Prefix")));

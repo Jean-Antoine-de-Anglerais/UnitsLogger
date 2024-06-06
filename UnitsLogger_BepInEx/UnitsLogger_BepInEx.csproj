@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="Code\AuxiliarySpace.cs" />
     <Compile Include="Code\ActorLogged.cs" />
+    <Compile Include="Code\DeadReason.cs" />
     <Compile Include="Code\CustomDictionary.cs" />
     <Compile Include="Code\LifeLogger.cs" />
     <Compile Include="Code\Main.cs" />

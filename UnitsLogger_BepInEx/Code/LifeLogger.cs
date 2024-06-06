@@ -42,6 +42,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, string, DataType)> killed_units = new List<(double, string, DataType)>();
         // Случаи изменение социальных характеристик, не связанные с чертами и чем-то таким
         public List<(double, string, DataType)> social_characteristics = new List<(double, string, DataType)>();
+        // Причина смерти
+        public DeadReason dead_reason = DeadReason.Null;
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
