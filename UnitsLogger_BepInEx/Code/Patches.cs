@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using EpPathFinding.cs;
 
 namespace UnitsLogger_BepInEx
 {
@@ -454,7 +455,7 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Выпадение за границу мира
-        public static void checkDeathOutsideMap(Actor __instance, Actor pActor)
+        public static void checkDeathOutsideMap_Prefix(Actor __instance, Actor pActor)
         {
             if (StaticStuff.GetIsTracked(__instance))
             {
@@ -472,7 +473,7 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смерть от земли
-        public void checkDieOnGround(Actor __instance)
+        public static void checkDieOnGround_Prefix(Actor __instance)
         {
             if (StaticStuff.GetIsTracked(__instance))
             {
@@ -486,6 +487,47 @@ namespace UnitsLogger_BepInEx
                     }
                 }
             }
+        }
+        #endregion
+
+        #region Смерть от старости
+        public static bool updateAge_Prefix(Actor __instance, ref ActorData ___data, ref Race ___rase, ref BaseStats ___stats)
+        {
+            if (!(bool)___data.CallMethod("updateAge", ___rase, __instance.asset, ___stats[S.max_age]) && !__instance.hasTrait("immortal"))
+            {
+                if (StaticStuff.GetIsTracked(__instance))
+                {
+                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+
+                    if (logger?.dead_reason == DeadReason.Null)
+                    {
+                        logger.dead_reason = DeadReason.OldAge;
+                    }
+                }
+                __instance.killHimself(false, AttackType.Age, true, true, true);
+                return true;
+            }
+            if (__instance.city != null)
+            {
+                if (__instance.isKing())
+                {
+                    __instance.CallMethod("addExperience", 20);
+                }
+                if (__instance.isCityLeader())
+                {
+                    __instance.CallMethod("addExperience", 10);
+                }
+            }
+            float num = (float)__instance.getAge();
+            if (__instance.asset.unit && num > 300f && __instance.hasTrait("immortal") && Toolbox.randomBool())
+            {
+                __instance.addTrait("evil", false);
+            }
+            if (num > 40f && Toolbox.randomChance(0.3f))
+            {
+                __instance.addTrait("wise", false);
+            }
+            return false;
         }
         #endregion
     }
