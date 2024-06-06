@@ -148,10 +148,13 @@ namespace UnitsLogger_BepInEx
                 prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "checkDieOnGround_Prefix")));
 
                 harmony.Patch(AccessTools.Method(typeof(Actor), "updateAge"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "updateAge_Prefix")));
+                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "updateAge_Prefix"))); 
 
                 harmony.Patch(AccessTools.Method(typeof(Actor), "checkDeathOutsideMap"),
                 prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "checkDeathOutsideMap_Prefix")));
+
+                harmony.Patch(AccessTools.Method(typeof(ActionLibrary), "removeUnit"),
+                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "removeUnit_Prefix")));
                 #endregion
 
                 _initialized = true;

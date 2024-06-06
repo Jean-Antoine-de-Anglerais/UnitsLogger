@@ -1,5 +1,4 @@
 ﻿using BepInEx;
-using EpPathFinding.cs;
 
 namespace UnitsLogger_BepInEx
 {
@@ -528,6 +527,21 @@ namespace UnitsLogger_BepInEx
                 __instance.addTrait("wise", false);
             }
             return false;
+        }
+        #endregion
+
+        #region Смерть от трансформации
+        public static void removeUnit_Prefix(Actor pActor)
+        {
+            if (StaticStuff.GetIsTracked(pActor))
+            {
+                LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                if (logger?.dead_reason == DeadReason.Null)
+                {
+                    logger.dead_reason = DeadReason.Transformation;
+                }
+            }
         }
         #endregion
     }
