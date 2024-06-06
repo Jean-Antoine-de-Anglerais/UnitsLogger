@@ -470,5 +470,23 @@ namespace UnitsLogger_BepInEx
             }
         }
         #endregion
+
+        #region Смерть от земли
+        public void checkDieOnGround(Actor __instance)
+        {
+            if (StaticStuff.GetIsTracked(__instance))
+            {
+                if (!__instance.currentTile.Type.liquid && __instance.isAlive() && !(bool)__instance.CallMethod("isInMagnet"))
+                {
+                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+
+                    if (logger?.dead_reason == DeadReason.Null)
+                    {
+                        logger.dead_reason = DeadReason.Ground;
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }
