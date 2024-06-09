@@ -77,6 +77,10 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил имя на {stat.Item2}\r";
                 }
+                else if (stat.Item3 == DataType.Food)
+                {
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит съел {stat.Item2.GetLocal()}\r";
+                }
                 else if (stat.Item3 == DataType.Culturships)
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил культуру на {stat.Item2}\r";
@@ -101,10 +105,6 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил профессию на {("profession_" + stat.Item2).GetLocal()}\r";
                 }
-                else if (stat.Item3 == DataType.Food)
-                {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит съел {stat.Item2.GetLocal()}\r";
-                }
                 else if (stat.Item3 == DataType.Moods)
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил настроение на {("mood_" + stat.Item2).GetLocal()}\r";
@@ -119,7 +119,7 @@ namespace UnitsLogger_BepInEx
                 }
             }
 
-            unit_statistic += $"{(World.world.getCurWorldTime()).GetDateFromTime()} - юнит умер, причина смерти: {logger.dead_reason.ToString()}\r";
+            unit_statistic += $"{(World.world.getCurWorldTime()).GetDateFromTime()} - юнит умер\r";
 
 
             using (StreamWriter writer = new StreamWriter(unit_file_path))
