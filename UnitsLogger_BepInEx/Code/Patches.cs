@@ -2,7 +2,7 @@
 
 namespace UnitsLogger_BepInEx
 {
-    public class Patches
+    public static class Patches
     {
         #region Переключить отслеживаемость юнита
         public static void click_Prefix()
@@ -450,6 +450,18 @@ namespace UnitsLogger_BepInEx
                 }
             }
             return false;
+        }
+        #endregion
+
+        #region Получение ресурсов
+        public static void addToInventory_Prefix(Actor __instance, string pID, int pAmount)
+        {
+            if (StaticStuff.GetIsTracked(__instance))
+            {
+                LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+
+                logger?.received_resources.Add((World.world.getCurWorldTime(), pID, pAmount, DataType.GetResources));
+            }
         }
         #endregion
 

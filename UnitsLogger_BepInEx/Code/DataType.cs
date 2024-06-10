@@ -17,6 +17,7 @@
         Food,
         KilledUnits,
         ManufacturedItem,
-        SocialCharacteristics
+        SocialCharacteristics,
+        GetResources
     }
 }

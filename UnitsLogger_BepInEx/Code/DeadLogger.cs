@@ -77,6 +77,10 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил имя на {stat.Item2}\r";
                 }
+                else if (stat.Item3 == DataType.GetResources)
+                {
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - получил {stat.Item2}\r";
+                }
                 else if (stat.Item3 == DataType.Food)
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит съел {stat.Item2.GetLocal()}\r";

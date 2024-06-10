@@ -44,6 +44,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, string, DataType)> social_characteristics = new List<(double, string, DataType)>();
         // Причина смерти
         public DeadReason dead_reason = DeadReason.Null;
+        // Полученные ресурсы
+        public List<(double, string, int, DataType)> received_resources = new List<(double, string, int, DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -95,9 +97,17 @@ namespace UnitsLogger_BepInEx
                     received_professions_list.Add((profession.Item1, (profession.Item2.ToString()).GetLocal(), profession.Item3));
                 }
 
+                List<(double, string, DataType)> received_resources_list = new List<(double, string, DataType)>();
+                foreach (var resource in received_resources)
+                {
+                    received_resources_list.Add((resource.Item1, (resource.Item3 + " " + resource.Item2.GetLocal()), resource.Item4));
+                }
+
+
                 temp_dict.AddRange(received_traits);
                 temp_dict.AddRange(received_name_list);
                 temp_dict.AddRange(received_professions_list);
+                temp_dict.AddRange(received_resources_list);
                 temp_dict.AddRange(lost_traits);
                 temp_dict.AddRange(born_children);
                 temp_dict.AddRange(received_citizenships);
