@@ -155,7 +155,6 @@ namespace UnitsLogger_BepInEx
             unit_statistic += $"\rID - {actor_logged.id}";
             unit_statistic += $"\r{"Имя".GetLocal()} - {actor_logged.name}";
             unit_statistic += $"\rГоды жизни - с {actor_logged.born_in} по {actor_logged.dead_in}";
-            unit_statistic += $"\rПричина смерти: {logger.dead_reason.ToString()}";
             unit_statistic += !(actor_logged.traits.Count == 0) ? $"\r{"traits".GetLocal()} - {string.Join(", ", actor_logged.traits.Select(t => t))}" : "";
             unit_statistic += $"\r{"Профессия".GetLocal()} - {actor_logged.profession}" + (actor.is_group_leader ? $", {"Генерал".GetLocal()}" : "");
             unit_statistic += $"\r{"Место смерти".GetLocal()} - X: {actor_logged.place_of_death.Item1}, Y: {actor_logged.place_of_death.Item2}";
