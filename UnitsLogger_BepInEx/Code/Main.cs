@@ -99,7 +99,9 @@ namespace UnitsLogger_BepInEx
                 #endregion
 
                 #region Патчинг
-                harmony.Patch(AccessTools.Method(typeof(RaceClick), "click"),
+                harmony.PatchAll(typeof(Patches));
+
+              /*harmony.Patch(AccessTools.Method(typeof(RaceClick), "click"),
                 postfix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "click_Prefix")));
 
                 harmony.Patch(AccessTools.Method(typeof(Actor), "killHimself"),
@@ -154,7 +156,7 @@ namespace UnitsLogger_BepInEx
                 prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "removeUnit_Prefix")));
 
                 harmony.Patch(AccessTools.Method(typeof(Actor), "addToInventory"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "addToInventory_Prefix")));
+                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "addToInventory_Prefix")));*/
                 #endregion
 
                 _initialized = true;

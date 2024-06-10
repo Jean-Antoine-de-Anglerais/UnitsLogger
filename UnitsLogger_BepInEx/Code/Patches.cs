@@ -1,11 +1,15 @@
-﻿using BepInEx;
+﻿using ai.behaviours;
+using BepInEx;
+using HarmonyLib;
 
 namespace UnitsLogger_BepInEx
 {
     public static class Patches
     {
         #region Переключить отслеживаемость юнита
-        public static void click_Prefix()
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(RaceClick), nameof(RaceClick.click))]
+        public static void click_Postfix()
         {
             if (Config.selectedUnit != null)
             {
@@ -33,6 +37,8 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), nameof(Actor.killHimself))]
         public static void killHimself_Prefix(Actor __instance, bool pDestroy = false, AttackType pType = AttackType.Other, bool pCountDeath = true, bool pLaunchCallbacks = true, bool pLogFavorite = true)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -53,6 +59,8 @@ namespace UnitsLogger_BepInEx
         }
 
         #region Черты, которые юнит получил
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActorBase), nameof(ActorBase.addTrait))]
         public static void addTrait_ActorBase_Prefix(ActorBase __instance, string pTrait, bool pRemoveOpposites = false)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -65,6 +73,8 @@ namespace UnitsLogger_BepInEx
             }
         }
 
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActorData), nameof(ActorData.addTrait))]
         public static void addTrait_ActorData_Prefix(ActorData __instance, string pTrait)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -82,6 +92,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Черты, которые юнит потерял
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActorBase), nameof(ActorBase.removeTrait))]
         public static void removeTrait_ActorBase_Prefix(ActorBase __instance, string pTraitID)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -95,6 +107,8 @@ namespace UnitsLogger_BepInEx
             }
         }
 
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActorData), nameof(ActorData.removeTrait))]
         public static void removeTrait_ActorData_Prefix(ActorData __instance, string pTraitID)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -112,6 +126,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смена профессии
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), "setProfession")]
         public static void setProfession_Prefix(Actor __instance, UnitProfession pType, bool pCancelBeh = true)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -124,6 +140,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смена королевства
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActorBase), "setKingdom")]
         public static void setKingdom_Prefix(ActorBase __instance, Kingdom pKingdom)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -139,6 +157,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смена города
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), "setCity")]
         public static void setCity_Prefix(Actor __instance, City pCity)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -154,6 +174,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смена культуры
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), "setCulture")]
         public static void setCulture_Prefix(Actor __instance, Culture pCulture)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -166,6 +188,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смена имени
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActorData), nameof(ActorData.setName))]
         public static void setName_Prefix(ActorData __instance, string pName)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -196,6 +220,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смена настроения
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), "changeMood")]
         public static void changeMood_Prefix(Actor __instance, string pMood)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -211,7 +237,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Убийство юнита
-        // Token: 0x06000DEA RID: 3562 RVA: 0x0008D334 File Offset: 0x0008B534
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), "newKillAction")]
         public static void newKillAction_Prefix(Actor __instance, Actor pDeadUnit, Kingdom pPrevKingdom)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -385,6 +412,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Поедание еды
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), nameof(Actor.consumeCityFoodItem))]
         public static void consumeCityFoodItem_Prefix(Actor __instance, ResourceAsset pAsset)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -397,6 +426,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Изменение социальных характеристик юнита
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActorData), "updateAttributes")]
         public static bool updateAttributes_Prefix(ActorData __instance, ActorAsset pAsset, Race pRace, bool pForce = false)
         {
             if (pAsset.unit)
@@ -454,6 +485,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Получение ресурсов
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), nameof(Actor.addToInventory))]
         public static void addToInventory_Prefix(Actor __instance, string pID, int pAmount)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -466,6 +499,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Выпадение за границу мира
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]
         public static void checkDeathOutsideMap_Prefix(Actor __instance, Actor pActor)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -484,6 +519,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смерть от земли
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), nameof(Actor.checkDieOnGround))]
         public static void checkDieOnGround_Prefix(Actor __instance)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -502,6 +539,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смерть от старости
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Actor), "updateAge")]
         public static bool updateAge_Prefix(Actor __instance, ref ActorData ___data, ref Race ___rase, ref BaseStats ___stats)
         {
             if (!(bool)___data.CallMethod("updateAge", ___rase, __instance.asset, ___stats[S.max_age]) && !__instance.hasTrait("immortal"))
@@ -543,6 +582,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смерть от трансформации
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActionLibrary), nameof(ActionLibrary.removeUnit))]
         public static void removeUnit_Prefix(Actor pActor)
         {
             if (StaticStuff.GetIsTracked(pActor))
