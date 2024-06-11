@@ -40,6 +40,7 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Запуск сохранения
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), nameof(Actor.killHimself))]
         public static void killHimself_Prefix(Actor __instance, bool pDestroy = false, AttackType pType = AttackType.Other, bool pCountDeath = true, bool pLaunchCallbacks = true, bool pLogFavorite = true)
@@ -60,6 +61,7 @@ namespace UnitsLogger_BepInEx
                 }
             }
         }
+        #endregion
 
         #region Черты, которые юнит получил
         [HarmonyPrefix]
