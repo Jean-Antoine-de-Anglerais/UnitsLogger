@@ -32,6 +32,7 @@ namespace UnitsLogger_BepInEx
             string unit_file_path = Path.Combine(unit_folder_path, "Сводка о жизни юнита" + ".txt");
 
             string unit_statistic = $"{"Изначальные характеристики юнита".GetLocal()}:";
+            unit_statistic += $"\rДата, когда юнит стал отслеживаемым - {logger.initial_time.GetDateFromTime()}";
             unit_statistic += $"\r{"Имя".GetLocal()} - {logger.initial_name}";
             unit_statistic += !(logger.initial_traits.Count == 0) ? $"\r{"traits".GetLocal()} - {string.Join(", ", logger.initial_traits.Select(t => ("trait_" + t).GetLocal()))}" : "";
             unit_statistic += $"\r{"Профессия".GetLocal()} - {("profession_" + logger.initial_profession.ToString()).GetLocal()}" + (logger.initial_is_group_leader ? $", {"Генерал".GetLocal()}" : "");

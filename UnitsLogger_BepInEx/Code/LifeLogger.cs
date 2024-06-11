@@ -50,6 +50,7 @@ namespace UnitsLogger_BepInEx
         public List<(double, string, DataType)> given_resources = new List<(double, string, DataType)>();
         // Смена эпох
         public List<(double, string, DataType)> changing_eras = new List<(double, string, DataType)>();
+
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
         // Черты, бывшие у юнита изначально 
@@ -81,6 +82,8 @@ namespace UnitsLogger_BepInEx
         public BaseStats initial_characteristics = new BaseStats();
         // Изначальная эпоха
         public string initial_era = "";
+        // Момент, когда юнита сделали отслеживаемым
+        public double initial_time = 0;
 
 
         public bool was_initialized = false;
@@ -162,6 +165,7 @@ namespace UnitsLogger_BepInEx
                     was_initialized = true;
                     initial_characteristics.getList().AddRange(actor.GetBaseStats().getList());
                     initial_era = World.world_era.id;
+                    initial_time = World.world.getCurWorldTime();
                 }
             }
         }
@@ -197,6 +201,7 @@ namespace UnitsLogger_BepInEx
                     was_initialized = true;
                     initial_characteristics.getList().AddRange(actor.GetBaseStats().getList());
                     initial_era = World.world_era.id;
+                    initial_time = World.world.getCurWorldTime();
                 }
             }
         }
