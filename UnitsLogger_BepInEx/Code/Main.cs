@@ -96,6 +96,12 @@ namespace UnitsLogger_BepInEx
                     CustomDictionary.SetLocal("quality_" + quality.ToString(), quality.QualityLocalizationEn());
                     CustomDictionary.SetLocal("quality_" + quality.ToString(), quality.QualityLocalizationRu());
                 }
+
+                foreach (var job in AssetManager.citizen_job_library.list)
+                {
+                    CustomDictionary.SetLocal("job_" + job.id, job.JobsLocalizationEn());
+                    CustomDictionary.SetLocal("job_" + job.id, job.JobsLocalizationRu());
+                }
                 #endregion
 
                 #region Патчинг

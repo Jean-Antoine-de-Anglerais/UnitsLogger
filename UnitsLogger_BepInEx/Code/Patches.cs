@@ -486,7 +486,7 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
-        #region Получение ресурсов
+        #region Добыча ресурсов
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), nameof(Actor.addToInventory))]
         public static void addToInventory_Prefix(Actor __instance, string pID, int pAmount)
@@ -500,7 +500,7 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
-        #region Выдача ресурсов городу
+        #region Передача ресурсов городу
         [HarmonyPrefix]
         [HarmonyPatch(typeof(ActorBase), nameof(ActorBase.giveInventoryResourcesToCity))]
         public static void giveInventoryResourcesToCity_Prefix(ActorBase __instance)
@@ -529,6 +529,37 @@ namespace UnitsLogger_BepInEx
                     LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
                     logger?.changing_eras.Add((World.world.getCurWorldTime(), pAsset.id, DataType.NewEra));
+                }
+            }
+        }
+        #endregion
+
+        #region Городская работа
+        // Начало городской работы
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActorBase), nameof(ActorBase.setCitizenJob))]
+        public static void setCitizenJob_Prefix(ActorBase __instance, CitizenJobAsset pJobAsset)
+        {
+            if (StaticStuff.GetIsTracked(__instance))
+            {
+                LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+
+                logger?.citizen_job_starts.Add((World.world.getCurWorldTime(), pJobAsset.id, DataType.CitizenJobStart));
+            }
+        }
+
+        // Окончание городской работы
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActorBase), nameof(ActorBase.endJob))]
+        public static void endJob_Prefix(ActorBase __instance)
+        {
+            if (__instance.citizen_job != null)
+            {
+                if (StaticStuff.GetIsTracked(__instance))
+                {
+                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+
+                    logger?.citizen_job_ends.Add((World.world.getCurWorldTime(), __instance.citizen_job.id, DataType.CitizenJobEnd));
                 }
             }
         }

@@ -115,6 +115,78 @@ namespace UnitsLogger_BepInEx
         {
             return input.ToString();
         }
+
+        public static string JobsLocalizationRu(this CitizenJobAsset input)
+        {
+            string input_id = input.id;
+            // Создаем новый словарь
+            var dictionary = new Dictionary<string, string>
+                {
+                    { "fireman", "Пожарный" },
+                    { "builder", "Строитель" },
+                    { "gatherer_bushes", "Собиратель Ягод" },
+                    { "gatherer_herbs", "Собиратель Трав" },
+                    { "farmer", "Фермер" },
+                    { "hunter", "Охотник" },
+                    { "woodcutter", "Лесоруб" },
+                    { "miner", "Шахтёр" },
+                    { "miner_deposit", "Рудокоп" },
+                    { "blacksmith", "Кузнец" },
+                    { "road_builder", "Строитель Дорог" },
+                    { "cleaner", "Уборщик" },
+                    { "settler", "Колонист" },
+                    { "attacker", "Воин" }
+                };
+
+            if (dictionary.ContainsKey(input_id))
+            {
+                // Если ключ найден, возвращаем соответствующее значение
+                return dictionary[input_id];
+            }
+
+            else
+            {
+                return input_id;
+            }
+        }
+
+        public static string JobsLocalizationEn(this CitizenJobAsset input)
+        {
+            string input_id = input.id;
+            if (input_id != "miner_deposit")
+            {
+                if (string.IsNullOrEmpty(input_id))
+                    return input_id;
+
+                char[] chars = input_id.ToCharArray();
+                bool capitalizeNext = false;
+
+                // Переводим первую букву в верхний регистр
+                chars[0] = char.ToUpper(chars[0]);
+
+                // Заменяем символы "_" на пробелы и переводим следующий символ в верхний регистр
+                for (int i = 1; i < chars.Length; i++)
+                {
+                    if (chars[i] == '_')
+                    {
+                        chars[i] = ' ';
+                        capitalizeNext = true;
+                    }
+                    else if (capitalizeNext)
+                    {
+                        chars[i] = char.ToUpper(chars[i]);
+                        capitalizeNext = false;
+                    }
+                }
+
+                return new string(chars);
+            }
+
+            else
+            {
+                return "Deposit Miner";
+            }
+        }
         #endregion
 
         #region GetActorData

@@ -50,6 +50,10 @@ namespace UnitsLogger_BepInEx
         public List<(double, string, DataType)> given_resources = new List<(double, string, DataType)>();
         // Смена эпох
         public List<(double, string, DataType)> changing_eras = new List<(double, string, DataType)>();
+        // Начала городской работы
+        public List<(double, string, DataType)> citizen_job_starts = new List<(double, string, DataType)>();
+        // Окончания городской работы
+        public List<(double, string, DataType)> citizen_job_ends = new List<(double, string, DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -128,6 +132,8 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(social_characteristics);
                 temp_dict.AddRange(given_resources);
                 temp_dict.AddRange(changing_eras);
+                temp_dict.AddRange(citizen_job_starts);
+                temp_dict.AddRange(citizen_job_ends);
 
                 return temp_dict;
             }

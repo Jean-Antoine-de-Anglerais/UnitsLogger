@@ -78,6 +78,14 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил имя на {stat.Item2}";
                 }
+                else if (stat.Item3 == DataType.CitizenJobStart)
+                {
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит начал работать как {("job_" + stat.Item2).GetLocal()}";
+                }
+                else if (stat.Item3 == DataType.KilledUnits)
+                {
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит убил {stat.Item2}";
+                }
                 else if (stat.Item3 == DataType.GetResources)
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит добыл {stat.Item2}";
@@ -85,6 +93,10 @@ namespace UnitsLogger_BepInEx
                 else if (stat.Item3 == DataType.GiveResources)
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит положил в хранилище города: {stat.Item2}";
+                }
+                else if (stat.Item3 == DataType.CitizenJobEnd)
+                {
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит закончил свою работу как {("job_" + stat.Item2).GetLocal()}";
                 }
                 else if (stat.Item3 == DataType.Food)
                 {
@@ -117,10 +129,6 @@ namespace UnitsLogger_BepInEx
                 else if (stat.Item3 == DataType.Moods)
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил настроение на {("mood_" + stat.Item2).GetLocal()}";
-                }
-                else if (stat.Item3 == DataType.KilledUnits)
-                {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит убил {stat.Item2}";
                 }
                 else if (stat.Item3 == DataType.SocialCharacteristics)
                 {

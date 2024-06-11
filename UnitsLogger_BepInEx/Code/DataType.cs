@@ -20,6 +20,8 @@
         SocialCharacteristics,
         GetResources,
         GiveResources,
-        NewEra
+        NewEra,
+        CitizenJobStart,
+        CitizenJobEnd
     }
 }
