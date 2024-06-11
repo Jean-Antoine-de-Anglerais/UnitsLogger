@@ -48,7 +48,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, string, int, DataType)> received_resources = new List<(double, string, int, DataType)>();
         // Отданные ресурсы
         public List<(double, string, DataType)> given_resources = new List<(double, string, DataType)>();
-
+        // Смена эпох
+        public List<(double, string, DataType)> changing_eras = new List<(double, string, DataType)>();
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
         // Черты, бывшие у юнита изначально 
@@ -78,6 +79,9 @@ namespace UnitsLogger_BepInEx
         public Texture2D initial_texture = new Texture2D(10, 10);
         // Изначальные характеристики юнита
         public BaseStats initial_characteristics = new BaseStats();
+        // Изначальная эпоха
+        public string initial_era = "";
+
 
         public bool was_initialized = false;
 
@@ -120,6 +124,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(killed_units);
                 temp_dict.AddRange(social_characteristics);
                 temp_dict.AddRange(given_resources);
+                temp_dict.AddRange(changing_eras);
 
                 return temp_dict;
             }
@@ -156,6 +161,7 @@ namespace UnitsLogger_BepInEx
                     initial_texture = UnitAvatarSaver.SaveInitialAvatar(actor);
                     was_initialized = true;
                     initial_characteristics.getList().AddRange(actor.GetBaseStats().getList());
+                    initial_era = World.world_era.id;
                 }
             }
         }
@@ -190,6 +196,7 @@ namespace UnitsLogger_BepInEx
                     initial_texture = UnitAvatarSaver.SaveInitialAvatar(actor);
                     was_initialized = true;
                     initial_characteristics.getList().AddRange(actor.GetBaseStats().getList());
+                    initial_era = World.world_era.id;
                 }
             }
         }

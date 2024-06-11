@@ -1,9 +1,6 @@
 ﻿using BepInEx;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using UnityEngine;
 
 namespace UnitsLogger_BepInEx
 {
@@ -520,6 +517,23 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Смена эпохи
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(EraManager), "setEra", new System.Type[] { typeof(EraAsset), typeof(bool) })]
+        public static void setEra_Prefix(EraAsset pAsset, bool pOverrideTime = true)
+        {
+            foreach (var actor in World.world.units.getSimpleList())
+            {
+                if (StaticStuff.GetIsTracked(actor))
+                {
+                    LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                    logger?.changing_eras.Add((World.world.getCurWorldTime(), pAsset.id, DataType.NewEra));
+                }
+            }
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]
@@ -562,46 +576,46 @@ namespace UnitsLogger_BepInEx
 
         #region Смерть от старости
         // Вызывает ошибку, так как не может найти поле rase
-      /*[HarmonyPrefix]
-        [HarmonyPatch(typeof(Actor), "updateAge")]
-        public static bool updateAge_Prefix(Actor __instance, ref ActorData ___data, ref BaseStats ___stats)
-        {
-            if (!(bool)___data.CallMethod("updateAge", (Race)Reflection.GetField(typeof(ActorBase), __instance, "rase"), __instance.asset, ___stats[S.max_age]) && !__instance.hasTrait("immortal"))
-            {
-                if (StaticStuff.GetIsTracked(__instance))
-                {
-                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+        /*[HarmonyPrefix]
+          [HarmonyPatch(typeof(Actor), "updateAge")]
+          public static bool updateAge_Prefix(Actor __instance, ref ActorData ___data, ref BaseStats ___stats)
+          {
+              if (!(bool)___data.CallMethod("updateAge", (Race)Reflection.GetField(typeof(ActorBase), __instance, "rase"), __instance.asset, ___stats[S.max_age]) && !__instance.hasTrait("immortal"))
+              {
+                  if (StaticStuff.GetIsTracked(__instance))
+                  {
+                      LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                    if (logger?.dead_reason == DeadReason.Null)
-                    {
-                        logger.dead_reason = DeadReason.OldAge;
-                    }
-                }
-                __instance.killHimself(false, AttackType.Age, true, true, true);
-                return true;
-            }
-            if (__instance.city != null)
-            {
-                if (__instance.isKing())
-                {
-                    __instance.CallMethod("addExperience", 20);
-                }
-                if (__instance.isCityLeader())
-                {
-                    __instance.CallMethod("addExperience", 10);
-                }
-            }
-            float num = (float)__instance.getAge();
-            if (__instance.asset.unit && num > 300f && __instance.hasTrait("immortal") && Toolbox.randomBool())
-            {
-                __instance.addTrait("evil", false);
-            }
-            if (num > 40f && Toolbox.randomChance(0.3f))
-            {
-                __instance.addTrait("wise", false);
-            }
-            return false;
-        }*/
+                      if (logger?.dead_reason == DeadReason.Null)
+                      {
+                          logger.dead_reason = DeadReason.OldAge;
+                      }
+                  }
+                  __instance.killHimself(false, AttackType.Age, true, true, true);
+                  return true;
+              }
+              if (__instance.city != null)
+              {
+                  if (__instance.isKing())
+                  {
+                      __instance.CallMethod("addExperience", 20);
+                  }
+                  if (__instance.isCityLeader())
+                  {
+                      __instance.CallMethod("addExperience", 10);
+                  }
+              }
+              float num = (float)__instance.getAge();
+              if (__instance.asset.unit && num > 300f && __instance.hasTrait("immortal") && Toolbox.randomBool())
+              {
+                  __instance.addTrait("evil", false);
+              }
+              if (num > 40f && Toolbox.randomChance(0.3f))
+              {
+                  __instance.addTrait("wise", false);
+              }
+              return false;
+          }*/
         #endregion
 
         #region Смерть от трансформации

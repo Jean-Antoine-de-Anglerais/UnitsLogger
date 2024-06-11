@@ -19,6 +19,7 @@
         ManufacturedItem,
         SocialCharacteristics,
         GetResources,
-        GiveResources
+        GiveResources,
+        NewEra
     }
 }

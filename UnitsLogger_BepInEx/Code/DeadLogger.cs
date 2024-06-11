@@ -38,6 +38,7 @@ namespace UnitsLogger_BepInEx
             unit_statistic += !logger.initial_mood.IsNullOrWhiteSpace() ? $"\r{"creature_statistics_mood".GetLocal()} - {("mood_" + logger.initial_mood).GetLocal()}" : "";
             unit_statistic += !(logger.initial_kills == 0) ? $"\r{"creature_statistics_kills".GetLocal()} - {logger.initial_kills}" : "";
             unit_statistic += !(logger.initial_children == 0) ? $"\r{"creature_statistics_children".GetLocal()} - {logger.initial_children}" : "";
+            unit_statistic += $"\r{"opinion_world_era".GetLocal()} - {(logger.initial_era + "_title").GetLocal()}";
 
             unit_statistic += $"\r\rИзначальные характеристики:\r";
             foreach (var stat in logger.initial_characteristics.getList())
@@ -124,6 +125,10 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит увеличил характеристику {stat.Item2.GetLocal()} на 1";
                 }
+                else if (stat.Item3 == DataType.NewEra)
+                {
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - мировая эпоха сменилась на {(stat.Item2 + "_title").GetLocal()}";
+                }
                 unit_statistic += $"\r\r";
             }
 
@@ -163,6 +168,7 @@ namespace UnitsLogger_BepInEx
             unit_statistic += $"\rID - {actor_logged.id}";
             unit_statistic += $"\r{"Имя".GetLocal()} - {actor_logged.name}";
             unit_statistic += $"\rГоды жизни - с {actor_logged.born_in} по {actor_logged.dead_in}";
+            unit_statistic += $"\r{"world_current_age_title".GetLocal()} - {(World.world_era.id + "_title").GetLocal()}";
             unit_statistic += !(actor_logged.traits.Count == 0) ? $"\r{"traits".GetLocal()} - {string.Join(", ", actor_logged.traits.Select(t => t))}" : "";
             unit_statistic += $"\r{"Профессия".GetLocal()} - {actor_logged.profession}" + (actor.is_group_leader ? $", {"Генерал".GetLocal()}" : "");
             unit_statistic += $"\r{"Место смерти".GetLocal()} - X: {actor_logged.place_of_death.Item1}, Y: {actor_logged.place_of_death.Item2}";
