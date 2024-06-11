@@ -101,62 +101,62 @@ namespace UnitsLogger_BepInEx
                 #region Патчинг
                 harmony.PatchAll(typeof(Patches));
 
-              /*harmony.Patch(AccessTools.Method(typeof(RaceClick), "click"),
-                postfix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "click_Prefix")));
+                /*harmony.Patch(AccessTools.Method(typeof(RaceClick), "click"),
+                  postfix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "click_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(Actor), "killHimself"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "killHimself_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(Actor), "killHimself"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "killHimself_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(ActorBase), "addTrait"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "addTrait_ActorBase_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(ActorBase), "addTrait"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "addTrait_ActorBase_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(ActorData), "addTrait"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "addTrait_ActorData_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(ActorData), "addTrait"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "addTrait_ActorData_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(ActorBase), "removeTrait"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "removeTrait_ActorBase_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(ActorBase), "removeTrait"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "removeTrait_ActorBase_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(ActorData), "removeTrait"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "removeTrait_ActorData_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(ActorData), "removeTrait"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "removeTrait_ActorData_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(Actor), "setProfession"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "setProfession_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(Actor), "setProfession"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "setProfession_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(ActorBase), "setKingdom"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "setKingdom_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(ActorBase), "setKingdom"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "setKingdom_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(Actor), "setCulture"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "setCulture_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(Actor), "setCulture"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "setCulture_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(ActorData), "setName"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "setName_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(ActorData), "setName"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "setName_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(Actor), "setCity"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "setCity_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(Actor), "setCity"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "setCity_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(Actor), "changeMood"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "changeMood_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(Actor), "changeMood"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "changeMood_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(Actor), "newKillAction"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "newKillAction_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(Actor), "newKillAction"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "newKillAction_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(Actor), "consumeCityFoodItem"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "consumeCityFoodItem_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(Actor), "consumeCityFoodItem"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "consumeCityFoodItem_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(ActorData), "updateAttributes"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "updateAttributes_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(ActorData), "updateAttributes"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "updateAttributes_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(Actor), "checkDieOnGround"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "checkDieOnGround_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(Actor), "checkDieOnGround"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "checkDieOnGround_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(Actor), "checkDeathOutsideMap"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "checkDeathOutsideMap_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(Actor), "checkDeathOutsideMap"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "checkDeathOutsideMap_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(ActionLibrary), "removeUnit"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "removeUnit_Prefix")));
+                  harmony.Patch(AccessTools.Method(typeof(ActionLibrary), "removeUnit"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "removeUnit_Prefix")));
 
-                harmony.Patch(AccessTools.Method(typeof(Actor), "addToInventory"),
-                prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "addToInventory_Prefix")));*/
+                  harmony.Patch(AccessTools.Method(typeof(Actor), "addToInventory"),
+                  prefix: new HarmonyMethod(AccessTools.Method(typeof(Patches), "addToInventory_Prefix")));*/
                 #endregion
 
                 _initialized = true;

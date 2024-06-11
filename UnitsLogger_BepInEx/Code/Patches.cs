@@ -1,6 +1,9 @@
-﻿using ai.behaviours;
-using BepInEx;
+﻿using BepInEx;
 using HarmonyLib;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEngine;
 
 namespace UnitsLogger_BepInEx
 {
@@ -498,6 +501,23 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Выдача ресурсов городу
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActorBase), nameof(ActorBase.giveInventoryResourcesToCity))]
+        public static void giveInventoryResourcesToCity_Prefix(ActorBase __instance)
+        {
+            if (__instance.inventory.hasResources() && __instance.city != null && __instance.city.isAlive())
+            {
+                if (StaticStuff.GetIsTracked(__instance))
+                {
+                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+
+                    logger?.given_resources.Add((World.world.getCurWorldTime(), string.Join(", ", __instance.inventory.getResources().Values.Select(r => $"{r.id.GetLocal()} - {r.amount}")), DataType.GiveResources));
+                }
+            }
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]
@@ -539,11 +559,12 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смерть от старости
-        [HarmonyPrefix]
+        // Вызывает ошибку, так как не может найти поле rase
+      /*[HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "updateAge")]
-        public static bool updateAge_Prefix(Actor __instance, ref ActorData ___data, ref Race ___rase, ref BaseStats ___stats)
+        public static bool updateAge_Prefix(Actor __instance, ref ActorData ___data, ref BaseStats ___stats)
         {
-            if (!(bool)___data.CallMethod("updateAge", ___rase, __instance.asset, ___stats[S.max_age]) && !__instance.hasTrait("immortal"))
+            if (!(bool)___data.CallMethod("updateAge", (Race)Reflection.GetField(typeof(ActorBase), __instance, "rase"), __instance.asset, ___stats[S.max_age]) && !__instance.hasTrait("immortal"))
             {
                 if (StaticStuff.GetIsTracked(__instance))
                 {
@@ -578,7 +599,7 @@ namespace UnitsLogger_BepInEx
                 __instance.addTrait("wise", false);
             }
             return false;
-        }
+        }*/
         #endregion
 
         #region Смерть от трансформации

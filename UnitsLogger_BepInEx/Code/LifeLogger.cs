@@ -46,6 +46,8 @@ namespace UnitsLogger_BepInEx
         public DeadReason dead_reason = DeadReason.Null;
         // Полученные ресурсы
         public List<(double, string, int, DataType)> received_resources = new List<(double, string, int, DataType)>();
+        // Отданные ресурсы
+        public List<(double, string, DataType)> given_resources = new List<(double, string, DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -117,6 +119,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(eaten_food);
                 temp_dict.AddRange(killed_units);
                 temp_dict.AddRange(social_characteristics);
+                temp_dict.AddRange(given_resources);
 
                 return temp_dict;
             }

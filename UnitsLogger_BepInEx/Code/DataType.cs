@@ -18,6 +18,7 @@
         KilledUnits,
         ManufacturedItem,
         SocialCharacteristics,
-        GetResources
+        GetResources,
+        GiveResources
     }
 }
