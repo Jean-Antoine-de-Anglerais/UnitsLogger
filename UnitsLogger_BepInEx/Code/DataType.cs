@@ -25,6 +25,7 @@
         CitizenJobEnd,
         BuildedConstruction,
         CleanedConstruction,
-        ExtractResources
+        ExtractResources,
+        CreateRoad
     }
 }

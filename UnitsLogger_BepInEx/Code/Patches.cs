@@ -488,9 +488,9 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Добыча ресурсов
-        [HarmonyPrefix]
+        [HarmonyPostfix]
         [HarmonyPatch(typeof(Actor), nameof(Actor.addToInventory))]
-        public static void addToInventory_Prefix(Actor __instance, string pID, int pAmount)
+        public static void addToInventory_Postfix(Actor __instance, string pID, int pAmount)
         {
             if (StaticStuff.GetIsTracked(__instance))
             {
@@ -613,6 +613,22 @@ namespace UnitsLogger_BepInEx
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
                 logger?.extract_resources.Add((World.world.getCurWorldTime(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.ExtractResources));
+            }
+        }
+        #endregion
+
+        #region Постройка дороги
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(BehCityCreateRoad), nameof(BehCityCreateRoad.execute))]
+        public static void execute_Postfix(Actor pActor)
+        {
+            if (StaticStuff.GetIsTracked(pActor))
+            {
+                WorldTile beh_tile_target = (WorldTile)Reflection.GetField(typeof(ActorBase), pActor, "beh_tile_target");
+
+                LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.create_road.Add((World.world.getCurWorldTime(), $"X: {beh_tile_target.x}, Y: {beh_tile_target.y}", DataType.CreateRoad));
             }
         }
         #endregion
