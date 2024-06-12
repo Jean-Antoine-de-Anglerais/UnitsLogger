@@ -92,9 +92,10 @@ namespace UnitsLogger_BepInEx
         // Момент, когда юнита сделали отслеживаемым
         public double initial_time = 0;
 
-
+        // Были ли исходные данные уже добавлены
         public bool was_initialized = false;
 
+        // Словарь, который объединяет все остальные словари в один, для дальнейшей сортировки
         public List<(double, string, DataType)> main_dict
         {
             get
@@ -149,7 +150,7 @@ namespace UnitsLogger_BepInEx
         }
 
 
-        // Use this for initialization
+        // Используется для инициализации
         void Start()
         {
             Actor actor = gameObject.GetComponent<Actor>();
@@ -180,12 +181,7 @@ namespace UnitsLogger_BepInEx
             }
         }
 
-        // Update is called once per frame
-        //void Update()
-        //{
-
-        //}
-
+        // Используется для инициализации
         void OnEnable()
         {
             Actor actor = gameObject.GetComponent<Actor>();
@@ -216,6 +212,7 @@ namespace UnitsLogger_BepInEx
             }
         }
 
+        // Удаляет все данные экземпляра класса, во избежание утечек памяти
         void OnDestroy()
         {
             // Освобождаем словарь
