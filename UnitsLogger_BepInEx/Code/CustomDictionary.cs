@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
 using UnitsLogger_BepInEx.Resources;
 
@@ -7,13 +7,13 @@ namespace UnitsLogger_BepInEx
 {
     public static class CustomDictionary
     {
-        private static readonly ConcurrentDictionary<string, string> ru;
-        private static readonly ConcurrentDictionary<string, string> en;
+        private static readonly Dictionary<string, string> ru;
+        private static readonly Dictionary<string, string> en;
 
         static CustomDictionary()
         {
-            ru = JsonConvert.DeserializeObject<ConcurrentDictionary<string, string>>(Encoding.UTF8.GetString(Resource.ru).Trim('\uFEFF'));
-            en = JsonConvert.DeserializeObject<ConcurrentDictionary<string, string>>(Encoding.UTF8.GetString(Resource.en).Trim('\uFEFF'));
+            ru = JsonConvert.DeserializeObject<Dictionary<string, string>>(Encoding.UTF8.GetString(Resource.ru).Trim('\uFEFF'));
+            en = JsonConvert.DeserializeObject<Dictionary<string, string>>(Encoding.UTF8.GetString(Resource.en).Trim('\uFEFF'));
         }
 
         public static string GetLocal(this string key)
