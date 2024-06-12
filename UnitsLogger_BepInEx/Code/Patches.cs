@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using ai.behaviours;
+using BepInEx;
 using HarmonyLib;
 using System.Linq;
 
@@ -560,6 +561,25 @@ namespace UnitsLogger_BepInEx
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
                     logger?.citizen_job_ends.Add((World.world.getCurWorldTime(), __instance.citizen_job.id, DataType.CitizenJobEnd));
+                }
+            }
+        }
+        #endregion
+
+        #region
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(BehBuildTargetProgress), nameof(BehBuildTargetProgress.execute))]
+        public static void execute_Prefix(Actor pActor)
+        {
+            var beh_building_target = (Building)Reflection.GetField(typeof(ActorBase), pActor, "beh_building_target");
+
+            if (!beh_building_target.isUnderConstruction())
+            {
+                if (StaticStuff.GetIsTracked(pActor))
+                {
+                    LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                    logger?.citizen_job_starts.Add((World.world.getCurWorldTime(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.BuildedConstruction));
                 }
             }
         }

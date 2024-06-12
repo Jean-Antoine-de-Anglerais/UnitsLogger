@@ -55,6 +55,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, string, DataType)> citizen_job_starts = new List<(double, string, DataType)>();
         // Окончания городской работы
         public List<(double, string, DataType)> citizen_job_ends = new List<(double, string, DataType)>();
+        // Построенные строения
+        public List<(double, string, DataType)> builded_construction = new List<(double, string, DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -135,6 +137,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(changing_eras);
                 temp_dict.AddRange(citizen_job_starts);
                 temp_dict.AddRange(citizen_job_ends);
+                temp_dict.AddRange(builded_construction);
 
                 return temp_dict;
             }

@@ -22,6 +22,7 @@
         GiveResources,
         NewEra,
         CitizenJobStart,
-        CitizenJobEnd
+        CitizenJobEnd,
+        BuildedConstruction
     }
 }

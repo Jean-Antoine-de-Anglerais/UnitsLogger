@@ -82,6 +82,10 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит начал работать как {("job_" + stat.Item2).GetLocal()}";
                 }
+                else if (stat.Item3 == DataType.BuildedConstruction)
+                {
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит построил {stat.Item2}";
+                }
                 else if (stat.Item3 == DataType.KilledUnits)
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит убил {stat.Item2}";
