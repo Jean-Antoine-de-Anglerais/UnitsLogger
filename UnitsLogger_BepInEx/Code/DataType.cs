@@ -23,6 +23,7 @@
         NewEra,
         CitizenJobStart,
         CitizenJobEnd,
-        BuildedConstruction
+        BuildedConstruction,
+        CleanedConstruction
     }
 }

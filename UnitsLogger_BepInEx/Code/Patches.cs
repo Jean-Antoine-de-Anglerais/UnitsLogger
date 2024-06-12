@@ -579,8 +579,24 @@ namespace UnitsLogger_BepInEx
                 {
                     LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                    logger?.citizen_job_starts.Add((World.world.getCurWorldTime(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.BuildedConstruction));
+                    logger?.builded_construction.Add((World.world.getCurWorldTime(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.BuildedConstruction));
                 }
+            }
+        }
+        #endregion
+
+        #region Уборка руин
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(BehRemoveRuins), nameof(BehRemoveRuins.execute))]
+        public static void execute_Postfix(Actor pActor)
+        {
+            if (StaticStuff.GetIsTracked(pActor))
+            {
+                var beh_building_target = (Building)Reflection.GetField(typeof(ActorBase), pActor, "beh_building_target");
+
+                LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.cleaned_construction.Add((World.world.getCurWorldTime(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.CleanedConstruction));
             }
         }
         #endregion

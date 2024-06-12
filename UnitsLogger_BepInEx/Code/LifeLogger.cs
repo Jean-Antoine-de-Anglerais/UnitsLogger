@@ -57,6 +57,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, string, DataType)> citizen_job_ends = new List<(double, string, DataType)>();
         // Построенные строения
         public List<(double, string, DataType)> builded_construction = new List<(double, string, DataType)>();
+        // Очищенные руины
+        public List<(double, string, DataType)> cleaned_construction = new List<(double, string, DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -95,7 +97,7 @@ namespace UnitsLogger_BepInEx
         // Были ли исходные данные уже добавлены
         public bool was_initialized = false;
 
-        // Словарь, который объединяет все остальные словари в один, для дальнейшей сортировки
+        // Список, который объединяет все остальные списки и словари в один, для дальнейшей сортировки
         public List<(double, string, DataType)> main_dict
         {
             get
@@ -120,7 +122,6 @@ namespace UnitsLogger_BepInEx
                     received_resources_list.Add((resource.Item1, (resource.Item3 + " " + resource.Item2.GetLocal()), resource.Item4));
                 }
 
-
                 temp_dict.AddRange(received_traits);
                 temp_dict.AddRange(received_name_list);
                 temp_dict.AddRange(received_professions_list);
@@ -139,6 +140,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(citizen_job_starts);
                 temp_dict.AddRange(citizen_job_ends);
                 temp_dict.AddRange(builded_construction);
+                temp_dict.AddRange(cleaned_construction);
 
                 return temp_dict;
             }
