@@ -24,6 +24,7 @@
         CitizenJobStart,
         CitizenJobEnd,
         BuildedConstruction,
-        CleanedConstruction
+        CleanedConstruction,
+        ExtractResources
     }
 }

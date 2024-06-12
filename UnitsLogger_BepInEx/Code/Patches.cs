@@ -569,13 +569,13 @@ namespace UnitsLogger_BepInEx
         #region Постройка зданий
         [HarmonyPrefix]
         [HarmonyPatch(typeof(BehBuildTargetProgress), nameof(BehBuildTargetProgress.execute))]
-        public static void execute_Prefix(Actor pActor)
+        public static void execute_BehBuildTargetProgress_Prefix(Actor pActor)
         {
-            var beh_building_target = (Building)Reflection.GetField(typeof(ActorBase), pActor, "beh_building_target");
-
-            if (!beh_building_target.isUnderConstruction())
+            if (StaticStuff.GetIsTracked(pActor))
             {
-                if (StaticStuff.GetIsTracked(pActor))
+                var beh_building_target = (Building)Reflection.GetField(typeof(ActorBase), pActor, "beh_building_target");
+
+                if (!beh_building_target.isUnderConstruction())
                 {
                     LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
@@ -588,7 +588,7 @@ namespace UnitsLogger_BepInEx
         #region Уборка руин
         [HarmonyPostfix]
         [HarmonyPatch(typeof(BehRemoveRuins), nameof(BehRemoveRuins.execute))]
-        public static void execute_Postfix(Actor pActor)
+        public static void execute_BehRemoveRuins_Postfix(Actor pActor)
         {
             if (StaticStuff.GetIsTracked(pActor))
             {
@@ -597,6 +597,22 @@ namespace UnitsLogger_BepInEx
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
                 logger?.cleaned_construction.Add((World.world.getCurWorldTime(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.CleanedConstruction));
+            }
+        }
+        #endregion
+
+        #region Добыча ресурсов из строения
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(BehExtractResourcesFromBuilding), nameof(BehExtractResourcesFromBuilding.execute))]
+        public static void execute_BehExtractResourcesFromBuilding_Prefix(Actor pActor)
+        {
+            if (StaticStuff.GetIsTracked(pActor))
+            {
+                var beh_building_target = (Building)Reflection.GetField(typeof(ActorBase), pActor, "beh_building_target");
+
+                LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.extract_resources.Add((World.world.getCurWorldTime(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.ExtractResources));
             }
         }
         #endregion

@@ -59,6 +59,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, string, DataType)> builded_construction = new List<(double, string, DataType)>();
         // Очищенные руины
         public List<(double, string, DataType)> cleaned_construction = new List<(double, string, DataType)>();
+        // Случаи добычи ресурсов из строений
+        public List<(double, string, DataType)> extract_resources = new List<(double, string, DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -141,6 +143,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(citizen_job_ends);
                 temp_dict.AddRange(builded_construction);
                 temp_dict.AddRange(cleaned_construction);
+                temp_dict.AddRange(extract_resources);
 
                 return temp_dict;
             }

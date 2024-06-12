@@ -94,6 +94,10 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит убрал {("building_" + stat.Item2).GetLocal()}";
                 }
+                else if (stat.Item3 == DataType.ExtractResources)
+                {
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит добыл ресурсы из {("building_" + stat.Item2).GetLocal()}";
+                }
                 else if (stat.Item3 == DataType.GetResources)
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит добыл {stat.Item2}";
