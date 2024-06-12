@@ -84,7 +84,7 @@ namespace UnitsLogger_BepInEx
                 }
                 else if (stat.Item3 == DataType.BuildedConstruction)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит построил {stat.Item2}";
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит построил {("building_" + stat.Item2).GetLocal()}";
                 }
                 else if (stat.Item3 == DataType.KilledUnits)
                 {

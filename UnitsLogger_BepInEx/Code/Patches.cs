@@ -566,7 +566,7 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
-        #region
+        #region Постройка зданий
         [HarmonyPrefix]
         [HarmonyPatch(typeof(BehBuildTargetProgress), nameof(BehBuildTargetProgress.execute))]
         public static void execute_Prefix(Actor pActor)

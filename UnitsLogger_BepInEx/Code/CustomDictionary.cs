@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Text;
 using UnitsLogger_BepInEx.Resources;
-using System.Collections.Concurrent;
 
 namespace UnitsLogger_BepInEx
 {
