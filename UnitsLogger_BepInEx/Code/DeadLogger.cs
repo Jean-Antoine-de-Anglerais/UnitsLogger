@@ -69,94 +69,94 @@ namespace UnitsLogger_BepInEx
 
             unit_statistic += $"\r\rИстория жизни:\r";
 
-            List<(double, string, DataType)> sortedList = logger.main_dict; // Ранее это вызывало бесконечную рекурсию, из-за которой игра завершалась
+            List<(double, (int, int), string, DataType)> sortedList = logger.main_dict; // Ранее это вызывало бесконечную рекурсию, из-за которой игра завершалась
             sortedList = sortedList.OrderBy(item => item.Item1).ToList();
 
             foreach (var stat in sortedList)
             {
-                if (stat.Item3 == DataType.Names)
+                if (stat.Item4 == DataType.Names)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил имя на {stat.Item2}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил имя на {stat.Item3}";
                 }
-                else if (stat.Item3 == DataType.Children)
+                else if (stat.Item4 == DataType.Children)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит родил ребёнка {stat.Item2}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит родил ребёнка {stat.Item3}";
                 }
-                else if (stat.Item3 == DataType.CitizenJobStart)
+                else if (stat.Item4 == DataType.CitizenJobStart)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит начал работать как {("job_" + stat.Item2).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит начал работать как {("job_" + stat.Item3).GetLocal()}";
                 }
-                else if (stat.Item3 == DataType.ExtractResources)
+                else if (stat.Item4 == DataType.ExtractResources)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит добыл ресурсы из {("building_" + stat.Item2).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит добыл ресурсы из {("building_" + stat.Item3).GetLocal()}";
                 }
-                else if (stat.Item3 == DataType.CreateRoad)
+                else if (stat.Item4 == DataType.CreateRoad)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит построил дорогу по координатам {stat.Item2}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит построил дорогу по координатам {stat.Item3}";
                 }
-                else if (stat.Item3 == DataType.BuildedConstruction)
+                else if (stat.Item4 == DataType.BuildedConstruction)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит построил {("building_" + stat.Item2).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит построил {("building_" + stat.Item3).GetLocal()}";
                 }
-                else if (stat.Item3 == DataType.KilledUnits)
+                else if (stat.Item4 == DataType.KilledUnits)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит убил {stat.Item2}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит убил {stat.Item3}";
                 }
-                else if (stat.Item3 == DataType.CleanedConstruction)
+                else if (stat.Item4 == DataType.CleanedConstruction)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит убрал {("building_" + stat.Item2).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит убрал {("building_" + stat.Item3).GetLocal()}";
                 }
-                else if (stat.Item3 == DataType.GetResources)
+                else if (stat.Item4 == DataType.GetResources)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит добыл {stat.Item2}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит добыл {stat.Item3}";
                 }
-                else if (stat.Item3 == DataType.GiveResources)
+                else if (stat.Item4 == DataType.GiveResources)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит положил в хранилище города: {stat.Item2}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит положил в хранилище города: {stat.Item3}";
                 }
-                else if (stat.Item3 == DataType.CitizenJobEnd)
+                else if (stat.Item4 == DataType.CitizenJobEnd)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит закончил свою работу как {("job_" + stat.Item2).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит закончил свою работу как {("job_" + stat.Item3).GetLocal()}";
                 }
-                else if (stat.Item3 == DataType.Food)
+                else if (stat.Item4 == DataType.Food)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит съел {stat.Item2.GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит съел {stat.Item3.GetLocal()}";
                 }
-                else if (stat.Item3 == DataType.Culturships)
+                else if (stat.Item4 == DataType.Culturships)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил культуру на {stat.Item2}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил культуру на {stat.Item3}";
                 }
-                else if (stat.Item3 == DataType.ReceivedTraits)
+                else if (stat.Item4 == DataType.ReceivedTraits)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит получил черту {("trait_" + stat.Item2).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит получил черту {("trait_" + stat.Item3).GetLocal()}";
                 }
-                else if (stat.Item3 == DataType.LostTraits)
+                else if (stat.Item4 == DataType.LostTraits)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит потерял черту {("trait_" + stat.Item2).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит потерял черту {("trait_" + stat.Item3).GetLocal()}";
                 }
-                else if (stat.Item3 == DataType.Townships)
+                else if (stat.Item4 == DataType.Townships)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил город на {stat.Item2}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2}- юнит сменил город на {stat.Item3}";
                 }
-                else if (stat.Item3 == DataType.Сitizenships)
+                else if (stat.Item4 == DataType.Сitizenships)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил государство на {stat.Item2}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил государство на {stat.Item3}";
                 }
-                else if (stat.Item3 == DataType.Professions)
+                else if (stat.Item4 == DataType.Professions)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил профессию на {("profession_" + stat.Item2).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил профессию на {("profession_" + stat.Item3).GetLocal()}";
                 }
-                else if (stat.Item3 == DataType.Moods)
+                else if (stat.Item4 == DataType.Moods)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил настроение на {("mood_" + stat.Item2).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил настроение на {("mood_" + stat.Item3).GetLocal()}";
                 }
-                else if (stat.Item3 == DataType.SocialCharacteristics)
+                else if (stat.Item4 == DataType.SocialCharacteristics)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит увеличил характеристику {stat.Item2.GetLocal()} на 1";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит увеличил характеристику {stat.Item3.GetLocal()} на 1";
                 }
-                else if (stat.Item3 == DataType.NewEra)
+                else if (stat.Item4 == DataType.NewEra)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - мировая эпоха сменилась на {(stat.Item2 + "_title").GetLocal()}";
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - мировая эпоха сменилась на {(stat.Item3 + "_title").GetLocal()}";
                 }
                 unit_statistic += $"\r\r";
             }

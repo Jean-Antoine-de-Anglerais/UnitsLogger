@@ -7,64 +7,64 @@ namespace UnitsLogger_BepInEx
     public class LifeLogger : MonoBehaviour
     {
         // Случаи, когда юнит получал или менял имя
-        public Dictionary<double, string> received_names = new Dictionary<double, string>();
+        public Dictionary<double, (string, (int, int))> received_names = new Dictionary<double, (string, (int, int))>();
         //Все черты, которые юнит получил за свою жизнь (значения - ID черты и точное время получения черты)
-        public List<(double, string, DataType)> received_traits = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> received_traits = new List<(double, (int, int), string, DataType)>();
         //Все черты, которые юнит потерял за свою жизнь
-        public List<(double, string, DataType)> lost_traits = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> lost_traits = new List<(double, (int, int), string, DataType)>();
         // Существо, убившее юнита (если есть)
         public Actor killer_actor = new Actor();
         // Здание, убившее юнита (если есть)
         public Building killer_building = new Building();
         //Все предметы, которые юнит получил за свою жизнь
-        public List<(double, ItemData, DataType)> received_items = new List<(double, ItemData, DataType)>();
+        public List<(double, (int, int), ItemData, DataType)> received_items = new List<(double, (int, int), ItemData, DataType)>();
         //Все предметы, которые юнит потерял за свою жизнь
-        public List<(double, ItemData, DataType)> lost_items = new List<(double, ItemData, DataType)>();
+        public List<(double, (int, int), ItemData, DataType)> lost_items = new List<(double, (int, int), ItemData, DataType)>();
         // Дети, которых юнит родил
-        public List<(double, string, ActorGender, DataType)> born_children = new List<(double, string, ActorGender, DataType)>();
+        public List<(double, (int, int), string, ActorGender, DataType)> born_children = new List<(double, (int, int), string, ActorGender, DataType)>();
         // Дети, которых юнит родил с партнёром (время, имя ребёнка, пол ребёнка, имя партнёра, пол партнёра)
-        public List<(double, string, ActorGender, string, ActorGender, DataType)> born_children_with_partner = new List<(double, string, ActorGender, string, ActorGender, DataType)>();
+        public List<(double, (int, int), string, ActorGender, string, ActorGender, DataType)> born_children_with_partner = new List<(double, (int, int), string, ActorGender, string, ActorGender, DataType)>();
         // Случаи, когда юнит получал или менял профессию
-        public List<(double, UnitProfession, DataType)> received_professions = new List<(double, UnitProfession, DataType)>();
+        public List<(double, (int, int), UnitProfession, DataType)> received_professions = new List<(double, (int, int), UnitProfession, DataType)>();
         // Случаи, когда юнит получал или менял гражданство
-        public List<(double, string, DataType)> received_citizenships = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> received_citizenships = new List<(double, (int, int), string, DataType)>();
         // Случаи, когда юнит получал или менял принадлежность к городу
-        public List<(double, string, DataType)> received_townships = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> received_townships = new List<(double, (int, int), string, DataType)>();
         // Случаи, когда юнит получал или менял культуру
-        public List<(double, string, DataType)> received_culturships = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> received_culturships = new List<(double, (int, int), string, DataType)>();
         // Случаи, когда юнит получал или менял клан
         // ПОКА НЕ НУЖНО, ТАК КАК ЮНИТ НЕ МОЖЕТ МЕНЯТЬ ПРИНАДЛЕЖНОСТЬ К КЛАНУ
         public List<(double, string)> received_clanships = new List<(double, string)>();
         // Случаи, когда юнит получал или менял настроение
-        public List<(double, string, DataType)> received_moods = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> received_moods = new List<(double, (int, int), string, DataType)>();
         // Случаи, когда юнит что-то ел
-        public List<(double, string, DataType)> eaten_food = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> eaten_food = new List<(double, (int, int), string, DataType)>();
         // Случаи производства предметов
         public List<(double, ItemData)> manufactured_items = new List<(double, ItemData)>();
         // Случаи убийства кого-либо
-        public List<(double, string, DataType)> killed_units = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> killed_units = new List<(double, (int, int), string, DataType)>();
         // Случаи изменение социальных характеристик, не связанные с чертами и чем-то таким
-        public List<(double, string, DataType)> social_characteristics = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> social_characteristics = new List<(double, (int, int), string, DataType)>();
         // Причина смерти
         public DeadReason dead_reason = DeadReason.Null;
         // Полученные ресурсы
-        public List<(double, string, int, DataType)> received_resources = new List<(double, string, int, DataType)>();
+        public List<(double, (int, int), string, int, DataType)> received_resources = new List<(double, (int, int), string, int, DataType)>();
         // Отданные ресурсы
-        public List<(double, string, DataType)> given_resources = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> given_resources = new List<(double, (int, int), string, DataType)>();
         // Смена эпох
-        public List<(double, string, DataType)> changing_eras = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> changing_eras = new List<(double, (int, int), string, DataType)>();
         // Начала городской работы
-        public List<(double, string, DataType)> citizen_job_starts = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> citizen_job_starts = new List<(double, (int, int), string, DataType)>();
         // Окончания городской работы
-        public List<(double, string, DataType)> citizen_job_ends = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> citizen_job_ends = new List<(double, (int, int), string, DataType)>();
         // Построенные строения
-        public List<(double, string, DataType)> builded_construction = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> builded_construction = new List<(double, (int, int), string, DataType)>();
         // Очищенные руины
-        public List<(double, string, DataType)> cleaned_construction = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> cleaned_construction = new List<(double, (int, int), string, DataType)>();
         // Случаи добычи ресурсов из строений
-        public List<(double, string, DataType)> extract_resources = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> extract_resources = new List<(double, (int, int), string, DataType)>();
         // Построенные тайлы дороги
-        public List<(double, string, DataType)> create_road = new List<(double, string, DataType)>();
+        public List<(double, (int, int), string, DataType)> create_road = new List<(double, (int, int), string, DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -103,41 +103,44 @@ namespace UnitsLogger_BepInEx
         // Были ли исходные данные уже добавлены
         public bool was_initialized = false;
 
+        // Изначальное местоположение юнита
+        public (int, int) initial_position = (0, 0);
+
         // Список, который объединяет все остальные списки и словари в один, для дальнейшей сортировки
-        public List<(double, string, DataType)> main_dict
+        public List<(double, (int, int), string, DataType)> main_dict
         {
             get
             {
-                List<(double, string, DataType)> temp_dict = new List<(double, string, DataType)>();
+                List<(double, (int, int), string, DataType)> temp_dict = new List<(double, (int, int), string, DataType)>();
 
-                List<(double, string, DataType)> received_name_list = new List<(double, string, DataType)>();
+                List<(double, (int, int), string, DataType)> received_name_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var name in received_names)
                 {
-                    received_name_list.Add((name.Key, name.Value, DataType.Names));
+                    received_name_list.Add((name.Key, (name.Value.Item2.Item1, name.Value.Item2.Item2), name.Value.Item1, DataType.Names));
                 }
 
-                List<(double, string, DataType)> received_professions_list = new List<(double, string, DataType)>();
+                List<(double, (int, int), string, DataType)> received_professions_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var profession in received_professions)
                 {
-                    received_professions_list.Add((profession.Item1, (profession.Item2.ToString()).GetLocal(), profession.Item3));
+                    received_professions_list.Add((profession.Item1, (profession.Item2.Item1, profession.Item2.Item2), profession.Item3.ToString().GetLocal(), profession.Item4));
                 }
 
-                List<(double, string, DataType)> received_resources_list = new List<(double, string, DataType)>();
+                List<(double, (int, int), string, DataType)> received_resources_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var resource in received_resources)
                 {
-                    received_resources_list.Add((resource.Item1, (resource.Item3 + " " + resource.Item2.GetLocal()), resource.Item4));
+                    received_resources_list.Add((resource.Item1, (resource.Item2.Item1, resource.Item2.Item2), resource.Item4 + " " + resource.Item3.GetLocal(), resource.Item5));
                 }
 
-                List<(double, string, DataType)> born_children_with_partner_list = new List<(double, string, DataType)>();
+                List<(double, (int, int), string, DataType)> born_children_with_partner_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var child in born_children_with_partner)
                 {
-                    born_children_with_partner_list.Add((child.Item1, $"по имени {child.Item2}, имеющего пол {("gender_" + child.Item3.ToString()).GetLocal()}, вступив в отношения с юнитом по имени {child.Item4}, имеющим пол {("gender_" + child.Item3.ToString()).GetLocal()}", child.Item6));
+                    born_children_with_partner_list.Add((child.Item1, (child.Item2.Item1, child.Item2.Item2), $"по имени {child.Item3}, имеющего пол {("gender_" + child.Item4.ToString()).GetLocal()}, вступив в отношения с юнитом по имени {child.Item5}, имеющим пол {("gender_" + child.Item6.ToString()).GetLocal()}", child.Item7));
                 }
 
-                List<(double, string, DataType)> born_children_list = new List<(double, string, DataType)>();
+                List<(double, (int, int), string, DataType)> born_children_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var child in born_children)
                 {
-                    born_children_list.Add((child.Item1, $"по имени {child.Item2}, имеющего пол {("gender_" + child.Item3.ToString()).GetLocal()}", child.Item4));
+                    born_children_list.Add((child.Item1, (child.Item2.Item1, child.Item2.Item2), $"по имени {child.Item3}, имеющего пол {("gender_" + child.Item4.ToString()).GetLocal()}", child.Item5));
                 }
 
                 temp_dict.AddRange(received_traits);
@@ -200,6 +203,7 @@ namespace UnitsLogger_BepInEx
                     initial_characteristics.getList().AddRange(actor.GetBaseStats().getList());
                     initial_era = World.world_era.id;
                     initial_time = World.world.getCurWorldTime();
+                    initial_position = (actor.currentTile.pos.x, actor.currentTile.pos.y);
                 }
             }
         }
@@ -231,6 +235,7 @@ namespace UnitsLogger_BepInEx
                     initial_characteristics.getList().AddRange(actor.GetBaseStats().getList());
                     initial_era = World.world_era.id;
                     initial_time = World.world.getCurWorldTime();
+                    initial_position = (actor.currentTile.pos.x, actor.currentTile.pos.y);
                 }
             }
         }

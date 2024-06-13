@@ -73,7 +73,7 @@ namespace UnitsLogger_BepInEx
                 if (!__instance.hasTrait(pTrait) && !(AssetManager.traits.get(pTrait) == null) && (pRemoveOpposites || !(bool)Reflection.CallMethod(__instance, "hasOppositeTrait", pTrait)))
                 {
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
-                    logger?.received_traits.Add((World.world.getCurWorldTime(), pTrait, DataType.ReceivedTraits));
+                    logger?.received_traits.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pTrait, DataType.ReceivedTraits));
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace UnitsLogger_BepInEx
 
                     LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                    logger?.received_traits.Add((World.world.getCurWorldTime(), pTrait, DataType.ReceivedTraits));
+                    logger?.received_traits.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), pTrait, DataType.ReceivedTraits));
                 }
             }
         }
@@ -107,7 +107,7 @@ namespace UnitsLogger_BepInEx
                 {
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                    logger?.lost_traits.Add((World.world.getCurWorldTime(), pTraitID, DataType.LostTraits));
+                    logger?.lost_traits.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pTraitID, DataType.LostTraits));
                 }
             }
         }
@@ -124,7 +124,7 @@ namespace UnitsLogger_BepInEx
 
                     LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                    logger?.lost_traits.Add((World.world.getCurWorldTime(), pTraitID, DataType.LostTraits));
+                    logger?.lost_traits.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), pTraitID, DataType.LostTraits));
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                logger?.received_professions.Add((World.world.getCurWorldTime(), pType, DataType.Professions));
+                logger?.received_professions.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pType, DataType.Professions));
             }
         }
         #endregion
@@ -155,7 +155,7 @@ namespace UnitsLogger_BepInEx
                 {
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                    logger?.received_citizenships.Add((World.world.getCurWorldTime(), pKingdom.data.name, DataType.Сitizenships));
+                    logger?.received_citizenships.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pKingdom.data.name, DataType.Сitizenships));
                 }
             }
         }
@@ -172,7 +172,7 @@ namespace UnitsLogger_BepInEx
 
                 if (pCity != null && logger != null)
                 {
-                    logger?.received_townships.Add((World.world.getCurWorldTime(), pCity.data.name, DataType.Townships));
+                    logger?.received_townships.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pCity.data.name, DataType.Townships));
                 }
             }
         }
@@ -187,7 +187,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                logger?.received_culturships.Add((World.world.getCurWorldTime(), pCulture.data.name, DataType.Culturships));
+                logger?.received_culturships.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pCulture.data.name, DataType.Culturships));
             }
         }
         #endregion
@@ -212,12 +212,12 @@ namespace UnitsLogger_BepInEx
 
                     if (!logger.received_names.ContainsKey(World.world.getCurWorldTime()))
                     {
-                        logger.received_names.Add(World.world.getCurWorldTime(), pName);
+                        logger.received_names.Add(World.world.getCurWorldTime(), (pName, actor.GetActorPosition()));
                     }
                     else
                     {
                         logger.received_names.Remove(World.world.getCurWorldTime());
-                        logger.received_names.Add(World.world.getCurWorldTime(), pName);
+                        logger.received_names.Add(World.world.getCurWorldTime(), (pName, actor.GetActorPosition()));
                     }
                 }
             }
@@ -235,7 +235,7 @@ namespace UnitsLogger_BepInEx
 
                 if (pMood != __instance.GetActorData().mood)
                 {
-                    logger?.received_moods.Add((World.world.getCurWorldTime(), pMood, DataType.Moods));
+                    logger?.received_moods.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pMood, DataType.Moods));
                 }
             }
         }
@@ -252,7 +252,7 @@ namespace UnitsLogger_BepInEx
 
                 if (pDeadUnit != null)
                 {
-                    logger?.killed_units.Add((World.world.getCurWorldTime(), $"существо вида {pDeadUnit.asset.nameLocale.GetLocal()}, по имени {pDeadUnit.getName()}", DataType.KilledUnits));
+                    logger?.killed_units.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), $"существо вида {pDeadUnit.asset.nameLocale.GetLocal()}, по имени {pDeadUnit.getName()}", DataType.KilledUnits));
                 }
             }
 
@@ -425,7 +425,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.born_children.Add((World.world.getCurWorldTime(), actor.getName(), actor.GetActorData().gender, DataType.Children));
+                logger?.born_children.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), actor.getName(), actor.GetActorData().gender, DataType.Children));
             }
             return false;
         }
@@ -440,7 +440,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                logger?.eaten_food.Add((World.world.getCurWorldTime(), pAsset.id, DataType.Food));
+                logger?.eaten_food.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pAsset.id, DataType.Food));
             }
         }
         #endregion
@@ -464,7 +464,7 @@ namespace UnitsLogger_BepInEx
                                 Actor actor = World.world.units.get(__instance.id);
                                 LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), "intelligence", DataType.SocialCharacteristics));
+                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "intelligence", DataType.SocialCharacteristics));
                             }
                             break;
                         case "diplomacy":
@@ -474,7 +474,7 @@ namespace UnitsLogger_BepInEx
                                 Actor actor = World.world.units.get(__instance.id);
                                 LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), "diplomacy", DataType.SocialCharacteristics));
+                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "diplomacy", DataType.SocialCharacteristics));
                             }
                             break;
                         case "warfare":
@@ -484,7 +484,7 @@ namespace UnitsLogger_BepInEx
                                 Actor actor = World.world.units.get(__instance.id);
                                 LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), "warfare", DataType.SocialCharacteristics));
+                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "warfare", DataType.SocialCharacteristics));
                             }
                             break;
                         case "stewardship":
@@ -494,7 +494,7 @@ namespace UnitsLogger_BepInEx
                                 Actor actor = World.world.units.get(__instance.id);
                                 LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), "stewardship", DataType.SocialCharacteristics));
+                                logger?.social_characteristics.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "stewardship", DataType.SocialCharacteristics));
                             }
                             break;
                     }
@@ -513,7 +513,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                logger?.received_resources.Add((World.world.getCurWorldTime(), pID, pAmount, DataType.GetResources));
+                logger?.received_resources.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pID, pAmount, DataType.GetResources));
             }
         }
         #endregion
@@ -529,7 +529,7 @@ namespace UnitsLogger_BepInEx
                 {
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                    logger?.given_resources.Add((World.world.getCurWorldTime(), string.Join(", ", __instance.inventory.getResources().Values.Select(r => $"{r.id.GetLocal()} - {r.amount}")), DataType.GiveResources));
+                    logger?.given_resources.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), string.Join(", ", __instance.inventory.getResources().Values.Select(r => $"{r.id.GetLocal()} - {r.amount}")), DataType.GiveResources));
                 }
             }
         }
@@ -546,7 +546,7 @@ namespace UnitsLogger_BepInEx
                 {
                     LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                    logger?.changing_eras.Add((World.world.getCurWorldTime(), pAsset.id, DataType.NewEra));
+                    logger?.changing_eras.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), pAsset.id, DataType.NewEra));
                 }
             }
         }
@@ -562,7 +562,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                logger?.citizen_job_starts.Add((World.world.getCurWorldTime(), pJobAsset.id, DataType.CitizenJobStart));
+                logger?.citizen_job_starts.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pJobAsset.id, DataType.CitizenJobStart));
             }
         }
 
@@ -577,7 +577,7 @@ namespace UnitsLogger_BepInEx
                 {
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                    logger?.citizen_job_ends.Add((World.world.getCurWorldTime(), __instance.citizen_job.id, DataType.CitizenJobEnd));
+                    logger?.citizen_job_ends.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), __instance.citizen_job.id, DataType.CitizenJobEnd));
                 }
             }
         }
@@ -596,7 +596,7 @@ namespace UnitsLogger_BepInEx
                 {
                     LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                    logger?.builded_construction.Add((World.world.getCurWorldTime(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.BuildedConstruction));
+                    logger?.builded_construction.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.BuildedConstruction));
                 }
             }
         }
@@ -613,7 +613,7 @@ namespace UnitsLogger_BepInEx
 
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.cleaned_construction.Add((World.world.getCurWorldTime(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.CleanedConstruction));
+                logger?.cleaned_construction.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.CleanedConstruction));
             }
         }
         #endregion
@@ -629,7 +629,7 @@ namespace UnitsLogger_BepInEx
 
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.extract_resources.Add((World.world.getCurWorldTime(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.ExtractResources));
+                logger?.extract_resources.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.ExtractResources));
             }
         }
         #endregion
@@ -645,7 +645,7 @@ namespace UnitsLogger_BepInEx
 
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.create_road.Add((World.world.getCurWorldTime(), $"X: {beh_tile_target.x}, Y: {beh_tile_target.y}", DataType.CreateRoad));
+                logger?.create_road.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"X: {beh_tile_target.x}, Y: {beh_tile_target.y}", DataType.CreateRoad));
             }
         }
         #endregion

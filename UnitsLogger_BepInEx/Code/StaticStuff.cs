@@ -284,6 +284,16 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Определить положение юнита
+        public static (int,int) GetActorPosition(this Actor actor) => (actor.currentTile.pos.x, actor.currentTile.pos.y);
+
+        public static (int, int) GetActorPosition(this ActorBase actor) => (actor.currentTile.pos.x, actor.currentTile.pos.y);
+
+        public static (int, int) GetActorPosition(this BaseSimObject actor) => (actor.currentTile.pos.x, actor.currentTile.pos.y);
+
+        public static (int, int) GetActorPosition(this BaseMapObject actor) => (actor.currentTile.pos.x, actor.currentTile.pos.y);
+        #endregion
+
         #region Всякая штука
         public static Clan checkGreatClan(Actor pParent1, Actor pParent2)
         {
@@ -360,11 +370,11 @@ namespace UnitsLogger_BepInEx
 
                     if (partner != null)
                     {
-                        logger?.born_children_with_partner.Add((pWorldTime, baby.getName(), baby.gender, partner.getName(), partner.GetActorData().gender, DataType.Children));
+                        logger?.born_children_with_partner.Add((pWorldTime, actor.GetActorPosition(), baby.getName(), baby.gender, partner.getName(), partner.GetActorData().gender, DataType.Children));
                     }
                     else
                     {
-                        logger?.born_children.Add((pWorldTime, baby.getName(), baby.gender, DataType.Children));
+                        logger?.born_children.Add((pWorldTime, actor.GetActorPosition(), baby.getName(), baby.gender, DataType.Children));
                     }
                 }
             }
@@ -380,11 +390,11 @@ namespace UnitsLogger_BepInEx
 
                     if (partner != null)
                     {
-                        logger?.born_children_with_partner.Add((pWorldTime, baby.getName(), baby.GetActorData().gender, partner.getName(), partner.GetActorData().gender, DataType.Children));
+                        logger?.born_children_with_partner.Add((pWorldTime, actor.GetActorPosition(), baby.getName(), baby.GetActorData().gender, partner.getName(), partner.GetActorData().gender, DataType.Children));
                     }
                     else
                     {
-                        logger?.born_children.Add((pWorldTime, baby.getName(), baby.GetActorData().gender, DataType.Children));
+                        logger?.born_children.Add((pWorldTime, actor.GetActorPosition(), baby.getName(), baby.GetActorData().gender, DataType.Children));
                     }
                 }
             }
