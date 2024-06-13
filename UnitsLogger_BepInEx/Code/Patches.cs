@@ -425,7 +425,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.born_children.Add((World.world.getCurWorldTime(), actor.getName(), DataType.Children));
+                logger?.born_children.Add((World.world.getCurWorldTime(), actor.getName(), actor.GetActorData().gender, DataType.Children));
             }
             return false;
         }

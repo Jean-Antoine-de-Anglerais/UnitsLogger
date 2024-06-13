@@ -360,11 +360,11 @@ namespace UnitsLogger_BepInEx
 
                     if (partner != null)
                     {
-                        logger?.born_children_with_partner.Add((pWorldTime, baby.getName(), partner.getName(), DataType.Children));
+                        logger?.born_children_with_partner.Add((pWorldTime, baby.getName(), baby.gender, partner.getName(), partner.GetActorData().gender, DataType.Children));
                     }
                     else
                     {
-                        logger?.born_children.Add((pWorldTime, baby.getName(), DataType.Children));
+                        logger?.born_children.Add((pWorldTime, baby.getName(), baby.gender, DataType.Children));
                     }
                 }
             }
@@ -380,11 +380,11 @@ namespace UnitsLogger_BepInEx
 
                     if (partner != null)
                     {
-                        logger?.born_children_with_partner.Add((pWorldTime, baby.getName(), partner.getName(), DataType.Children));
+                        logger?.born_children_with_partner.Add((pWorldTime, baby.getName(), baby.GetActorData().gender, partner.getName(), partner.GetActorData().gender, DataType.Children));
                     }
                     else
                     {
-                        logger?.born_children.Add((pWorldTime, baby.getName(), DataType.Children));
+                        logger?.born_children.Add((pWorldTime, baby.getName(), baby.GetActorData().gender, DataType.Children));
                     }
                 }
             }

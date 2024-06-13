@@ -21,9 +21,9 @@ namespace UnitsLogger_BepInEx
         //Все предметы, которые юнит потерял за свою жизнь
         public List<(double, ItemData, DataType)> lost_items = new List<(double, ItemData, DataType)>();
         // Дети, которых юнит родил
-        public List<(double, string, DataType)> born_children = new List<(double, string, DataType)>();
-        // Дети, которых юнит с партнёром
-        public List<(double, string, string, DataType)> born_children_with_partner = new List<(double, string, string, DataType)>();
+        public List<(double, string, ActorGender, DataType)> born_children = new List<(double, string, ActorGender, DataType)>();
+        // Дети, которых юнит родил с партнёром (время, имя ребёнка, пол ребёнка, имя партнёра, пол партнёра)
+        public List<(double, string, ActorGender, string, ActorGender, DataType)> born_children_with_partner = new List<(double, string, ActorGender, string, ActorGender, DataType)>();
         // Случаи, когда юнит получал или менял профессию
         public List<(double, UnitProfession, DataType)> received_professions = new List<(double, UnitProfession, DataType)>();
         // Случаи, когда юнит получал или менял гражданство
@@ -131,7 +131,13 @@ namespace UnitsLogger_BepInEx
                 List<(double, string, DataType)> born_children_with_partner_list = new List<(double, string, DataType)>();
                 foreach (var child in born_children_with_partner)
                 {
-                    born_children_with_partner_list.Add((child.Item1, child.Item2 + ", вступив в отношения с юнитом по имени " + child.Item3, child.Item4));
+                    born_children_with_partner_list.Add((child.Item1, $"по имени {child.Item2}, имеющего пол {("gender_" + child.Item3.ToString()).GetLocal()}, вступив в отношения с юнитом по имени {child.Item4}, имеющим пол {("gender_" + child.Item3.ToString()).GetLocal()}", child.Item6));
+                }
+
+                List<(double, string, DataType)> born_children_list = new List<(double, string, DataType)>();
+                foreach (var child in born_children)
+                {
+                    born_children_list.Add((child.Item1, $"по имени {child.Item2}, имеющего пол {("gender_" + child.Item3.ToString()).GetLocal()}", child.Item4));
                 }
 
                 temp_dict.AddRange(received_traits);
@@ -139,7 +145,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(received_professions_list);
                 temp_dict.AddRange(received_resources_list);
                 temp_dict.AddRange(lost_traits);
-                temp_dict.AddRange(born_children);
+                temp_dict.AddRange(born_children_list);
                 temp_dict.AddRange(received_citizenships);
                 temp_dict.AddRange(received_townships);
                 temp_dict.AddRange(received_culturships);

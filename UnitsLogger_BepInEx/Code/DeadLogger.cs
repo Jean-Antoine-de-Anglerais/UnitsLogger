@@ -80,7 +80,7 @@ namespace UnitsLogger_BepInEx
                 }
                 else if (stat.Item3 == DataType.Children)
                 {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит родил ребёнка по имени {stat.Item2}";
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит родил ребёнка {stat.Item2}";
                 }
                 else if (stat.Item3 == DataType.CitizenJobStart)
                 {
