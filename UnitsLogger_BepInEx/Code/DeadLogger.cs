@@ -78,6 +78,10 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит сменил имя на {stat.Item2}";
                 }
+                else if (stat.Item3 == DataType.Children)
+                {
+                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит родил ребёнка по имени {stat.Item2}";
+                }
                 else if (stat.Item3 == DataType.CitizenJobStart)
                 {
                     unit_statistic += $"{stat.Item1.GetDateFromTime()} - юнит начал работать как {("job_" + stat.Item2).GetLocal()}";

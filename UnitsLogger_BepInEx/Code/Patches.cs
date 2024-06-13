@@ -1,6 +1,8 @@
-﻿using ai.behaviours;
+﻿using ai;
+using ai.behaviours;
 using BepInEx;
 using HarmonyLib;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace UnitsLogger_BepInEx
@@ -267,151 +269,166 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Рождение юнита
-        /*public static bool produceNewCitizen(CityBehProduceUnit __instance, ref bool __result, ref List<Actor> ____possibleParents, Building pBuilding, City pCity)
-          {
-              Actor actor = ____possibleParents.Pop<Actor>();
-              if (actor == null)
-              {
-                  __result = false;
-                  return true;
-              }
-              if (!Toolbox.randomChance(((BaseStats)Reflection.GetField(actor.GetType(), actor, "stats"))[S.fertility]))
-              {
-                  __result = false;
-                  return true;
-              }
-              Actor actor2 = null;
-              if (____possibleParents.Count > 0)
-              {
-                  actor2 = ____possibleParents.Pop<Actor>();
-              }
-              ResourceAsset foodItem = (ResourceAsset)pCity.CallMethod("getFoodItem", null);
-              pCity.CallMethod("eatFoodItem", foodItem.id);
-              pCity.status.housingFree--;
-              pCity.data.born++;
-              Kingdom kingdom = (Kingdom)Reflection.GetField(pCity.GetType(), pCity, "kingdom");
-              if (kingdom != null)
-              {
-                  kingdom.data.born++;
-              }
-              ActorAsset asset = actor.asset;
-              ActorData actorData = new ActorData();
-              MapBox world = MapBox.instance;
-              actorData.created_time = world.getCreationTime();
-              actorData.cityID = pCity.data.id;
-              actorData.id = world.mapStats.getNextId("unit");
-              actorData.asset_id = asset.id;
-              Race race = (Race)Reflection.GetField(actor.GetType(), actor, "race");
-              ActorBase.generateCivUnit(actor.asset, actorData, race);
-              actorData.generateTraits(asset, race);
-              ActorData data1 = (ActorData)Reflection.GetField(actor.GetType(), actor, "data");
-              actorData.CallMethod("inheritTraits", data1.traits);
-              actorData.hunger = asset.maxHunger / 2;
-              data1.makeChild(world.getCurWorldTime());
-              ActorData data2 = (ActorData)Reflection.GetField(actor2.GetType(), actor2, "data");
-              if (actor2 != null)
-              {
-                  actorData.CallMethod("inheritTraits", data2.traits);
-                  data2.makeChild(world.getCurWorldTime());
-              }
-              Clan clan = (Clan)Reflection.CallStaticMethod(typeof(CityBehProduceUnit), "checkGreatClan", actor, actor2);
-              actorData.skin = ActorTool.getBabyColor(actor, actor2);
-              actorData.skin_set = data1.skin_set;
-              Culture babyCulture = (Culture)Reflection.CallStaticMethod(typeof(CityBehProduceUnit), "getBabyCulture", actor, actor2);
-              if (babyCulture != null)
-              {
-                  actorData.culture = babyCulture.data.id;
-                  actorData.level = babyCulture.getBornLevel();
-              }
-              if (clan != null)
-              {
-                  Actor pActor = pCity.spawnPopPoint(actorData, actor.currentTile);
-                  clan.addUnit(pActor);
-              }
-              else
-              {
-                  pCity.addPopPoint(actorData);
-              }
-              __result = true;
-              return false;
-          }
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(CityBehProduceUnit), "produceNewCitizen")] // Что-то из этого метода вызывает ошибки (ошибки в блокноте)
+        public static bool produceNewCitizen_Prefix(CityBehProduceUnit __instance, ref bool __result, ref List<Actor> ____possibleParents, Building pBuilding, City pCity)
+        {
+            Actor actor = ____possibleParents.Pop();
+            if (actor == null)
+            {
+                __result = false;
+                return false;
+            }
+            if (!Toolbox.randomChance(actor.GetBaseStats()[S.fertility]))
+            {
+                __result = false;
+                return false;
+            }
+            Actor actor2 = null;
+            if (____possibleParents.Count > 0)
+            {
+                actor2 = ____possibleParents.Pop();
+            }
+            ResourceAsset foodItem = (ResourceAsset)pCity.CallMethod("getFoodItem", "");
+            pCity.CallMethod("eatFoodItem", foodItem.id);
+            pCity.status.housingFree--;
+            pCity.data.born++;
+            if (pCity.GetCityKingdom() != null)
+            {
+                pCity.GetCityKingdom().data.born++;
+            }
+            ActorAsset asset = actor.asset;
+            ActorData actorData = new ActorData();
+            actorData.created_time = MapBox.instance.getCreationTime();
+            actorData.cityID = pCity.data.id;
+            actorData.id = MapBox.instance.mapStats.getNextId("unit");
+            actorData.asset_id = asset.id;
+            ActorBase.generateCivUnit(actor.asset, actorData, actor.GetActorRace());
+            actorData.generateTraits(asset, actor.GetActorRace());
+            actorData.CallMethod("inheritTraits", actor.GetActorData().traits);
+            actorData.hunger = asset.maxHunger / 2;
+            actor.GetActorData().makeChild(MapBox.instance.getCurWorldTime());
+            if (actor2 != null)
+            {
+                actorData.CallMethod("inheritTraits", actor2.GetActorData().traits);
+                actor2.GetActorData().makeChild(MapBox.instance.getCurWorldTime());
+            }
+            Clan clan = StaticStuff.checkGreatClan(actor, actor2);
+            actorData.skin = ActorTool.getBabyColor(actor, actor2);
+            actorData.skin_set = actor.GetActorData().skin_set;
+            Culture babyCulture = StaticStuff.getBabyCulture(actor, actor2);
+            if (babyCulture != null)
+            {
+                actorData.culture = babyCulture.data.id;
+                actorData.level = babyCulture.getBornLevel();
+            }
+            if (clan != null)
+            {
+                Actor pActor = pCity.spawnPopPoint(actorData, actor.currentTile);
+                clan.addUnit(pActor);
+            }
+            else
+            {
+                pCity.addPopPoint(actorData);
+            }
 
-          public static void makeBaby(Actor pActor1, Actor pActor2)
-          {
-              pActor1.startBabymakingTimeout();
-              pActor2.startBabymakingTimeout();
-              pActor1.data.children++;
-              pActor2.data.children++;
-              string pStatsID;
-              if (Toolbox.randomBool())
-              {
-                  pStatsID = pActor1.asset.id;
-              }
-              else
-              {
-                  pStatsID = pActor2.asset.id;
-              }
-              WorldTile worldTile = null;
-              foreach (WorldTile worldTile2 in pActor1.currentTile.neighbours)
-              {
-                  if (worldTile2 != pActor1.currentTile && worldTile2 != pActor1.currentTile && !worldTile2.Type.liquid)
-                  {
-                      worldTile = worldTile2;
-                      break;
-                  }
-              }
-              if (worldTile == null)
-              {
-                  worldTile = pActor1.currentTile;
-              }
-              Actor actor = BehaviourActionBase<Actor>.world.units.createNewUnit(pStatsID, worldTile, 6f);
-              actor.justBorn();
-              actor.data.hunger = 79;
-              if (actor.asset.useSkinColors)
-              {
-                  if (Toolbox.randomBool())
-                  {
-                      actor.data.skin_set = pActor1.data.skin_set;
-                  }
-                  else
-                  {
-                      actor.data.skin_set = pActor2.data.skin_set;
-                  }
-                  actor.data.skin = ActorTool.getBabyColor(pActor1, pActor2);
-              }
-              BehaviourActionBase<Actor>.world.gameStats.data.creaturesBorn++;
-          }
+            actor.makeChild(MapBox.instance.getCurWorldTime(), actor2, actorData);
 
-          public static void makeEgg_Prefix(Actor pActor)
-          {
-              if (StaticStuff.GetIsTracked(pActor))
-              {
-                  pActor.startBabymakingTimeout();
-                  pActor.GetActorData().children++;
-                  WorldTile worldTile = null;
-                  foreach (WorldTile worldTile2 in pActor.currentTile.neighbours)
-                  {
-                      if (worldTile2 != pActor.currentTile && worldTile2 != pActor.currentTile && !worldTile2.Type.liquid)
-                      {
-                          worldTile = worldTile2;
-                          break;
-                      }
-                  }
-                  if (worldTile == null)
-                  {
-                      worldTile = pActor.currentTile;
-                  }
-                  Actor actor = MapBox.instance.units.createNewUnit(pActor.asset.eggStatsID, worldTile, 6f);
-                  if (pActor.asset.useSkinColors)
-                  {
-                      actor.GetActorData().skin_set = pActor.GetActorData().skin_set;
-                  }
-                  LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+            if (actor2 != null)
+            {
+                actor2.makeChild(MapBox.instance.getCurWorldTime(), actor, actorData);
+            }
 
-                  logger?.born_children.Add((World.world.getCurWorldTime(), actor.getName(), DataType.Children));
-                  return;
-              }
-          }*/
+            __result = true;
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(BehMakeBaby), "makeBaby")]
+        public static bool makeBaby_Prefix(Actor pActor1, Actor pActor2)
+        {
+            pActor1.startBabymakingTimeout();
+            pActor2.startBabymakingTimeout();
+            pActor1.GetActorData().children++;
+            pActor2.GetActorData().children++;
+            string pStatsID;
+            if (Toolbox.randomBool())
+            {
+                pStatsID = pActor1.asset.id;
+            }
+            else
+            {
+                pStatsID = pActor2.asset.id;
+            }
+            WorldTile worldTile = null;
+            foreach (WorldTile worldTile2 in pActor1.currentTile.neighbours)
+            {
+                if (worldTile2 != pActor1.currentTile && worldTile2 != pActor1.currentTile && !worldTile2.Type.liquid)
+                {
+                    worldTile = worldTile2;
+                    break;
+                }
+            }
+            if (worldTile == null)
+            {
+                worldTile = pActor1.currentTile;
+            }
+            Actor actor = MapBox.instance.units.createNewUnit(pStatsID, worldTile, 6f);
+            actor.CallMethod("justBorn");
+            actor.GetActorData().hunger = 79;
+            if (actor.asset.useSkinColors)
+            {
+                if (Toolbox.randomBool())
+                {
+                    actor.GetActorData().skin_set = pActor1.GetActorData().skin_set;
+                }
+                else
+                {
+                    actor.GetActorData().skin_set = pActor2.GetActorData().skin_set;
+                }
+                actor.GetActorData().skin = ActorTool.getBabyColor(pActor1, pActor2);
+            }
+
+            pActor1.makeChild(MapBox.instance.getCurWorldTime(), pActor2, actor);
+
+            pActor2.makeChild(MapBox.instance.getCurWorldTime(), pActor1, actor);
+
+            ((GameStatsData)Reflection.GetField(MapBox.instance.gameStats.GetType(), MapBox.instance.gameStats, "data")).creaturesBorn++;
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(BehTryBabymaking), "makeEgg")]
+        public static bool makeEgg_Prefix(Actor pActor)
+        {
+            pActor.startBabymakingTimeout();
+            pActor.GetActorData().children++;
+            WorldTile worldTile = null;
+            foreach (WorldTile worldTile2 in pActor.currentTile.neighbours)
+            {
+                if (worldTile2 != pActor.currentTile && worldTile2 != pActor.currentTile && !worldTile2.Type.liquid)
+                {
+                    worldTile = worldTile2;
+                    break;
+                }
+            }
+            if (worldTile == null)
+            {
+                worldTile = pActor.currentTile;
+            }
+            Actor actor = MapBox.instance.units.createNewUnit(pActor.asset.eggStatsID, worldTile, 6f);
+            if (pActor.asset.useSkinColors)
+            {
+                actor.GetActorData().skin_set = pActor.GetActorData().skin_set;
+            }
+            if (StaticStuff.GetIsTracked(pActor))
+            {
+                LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.born_children.Add((World.world.getCurWorldTime(), actor.getName(), DataType.Children));
+            }
+            return false;
+        }
         #endregion
 
         #region Поедание еды

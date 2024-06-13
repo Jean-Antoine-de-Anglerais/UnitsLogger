@@ -22,6 +22,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, ItemData, DataType)> lost_items = new List<(double, ItemData, DataType)>();
         // Дети, которых юнит родил
         public List<(double, string, DataType)> born_children = new List<(double, string, DataType)>();
+        // Дети, которых юнит с партнёром
+        public List<(double, string, string, DataType)> born_children_with_partner = new List<(double, string, string, DataType)>();
         // Случаи, когда юнит получал или менял профессию
         public List<(double, UnitProfession, DataType)> received_professions = new List<(double, UnitProfession, DataType)>();
         // Случаи, когда юнит получал или менял гражданство
@@ -126,6 +128,12 @@ namespace UnitsLogger_BepInEx
                     received_resources_list.Add((resource.Item1, (resource.Item3 + " " + resource.Item2.GetLocal()), resource.Item4));
                 }
 
+                List<(double, string, DataType)> born_children_with_partner_list = new List<(double, string, DataType)>();
+                foreach (var child in born_children_with_partner)
+                {
+                    born_children_with_partner_list.Add((child.Item1, child.Item2 + ", вступив в отношения с юнитом по имени " + child.Item3, child.Item4));
+                }
+
                 temp_dict.AddRange(received_traits);
                 temp_dict.AddRange(received_name_list);
                 temp_dict.AddRange(received_professions_list);
@@ -147,6 +155,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(cleaned_construction);
                 temp_dict.AddRange(extract_resources);
                 temp_dict.AddRange(create_road);
+                temp_dict.AddRange(born_children_with_partner_list);
 
                 return temp_dict;
             }
