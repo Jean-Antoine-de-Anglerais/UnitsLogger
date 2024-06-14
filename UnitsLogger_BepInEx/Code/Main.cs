@@ -13,17 +13,18 @@ namespace UnitsLogger_BepInEx
         // Метод, запускающийся каждый кадр (в моём случае он зависим от загрузки игры)
         public void Update()
         {
-            /*if (global::Config.gameLoaded)
-            {
-                foreach (var unit in World.world.units)
-                {
-                    if (unit.asset.canBeCitizen && !StaticStuff.GetIsTracked(unit) && unit.hasTrait("immortal"))
-                    {
-                        unit.SetIsTracked(true);
-                        unit.GetActorData().favorite = true;
-                    }
-                }
-            }*/
+            //if (global::Config.gameLoaded)
+            //{
+            //    foreach (var unit in World.world.units)
+            //    {
+            //        if (!unit.data.favorite)
+            //        {
+            //            unit.SetIsTracked(true);
+            //            unit.gameObject.AddComponent<LifeLogger>();
+            //            unit.data.favorite = true;
+            //        }
+            //    }
+            //}
 
             if (global::Config.gameLoaded && !_initialized)
             {

@@ -201,7 +201,10 @@ namespace UnitsLogger_BepInEx
             }
 
             string avatar_path = Path.Combine(unit_folder_path, "Image Life.png");
-            saver.SaveAvatarImage(logger.initial_texture, avatar_path);
+            if (logger.initial_texture != null)
+            {
+                saver.SaveAvatarImage(logger.initial_texture, avatar_path);
+            }
         }
 
         public static void SavingDead(Actor actor, string folder_path)
