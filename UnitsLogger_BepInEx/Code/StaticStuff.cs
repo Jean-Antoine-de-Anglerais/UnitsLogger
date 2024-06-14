@@ -31,90 +31,90 @@ namespace UnitsLogger_BepInEx
         }
 
         #region Localization
-        public static string ProfessionsLocalizationRu(this object input)
-        {
-            // Создаем новый словарь
-            var dictionary = new Dictionary<object, string>
-                {
-                    { UnitProfession.Null, "Нулевая" },
-                    { UnitProfession.Baby, "Ребёнок" },
-                    { UnitProfession.Unit, "Юнит" },
-                    { UnitProfession.Warrior, "Воин" },
-                    { UnitProfession.King, "Король" },
-                    { UnitProfession.Leader, "Лидер Поселения" }
-                };
+        //public static string ProfessionsLocalizationRu(this object input)
+        //{
+        //    // Создаем новый словарь
+        //    var dictionary = new Dictionary<object, string>
+        //        {
+        //            { UnitProfession.Null, "Нулевая" },
+        //            { UnitProfession.Baby, "Ребёнок" },
+        //            { UnitProfession.Unit, "Юнит" },
+        //            { UnitProfession.Warrior, "Воин" },
+        //            { UnitProfession.King, "Король" },
+        //            { UnitProfession.Leader, "Лидер Поселения" }
+        //        };
+        //
+        //    if (dictionary.ContainsKey(input))
+        //    {
+        //        // Если ключ найден, возвращаем соответствующее значение
+        //        return dictionary[input];
+        //    }
+        //
+        //    else
+        //    {
+        //        return input.ToString();
+        //    }
+        //}
+        //
+        //public static string ProfessionsLocalizationEn(this object input)
+        //{
+        //    return input.ToString();
+        //}
 
-            if (dictionary.ContainsKey(input))
-            {
-                // Если ключ найден, возвращаем соответствующее значение
-                return dictionary[input];
-            }
+        //public static string GendersLocalizationRu(this object input)
+        //{
+        //    // Создаем новый словарь
+        //    var dictionary = new Dictionary<object, string>
+        //        {
+        //            { ActorGender.Female, "Женщина" },
+        //            { ActorGender.Male, "Мужчина" },
+        //            { ActorGender.Unknown, "Неизвестно" }
+        //        };
+        //
+        //    if (dictionary.ContainsKey(input))
+        //    {
+        //        // Если ключ найден, возвращаем соответствующее значение
+        //        return dictionary[input];
+        //    }
+        //
+        //    else
+        //    {
+        //        return input.ToString();
+        //    }
+        //}
+        //
+        //public static string GendersLocalizationEn(this object input)
+        //{
+        //    return input.ToString();
+        //}
 
-            else
-            {
-                return input.ToString();
-            }
-        }
-
-        public static string ProfessionsLocalizationEn(this object input)
-        {
-            return input.ToString();
-        }
-
-        public static string GendersLocalizationRu(this object input)
-        {
-            // Создаем новый словарь
-            var dictionary = new Dictionary<object, string>
-                {
-                    { ActorGender.Female, "Женщина" },
-                    { ActorGender.Male, "Мужчина" },
-                    { ActorGender.Unknown, "Неизвестно" }
-                };
-
-            if (dictionary.ContainsKey(input))
-            {
-                // Если ключ найден, возвращаем соответствующее значение
-                return dictionary[input];
-            }
-
-            else
-            {
-                return input.ToString();
-            }
-        }
-
-        public static string GendersLocalizationEn(this object input)
-        {
-            return input.ToString();
-        }
-
-        public static string QualityLocalizationRu(this object input)
-        {
-            // Создаем новый словарь
-            var dictionary = new Dictionary<object, string>
-                {
-                    { ItemQuality.Normal, "Нормальное" },
-                    { ItemQuality.Epic, "Эпическое" },
-                    { ItemQuality.Rare, "Редкое" },
-                    { ItemQuality.Legendary, "Легендарное" }
-                };
-
-            if (dictionary.ContainsKey(input))
-            {
-                // Если ключ найден, возвращаем соответствующее значение
-                return dictionary[input];
-            }
-
-            else
-            {
-                return input.ToString();
-            }
-        }
-
-        public static string QualityLocalizationEn(this object input)
-        {
-            return input.ToString();
-        }
+        //public static string QualityLocalizationRu(this object input)
+        //{
+        //    // Создаем новый словарь
+        //    var dictionary = new Dictionary<object, string>
+        //        {
+        //            { ItemQuality.Normal, "Нормальное" },
+        //            { ItemQuality.Epic, "Эпическое" },
+        //            { ItemQuality.Rare, "Редкое" },
+        //            { ItemQuality.Legendary, "Легендарное" }
+        //        };
+        //
+        //    if (dictionary.ContainsKey(input))
+        //    {
+        //        // Если ключ найден, возвращаем соответствующее значение
+        //        return dictionary[input];
+        //    }
+        //
+        //    else
+        //    {
+        //        return input.ToString();
+        //    }
+        //}
+        //
+        //public static string QualityLocalizationEn(this object input)
+        //{
+        //    return input.ToString();
+        //}
 
         public static string JobsLocalizationRu(this CitizenJobAsset input)
         {

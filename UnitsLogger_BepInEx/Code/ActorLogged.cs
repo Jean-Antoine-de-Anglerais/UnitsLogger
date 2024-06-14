@@ -71,7 +71,7 @@ namespace UnitsLogger_BepInEx
                     resources.Add(resourc.Value.id.GetLocal(), resourc.Value.amount);
                 }
             }
-            profession = ("profession_" + data.profession.ToString()).GetLocal();
+            profession = data.profession.ToString().GetLocal();
 
             name = actor.getName();
             born_in = actor.base_data.created_time.GetDateFromTime();
@@ -96,7 +96,7 @@ namespace UnitsLogger_BepInEx
 
             place_of_death = (data.x, data.y);
 
-            gender = ("gender_" + data.gender.ToString()).GetLocal();
+            gender = data.gender.ToString().GetLocal();
             kills = data.kills;
 
             species = actor.asset.nameLocale.GetLocal();

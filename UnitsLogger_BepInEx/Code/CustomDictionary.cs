@@ -12,8 +12,15 @@ namespace UnitsLogger_BepInEx
 
         static CustomDictionary()
         {
-            ru = JsonConvert.DeserializeObject<Dictionary<string, string>>(Encoding.UTF8.GetString(Resource.ru).Trim('\uFEFF'));
-            en = JsonConvert.DeserializeObject<Dictionary<string, string>>(Encoding.UTF8.GetString(Resource.en).Trim('\uFEFF'));
+            if (LocalizedTextManager.instance.language == "ru")
+            {
+                ru = JsonConvert.DeserializeObject<Dictionary<string, string>>(Encoding.UTF8.GetString(Resource.ru).Trim('\uFEFF'));
+            }
+
+            else
+            {
+                en = JsonConvert.DeserializeObject<Dictionary<string, string>>(Encoding.UTF8.GetString(Resource.en).Trim('\uFEFF'));
+            }
         }
 
         public static string GetLocal(this string key)

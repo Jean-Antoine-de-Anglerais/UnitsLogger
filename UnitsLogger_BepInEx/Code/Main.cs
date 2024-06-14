@@ -80,29 +80,29 @@ namespace UnitsLogger_BepInEx
                 CustomDictionary.SetLocal("Пол", "Gender");
                 CustomDictionary.SetLocal("Пол", "Пол");
 
-                foreach (var profession in UnitProfession.GetValues(typeof(UnitProfession)))
-                {
-                    CustomDictionary.SetLocal("profession_" + profession.ToString(), profession.ProfessionsLocalizationEn());
-                    CustomDictionary.SetLocal("profession_" + profession.ToString(), profession.ProfessionsLocalizationRu());
-                }
+                //foreach (var profession in UnitProfession.GetValues(typeof(UnitProfession)))
+                //{
+                //    CustomDictionary.SetLocal("profession_" + profession.ToString(), profession.ProfessionsLocalizationEn());
+                //    CustomDictionary.SetLocal("profession_" + profession.ToString(), profession.ProfessionsLocalizationRu());
+                //}
 
-                foreach (var gender in ActorGender.GetValues(typeof(ActorGender)))
-                {
-                    CustomDictionary.SetLocal("gender_" + gender.ToString(), gender.GendersLocalizationEn());
-                    CustomDictionary.SetLocal("gender_" + gender.ToString(), gender.GendersLocalizationRu());
-                }
+                //foreach (var gender in ActorGender.GetValues(typeof(ActorGender)))
+                //{
+                //    CustomDictionary.SetLocal("gender_" + gender.ToString(), gender.GendersLocalizationEn());
+                //    CustomDictionary.SetLocal("gender_" + gender.ToString(), gender.GendersLocalizationRu());
+                //}
+                
+                //foreach (var quality in ItemQuality.GetValues(typeof(ItemQuality)))
+                //{
+                //    CustomDictionary.SetLocal("quality_" + quality.ToString(), quality.QualityLocalizationEn());
+                //    CustomDictionary.SetLocal("quality_" + quality.ToString(), quality.QualityLocalizationRu());
+                //}
 
-                foreach (var quality in ItemQuality.GetValues(typeof(ItemQuality)))
-                {
-                    CustomDictionary.SetLocal("quality_" + quality.ToString(), quality.QualityLocalizationEn());
-                    CustomDictionary.SetLocal("quality_" + quality.ToString(), quality.QualityLocalizationRu());
-                }
-
-                foreach (var job in AssetManager.citizen_job_library.list)
-                {
-                    CustomDictionary.SetLocal("job_" + job.id, job.JobsLocalizationEn());
-                    CustomDictionary.SetLocal("job_" + job.id, job.JobsLocalizationRu());
-                }
+                //foreach (var job in AssetManager.citizen_job_library.list)
+                //{
+                //    CustomDictionary.SetLocal("job_" + job.id, job.JobsLocalizationEn());
+                //    CustomDictionary.SetLocal("job_" + job.id, job.JobsLocalizationRu());
+                //}
                 #endregion
 
                 #region Патчинг

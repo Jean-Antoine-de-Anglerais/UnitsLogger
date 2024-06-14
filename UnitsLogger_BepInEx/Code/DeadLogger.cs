@@ -35,7 +35,7 @@ namespace UnitsLogger_BepInEx
             unit_statistic += $"\rДата, когда юнит стал отслеживаемым - {logger.initial_time.GetDateFromTime()}";
             unit_statistic += $"\r{"Имя".GetLocal()} - {logger.initial_name}";
             unit_statistic += !(logger.initial_traits.Count == 0) ? $"\r{"traits".GetLocal()} - {string.Join(", ", logger.initial_traits.Select(t => ("trait_" + t).GetLocal()))}" : "";
-            unit_statistic += $"\r{"Профессия".GetLocal()} - {("profession_" + logger.initial_profession.ToString()).GetLocal()}" + (logger.initial_is_group_leader ? $", {"Генерал".GetLocal()}" : "");
+            unit_statistic += $"\r{"Профессия".GetLocal()} - {logger.initial_profession.ToString().GetLocal()}" + (logger.initial_is_group_leader ? $", {"Генерал".GetLocal()}" : "");
             unit_statistic += !logger.initial_mood.IsNullOrWhiteSpace() ? $"\r{"creature_statistics_mood".GetLocal()} - {("mood_" + logger.initial_mood).GetLocal()}" : "";
             unit_statistic += !(logger.initial_kills == 0) ? $"\r{"creature_statistics_kills".GetLocal()} - {logger.initial_kills}" : "";
             unit_statistic += !(logger.initial_children == 0) ? $"\r{"creature_statistics_children".GetLocal()} - {logger.initial_children}" : "";
@@ -115,7 +115,7 @@ namespace UnitsLogger_BepInEx
                 }
                 else if (stat.Item4 == DataType.CitizenJobStart)
                 {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит начал работать как {("job_" + stat.Item3).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит начал работать как {stat.Item3.GetLocal()}";
                 }
                 else if (stat.Item4 == DataType.ExtractResources)
                 {
@@ -147,7 +147,7 @@ namespace UnitsLogger_BepInEx
                 }
                 else if (stat.Item4 == DataType.CitizenJobEnd)
                 {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит закончил свою работу как {("job_" + stat.Item3).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит закончил свою работу как {stat.Item3.GetLocal()}";
                 }
                 else if (stat.Item4 == DataType.Food)
                 {
@@ -175,7 +175,7 @@ namespace UnitsLogger_BepInEx
                 }
                 else if (stat.Item4 == DataType.Professions)
                 {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил профессию на {("profession_" + stat.Item3).GetLocal()}";
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил профессию на {stat.Item3.GetLocal()}";
                 }
                 else if (stat.Item4 == DataType.Moods)
                 {
