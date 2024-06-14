@@ -71,7 +71,7 @@ namespace UnitsLogger_BepInEx
         // Черты, бывшие у юнита изначально 
         public List<string> initial_traits = new List<string>();
         // Предметы, бывшие у юнита изначально
-        public List<ItemData> initial_items = new List<ItemData>();
+        public List<ItemDataLogged> initial_items = new List<ItemDataLogged>();
         // Изначальное количество детей
         public int initial_children = 0;
         // Изначальная профессия
@@ -186,10 +186,20 @@ namespace UnitsLogger_BepInEx
                 {
                     initial_name = actor.GetActorData().name;
                     initial_traits.AddRange(actor.GetActorData().traits);
-                    if (actor.GetActorData().items != null)
+
+                    if (actor.equipment != null)
                     {
-                        initial_items.AddRange(actor.GetActorData().items);
+                        List<ItemData> dataForSave = actor.equipment.getDataForSave();
+                        if (dataForSave.Count > 0)
+                        {
+                            foreach (var data in dataForSave)
+                            {
+                                ItemDataLogged data_logged = new ItemDataLogged(data);
+                                initial_items.Add(data_logged);
+                            }
+                        }
                     }
+
                     initial_children = actor.GetActorData().children;
                     initial_profession = actor.GetActorData().profession;
                     initial_citizenship = actor.kingdom?.data.name;
@@ -218,10 +228,20 @@ namespace UnitsLogger_BepInEx
                 {
                     initial_name = actor.GetActorData().name;
                     initial_traits.AddRange(actor.GetActorData().traits);
-                    if (actor.GetActorData().items != null)
+
+                    if (actor.equipment != null)
                     {
-                        initial_items.AddRange(actor.GetActorData().items);
+                        List<ItemData> dataForSave = actor.equipment.getDataForSave();
+                        if (dataForSave.Count > 0)
+                        {
+                            foreach (var data in dataForSave)
+                            {
+                                ItemDataLogged data_logged = new ItemDataLogged(data);
+                                initial_items.Add(data_logged);
+                            }
+                        }
                     }
+
                     initial_children = actor.GetActorData().children;
                     initial_profession = actor.GetActorData().profession;
                     initial_citizenship = actor.kingdom?.data.name;

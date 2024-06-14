@@ -88,6 +88,7 @@
     <Compile Include="Code\ActorLogged.cs" />
     <Compile Include="Code\DeadReason.cs" />
     <Compile Include="Code\CustomDictionary.cs" />
+    <Compile Include="Code\ItemDataLogged.cs" />
     <Compile Include="Code\LifeLogger.cs" />
     <Compile Include="Code\Main.cs" />
     <Compile Include="Code\DataType.cs" />

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace UnitsLogger_BepInEx
 {
@@ -285,7 +284,7 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Определить положение юнита
-        public static (int,int) GetActorPosition(this Actor actor) => (actor.currentTile.pos.x, actor.currentTile.pos.y);
+        public static (int, int) GetActorPosition(this Actor actor) => (actor.currentTile.pos.x, actor.currentTile.pos.y);
 
         public static (int, int) GetActorPosition(this ActorBase actor) => (actor.currentTile.pos.x, actor.currentTile.pos.y);
 
@@ -411,7 +410,7 @@ namespace UnitsLogger_BepInEx
                     data.generateName(actor.asset, actor.GetActorRace());
                 }
 
-                else 
+                else
                 {
                     var asset = AssetManager.actor_library.get(data.asset_id);
                     data.generateName(asset);

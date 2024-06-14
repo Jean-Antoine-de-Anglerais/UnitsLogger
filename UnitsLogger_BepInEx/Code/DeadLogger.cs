@@ -41,6 +41,37 @@ namespace UnitsLogger_BepInEx
             unit_statistic += !(logger.initial_children == 0) ? $"\r{"creature_statistics_children".GetLocal()} - {logger.initial_children}" : "";
             unit_statistic += $"\r{"opinion_world_era".GetLocal()} - {(logger.initial_era + "_title").GetLocal()}";
 
+            if (logger.initial_items.Count != 0)
+            {
+                unit_statistic += $"\r\r{"inventory".GetLocal()}:";
+
+                foreach (var item in logger.initial_items)
+                {
+                    var item_asset = AssetManager.items.get(item.id);
+                    unit_statistic += $"\r";
+                    unit_statistic += $"\r{"Тип".GetLocal()} - {("item_" + item.id).GetLocal()}";
+                    unit_statistic += $"\r{"item_material".GetLocal()} - {("item_mat_" + item.material).GetLocal()}";
+                    unit_statistic += !item.name.IsNullOrWhiteSpace() ? $"\r{"Имя".GetLocal()} - {item.name}" : "";
+                    unit_statistic += !(item.kills == 0) ? $"\r{"creature_statistics_kills".GetLocal()} - {item.kills}" : "";
+                    unit_statistic += $"\r{"Год создания".GetLocal()} - {item.year}";
+                    unit_statistic += !item.by.IsNullOrWhiteSpace() ? $"\r{"Создатель".GetLocal()} - {item.by}" : "";
+                    unit_statistic += !item.from.IsNullOrWhiteSpace() ? $"\r{"Создан в государстве".GetLocal()} - {item.from}" : "";
+
+                    if (item.modifiers.Count != 0)
+                    {
+                        List<(string, char)> items_modifiers = new List<(string, char)>();
+
+                        foreach (var item_modifier in item.modifiers)
+                        {
+                            (string, char) modifier = item_modifier.DecodeModifier();
+                            items_modifiers.Add(modifier);
+                        }
+
+                        unit_statistic += items_modifiers.Count != 0 ? $"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != ' ') ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}" : "";
+                    }
+                }
+            }
+
             unit_statistic += $"\r\rИзначальные характеристики:\r";
             foreach (var stat in logger.initial_characteristics.getList())
             {
