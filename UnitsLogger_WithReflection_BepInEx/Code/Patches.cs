@@ -2,9 +2,10 @@
 using ai.behaviours;
 using BepInEx;
 using HarmonyLib;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace UnitsLogger_BepInEx
+namespace UnitsLogger_WithReflection_BepInEx
 {
     public static class Patches
     {
@@ -69,7 +70,7 @@ namespace UnitsLogger_BepInEx
         {
             if (StaticStuff.GetIsTracked(__instance))
             {
-                if (!__instance.hasTrait(pTrait) && !(AssetManager.traits.get(pTrait) == null) && (pRemoveOpposites || !__instance.hasOppositeTrait(pTrait)))
+                if (!__instance.hasTrait(pTrait) && !(AssetManager.traits.get(pTrait) == null) && (pRemoveOpposites || !(bool)Reflection.CallMethod(__instance, "hasOppositeTrait", pTrait)))
                 {
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
                     logger?.received_traits.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pTrait, DataType.ReceivedTraits));
@@ -232,7 +233,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
-                if (pMood != __instance.data.mood)
+                if (pMood != __instance.GetActorData().mood)
                 {
                     logger?.received_moods.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pMood, DataType.Moods));
                 }
@@ -270,31 +271,31 @@ namespace UnitsLogger_BepInEx
         #region Рождение юнита
         [HarmonyPrefix]
         [HarmonyPatch(typeof(CityBehProduceUnit), "produceNewCitizen")] // Что-то из этого метода вызывает ошибки (ошибки в блокноте)
-        public static bool produceNewCitizen_Prefix(CityBehProduceUnit __instance, ref bool __result, Building pBuilding, City pCity)
+        public static bool produceNewCitizen_Prefix(CityBehProduceUnit __instance, ref bool __result, ref List<Actor> ____possibleParents, Building pBuilding, City pCity)
         {
-            Actor actor = __instance._possibleParents.Pop();
+            Actor actor = ____possibleParents.Pop();
             if (actor == null)
             {
                 __result = false;
                 return false;
             }
-            if (!Toolbox.randomChance(actor.stats[S.fertility]))
+            if (!Toolbox.randomChance(actor.GetBaseStats()[S.fertility]))
             {
                 __result = false;
                 return false;
             }
             Actor actor2 = null;
-            if (__instance._possibleParents.Count > 0)
+            if (____possibleParents.Count > 0)
             {
-                actor2 = __instance._possibleParents.Pop();
+                actor2 = ____possibleParents.Pop();
             }
-            ResourceAsset foodItem = pCity.getFoodItem();
-            pCity.eatFoodItem(foodItem.id);
+            ResourceAsset foodItem = (ResourceAsset)pCity.CallMethod("getFoodItem", "");
+            pCity.CallMethod("eatFoodItem", foodItem.id);
             pCity.status.housingFree--;
             pCity.data.born++;
-            if (pCity.kingdom != null)
+            if (pCity.GetCityKingdom() != null)
             {
-                pCity.kingdom.data.born++;
+                pCity.GetCityKingdom().data.born++;
             }
             ActorAsset asset = actor.asset;
             ActorData actorData = new ActorData();
@@ -302,19 +303,19 @@ namespace UnitsLogger_BepInEx
             actorData.cityID = pCity.data.id;
             actorData.id = MapBox.instance.mapStats.getNextId("unit");
             actorData.asset_id = asset.id;
-            ActorBase.generateCivUnit(actor.asset, actorData, actor.race);
-            actorData.generateTraits(asset, actor.race);
-            actorData.inheritTraits(actor.data.traits);
+            ActorBase.generateCivUnit(actor.asset, actorData, actor.GetActorRace());
+            actorData.generateTraits(asset, actor.GetActorRace());
+            actorData.CallMethod("inheritTraits", actor.GetActorData().traits);
             actorData.hunger = asset.maxHunger / 2;
-            actor.data.makeChild(MapBox.instance.getCurWorldTime());
+            actor.GetActorData().makeChild(MapBox.instance.getCurWorldTime());
             if (actor2 != null)
             {
-                actorData.inheritTraits(actor2.data.traits);
-                actor2.data.makeChild(MapBox.instance.getCurWorldTime());
+                actorData.CallMethod("inheritTraits", actor2.GetActorData().traits);
+                actor2.GetActorData().makeChild(MapBox.instance.getCurWorldTime());
             }
             Clan clan = StaticStuff.checkGreatClan(actor, actor2);
             actorData.skin = ActorTool.getBabyColor(actor, actor2);
-            actorData.skin_set = actor.data.skin_set;
+            actorData.skin_set = actor.GetActorData().skin_set;
             Culture babyCulture = StaticStuff.getBabyCulture(actor, actor2);
             if (babyCulture != null)
             {
@@ -348,8 +349,8 @@ namespace UnitsLogger_BepInEx
         {
             pActor1.startBabymakingTimeout();
             pActor2.startBabymakingTimeout();
-            pActor1.data.children++;
-            pActor2.data.children++;
+            pActor1.GetActorData().children++;
+            pActor2.GetActorData().children++;
             string pStatsID;
             if (Toolbox.randomBool())
             {
@@ -373,26 +374,26 @@ namespace UnitsLogger_BepInEx
                 worldTile = pActor1.currentTile;
             }
             Actor actor = MapBox.instance.units.createNewUnit(pStatsID, worldTile, 6f);
-            actor.justBorn();
-            actor.data.hunger = 79;
+            actor.CallMethod("justBorn");
+            actor.GetActorData().hunger = 79;
             if (actor.asset.useSkinColors)
             {
                 if (Toolbox.randomBool())
                 {
-                    actor.data.skin_set = pActor1.data.skin_set;
+                    actor.GetActorData().skin_set = pActor1.GetActorData().skin_set;
                 }
                 else
                 {
-                    actor.data.skin_set = pActor2.data.skin_set;
+                    actor.GetActorData().skin_set = pActor2.GetActorData().skin_set;
                 }
-                actor.data.skin = ActorTool.getBabyColor(pActor1, pActor2);
+                actor.GetActorData().skin = ActorTool.getBabyColor(pActor1, pActor2);
             }
 
             pActor1.makeChild(MapBox.instance.getCurWorldTime(), pActor2, actor);
 
             pActor2.makeChild(MapBox.instance.getCurWorldTime(), pActor1, actor);
 
-            MapBox.instance.gameStats.data.creaturesBorn++;
+            ((GameStatsData)Reflection.GetField(MapBox.instance.gameStats.GetType(), MapBox.instance.gameStats, "data")).creaturesBorn++;
             return false;
         }
 
@@ -401,7 +402,7 @@ namespace UnitsLogger_BepInEx
         public static bool makeEgg_Prefix(Actor pActor)
         {
             pActor.startBabymakingTimeout();
-            pActor.data.children++;
+            pActor.GetActorData().children++;
             WorldTile worldTile = null;
             foreach (WorldTile worldTile2 in pActor.currentTile.neighbours)
             {
@@ -418,13 +419,13 @@ namespace UnitsLogger_BepInEx
             Actor actor = MapBox.instance.units.createNewUnit(pActor.asset.eggStatsID, worldTile, 6f);
             if (pActor.asset.useSkinColors)
             {
-                actor.data.skin_set = pActor.data.skin_set;
+                actor.GetActorData().skin_set = pActor.GetActorData().skin_set;
             }
             if (StaticStuff.GetIsTracked(pActor))
             {
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.born_children.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), actor.getName(), actor.data.gender, DataType.Children));
+                logger?.born_children.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), actor.getName(), actor.GetActorData().gender, DataType.Children));
             }
             return false;
         }
@@ -589,11 +590,13 @@ namespace UnitsLogger_BepInEx
         {
             if (StaticStuff.GetIsTracked(pActor))
             {
-                if (!pActor.beh_building_target.isUnderConstruction())
+                var beh_building_target = (Building)Reflection.GetField(typeof(ActorBase), pActor, "beh_building_target");
+
+                if (!beh_building_target.isUnderConstruction())
                 {
                     LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                    logger?.builded_construction.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), pActor.beh_building_target.asset.id, DataType.BuildedConstruction));
+                    logger?.builded_construction.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.BuildedConstruction));
                 }
             }
         }
@@ -606,9 +609,11 @@ namespace UnitsLogger_BepInEx
         {
             if (StaticStuff.GetIsTracked(pActor))
             {
+                var beh_building_target = (Building)Reflection.GetField(typeof(ActorBase), pActor, "beh_building_target");
+
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.cleaned_construction.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), pActor.beh_building_target.asset.id, DataType.CleanedConstruction));
+                logger?.cleaned_construction.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.CleanedConstruction));
             }
         }
         #endregion
@@ -620,9 +625,11 @@ namespace UnitsLogger_BepInEx
         {
             if (StaticStuff.GetIsTracked(pActor))
             {
+                var beh_building_target = (Building)Reflection.GetField(typeof(ActorBase), pActor, "beh_building_target");
+
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.extract_resources.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), pActor.beh_building_target.asset.id, DataType.ExtractResources));
+                logger?.extract_resources.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), ((BuildingAsset)Reflection.GetField(typeof(Building), beh_building_target, "asset")).id, DataType.ExtractResources));
             }
         }
         #endregion
@@ -634,9 +641,11 @@ namespace UnitsLogger_BepInEx
         {
             if (StaticStuff.GetIsTracked(pActor))
             {
+                WorldTile beh_tile_target = (WorldTile)Reflection.GetField(typeof(ActorBase), pActor, "beh_tile_target");
+
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.create_road.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"X: {pActor.beh_tile_target.x}, Y: {pActor.beh_tile_target.y}", DataType.CreateRoad));
+                logger?.create_road.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"X: {beh_tile_target.x}, Y: {beh_tile_target.y}", DataType.CreateRoad));
             }
         }
         #endregion
@@ -668,7 +677,7 @@ namespace UnitsLogger_BepInEx
         {
             if (StaticStuff.GetIsTracked(__instance))
             {
-                if (!__instance.currentTile.Type.liquid && __instance.isAlive() && !__instance.isInMagnet())
+                if (!__instance.currentTile.Type.liquid && __instance.isAlive() && !(bool)__instance.CallMethod("isInMagnet"))
                 {
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 

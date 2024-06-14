@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace UnitsLogger_BepInEx
+namespace UnitsLogger_WithReflection_BepInEx
 {
     public class DeadLogger
     {
@@ -285,9 +285,9 @@ namespace UnitsLogger_BepInEx
                 //unit_statistic += $"\r\rПолитические характеристики: {(!(actor_logged.diplomacy == 0) ? $"{"diplomacy".GetLocalization()} {actor_logged.diplomacy}," : "")} {(!(actor_logged.intelligence == 0) ? $"{"intelligence".GetLocalization()} {actor_logged.intelligence}," : "")} {(!(actor_logged.stewardship == 0) ? $"{"stewardship".GetLocalization()} {actor_logged.stewardship}," : "")} {(!(actor_logged.warfare == 0) ? $"{"warfare".GetLocalization()} {actor_logged.warfare}" : "")}";
             }*/
 
-            unit_statistic += !(actor.stats.getList().Count == 0) ? $"\r\r{"Характеристики".GetLocal()}:\r" : "";
+            unit_statistic += !(actor.GetBaseStats().getList().Count == 0) ? $"\r\r{"Характеристики".GetLocal()}:\r" : "";
 
-            foreach (var stat in actor.stats.getList())
+            foreach (var stat in actor.GetBaseStats().getList())
             {
                 BaseStatAsset asset = stat.getAsset();
                 if (asset.tooltip_multiply_for_visual_number != 1f)

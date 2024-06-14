@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text;
-using UnitsLogger_BepInEx.Resources;
+using UnitsLogger_WithReflection_BepInEx.Resources;
 
-namespace UnitsLogger_BepInEx
+namespace UnitsLogger_WithReflection_BepInEx
 {
     public static class CustomDictionary
     {
@@ -18,14 +18,14 @@ namespace UnitsLogger_BepInEx
 
         public static string GetLocal(this string key)
         {
-            var lang = LocalizedTextManager.instance.language;
+            var lang = (string)Reflection.GetField(LocalizedTextManager.instance.GetType(), LocalizedTextManager.instance, "language");
             var dictionary = lang == "ru" ? ru : en;
             return dictionary.TryGetValue(key, out var result) ? result : key;
         }
 
         public static void SetLocal(this string key, string value)
         {
-            var lang = LocalizedTextManager.instance.language;
+            var lang = (string)Reflection.GetField(LocalizedTextManager.instance.GetType(), LocalizedTextManager.instance, "language");
             var dictionary = lang == "ru" ? ru : en;
             dictionary[key] = value;
         }

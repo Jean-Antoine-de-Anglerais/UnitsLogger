@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UnitsLogger_BepInEx
+namespace UnitsLogger_WithReflection_BepInEx
 {
     public class ActorLogged
     {
@@ -58,7 +58,7 @@ namespace UnitsLogger_BepInEx
         {
             id = actor.base_data.id;
 
-            ActorData data = actor.data;
+            ActorData data = actor.GetActorData();
             if (data.items != null)
             {
                 items = data.items;
@@ -101,9 +101,9 @@ namespace UnitsLogger_BepInEx
 
             species = actor.asset.nameLocale.GetLocal();
 
-            if (actor.s_personality != null)
+            if ((PersonalityAsset)Reflection.GetField(actor.GetType(), actor, "s_personality") != null)
             {
-                personality = ("personality_" + actor.s_personality.id).GetLocal();
+                personality = ("personality_" + ((PersonalityAsset)Reflection.GetField(actor.GetType(), actor, "s_personality")).id).GetLocal();
             }
 
             children = data.children;

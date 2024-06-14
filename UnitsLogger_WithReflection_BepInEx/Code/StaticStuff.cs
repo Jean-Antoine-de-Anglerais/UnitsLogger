@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UnitsLogger_BepInEx
+namespace UnitsLogger_WithReflection_BepInEx
 {
     public static class StaticStuff
     {
@@ -189,6 +189,30 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region GetActorData
+        public static ActorData GetActorData(this Actor actor) => (ActorData)Reflection.GetField(actor.GetType(), actor, "data");
+
+        public static ActorData GetActorData(this ActorBase actor) => (ActorData)Reflection.GetField(actor.GetType(), actor, "data");
+        #endregion
+
+        #region GetBaseStats
+        public static BaseStats GetBaseStats(this Actor actor) => (BaseStats)Reflection.GetField(actor.GetType(), actor, "stats");
+
+        public static BaseStats GetBaseStats(this ActorBase actor) => (BaseStats)Reflection.GetField(actor.GetType(), actor, "stats");
+
+        public static BaseStats GetBaseStats(this BaseSimObject actor) => (BaseStats)Reflection.GetField(actor.GetType(), actor, "stats");
+        #endregion
+
+        #region GetActorRace
+        public static Race GetActorRace(this Actor actor) => (Race)Reflection.GetField(actor.GetType(), actor, "race");
+
+        public static Race GetActorRace(this ActorBase actor) => (Race)Reflection.GetField(actor.GetType(), actor, "race");
+        #endregion
+
+        #region GetCityKingdom
+        public static Kingdom GetCityKingdom(this City city) => (Kingdom)Reflection.GetField(city.GetType(), city, "kingdom");
+        #endregion
+
         #region SetIsTracked
         public static void SetIsTracked(this BaseSystemData data, bool is_tracked)
         {
@@ -277,26 +301,26 @@ namespace UnitsLogger_BepInEx
             {
                 if (pParent1.isKing())
                 {
-                    text = pParent1.data.clan;
+                    text = pParent1.GetActorData().clan;
                 }
                 else if (pParent2 != null && pParent2.isKing())
                 {
-                    text = pParent2.data.clan;
+                    text = pParent2.GetActorData().clan;
                 }
             }
             if (string.IsNullOrEmpty(text))
             {
                 if (pParent1.isCityLeader() && pParent2 != null && pParent2.isCityLeader())
                 {
-                    text = ((!Toolbox.randomBool()) ? pParent2.data.clan : pParent1.data.clan);
+                    text = ((!Toolbox.randomBool()) ? pParent2.GetActorData().clan : pParent1.GetActorData().clan);
                 }
                 else if (pParent1 != null && pParent1.isCityLeader())
                 {
-                    text = pParent1.data.clan;
+                    text = pParent1.GetActorData().clan;
                 }
                 else if (pParent2 != null && pParent2.isCityLeader())
                 {
-                    text = pParent2.data.clan;
+                    text = pParent2.GetActorData().clan;
                 }
             }
             Clan result = null;
@@ -309,11 +333,11 @@ namespace UnitsLogger_BepInEx
 
         public static Culture getBabyCulture(Actor pActor1, Actor pActor2)
         {
-            string text = pActor1.data.culture;
+            string text = pActor1.GetActorData().culture;
             string text2 = text;
             if (pActor2 != null)
             {
-                text2 = pActor2.data.culture;
+                text2 = pActor2.GetActorData().culture;
             }
             if (string.IsNullOrEmpty(text))
             {
@@ -324,7 +348,7 @@ namespace UnitsLogger_BepInEx
                 text2 = pActor2.city?.data.culture;
             }
             Culture culture = pActor1.currentTile.zone.culture;
-            if (culture != null && culture.data.race == pActor1.race.id && Toolbox.randomChance(culture.stats.culture_spread_convert_chance.value))
+            if (culture != null && culture.data.race == pActor1.GetActorRace().id && Toolbox.randomChance(culture.stats.culture_spread_convert_chance.value))
             {
                 text = culture.data.id;
             }
@@ -345,7 +369,7 @@ namespace UnitsLogger_BepInEx
 
                     if (partner != null)
                     {
-                        logger?.born_children_with_partner.Add((pWorldTime, actor.GetActorPosition(), baby.getName(), baby.gender, partner.getName(), partner.data.gender, DataType.Children));
+                        logger?.born_children_with_partner.Add((pWorldTime, actor.GetActorPosition(), baby.getName(), baby.gender, partner.getName(), partner.GetActorData().gender, DataType.Children));
                     }
                     else
                     {
@@ -365,11 +389,11 @@ namespace UnitsLogger_BepInEx
 
                     if (partner != null)
                     {
-                        logger?.born_children_with_partner.Add((pWorldTime, actor.GetActorPosition(), baby.getName(), baby.data.gender, partner.getName(), partner.data.gender, DataType.Children));
+                        logger?.born_children_with_partner.Add((pWorldTime, actor.GetActorPosition(), baby.getName(), baby.GetActorData().gender, partner.getName(), partner.GetActorData().gender, DataType.Children));
                     }
                     else
                     {
-                        logger?.born_children.Add((pWorldTime, actor.GetActorPosition(), baby.getName(), baby.data.gender, DataType.Children));
+                        logger?.born_children.Add((pWorldTime, actor.GetActorPosition(), baby.getName(), baby.GetActorData().gender, DataType.Children));
                     }
                 }
             }
@@ -383,7 +407,7 @@ namespace UnitsLogger_BepInEx
 
                 if (actor != null)
                 {
-                    data.generateName(actor.asset, actor.race);
+                    data.generateName(actor.asset, actor.GetActorRace());
                 }
 
                 else

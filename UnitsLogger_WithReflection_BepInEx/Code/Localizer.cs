@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace UnitsLogger_BepInEx
+namespace UnitsLogger_WithReflection_BepInEx
 {
     public static class Localizer
     {
         public static void SetLocalization(string planguage, string id, string name)
         {
-            string language = LocalizedTextManager.instance.language;
+            string language = Reflection.GetField(LocalizedTextManager.instance.GetType(), LocalizedTextManager.instance, "language") as string;
             string templanguage;
 
             templanguage = language;
@@ -18,7 +18,7 @@ namespace UnitsLogger_BepInEx
 
             if (planguage == templanguage)
             {
-                Dictionary<string, string> localizedText = LocalizedTextManager.instance.localizedText;
+                Dictionary<string, string> localizedText = Reflection.GetField(LocalizedTextManager.instance.GetType(), LocalizedTextManager.instance, "localizedText") as Dictionary<string, string>;
                 if (!localizedText.ContainsKey(id))
                 {
                     localizedText.Add(id, name);
@@ -33,7 +33,7 @@ namespace UnitsLogger_BepInEx
 
         public static string GetLocalization(this string id)
         {
-            Dictionary<string, string> localizedText = LocalizedTextManager.instance.localizedText;
+            Dictionary<string, string> localizedText = Reflection.GetField(LocalizedTextManager.instance.GetType(), LocalizedTextManager.instance, "localizedText") as Dictionary<string, string>;
 
             if (localizedText.ContainsKey(id))
             {

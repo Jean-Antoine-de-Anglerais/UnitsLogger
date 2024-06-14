@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnitsLogger_BepInEx
+namespace UnitsLogger_WithReflection_BepInEx
 {
     public class LifeLogger : MonoBehaviour
     {
@@ -184,8 +184,8 @@ namespace UnitsLogger_BepInEx
             {
                 if (!was_initialized)
                 {
-                    initial_name = actor.data.name;
-                    initial_traits.AddRange(actor.data.traits);
+                    initial_name = actor.GetActorData().name;
+                    initial_traits.AddRange(actor.GetActorData().traits);
 
                     if (actor.equipment != null)
                     {
@@ -200,17 +200,17 @@ namespace UnitsLogger_BepInEx
                         }
                     }
 
-                    initial_children = actor.data.children;
-                    initial_profession = actor.data.profession;
+                    initial_children = actor.GetActorData().children;
+                    initial_profession = actor.GetActorData().profession;
                     initial_citizenship = actor.kingdom?.data.name;
                     initial_township = actor.city?.data.name;
                     initial_culturship = actor.getCulture()?.data.name;
-                    initial_mood = actor.data.mood;
-                    initial_kills = actor.data.kills;
+                    initial_mood = actor.GetActorData().mood;
+                    initial_kills = actor.GetActorData().kills;
                     initial_is_group_leader = actor.is_group_leader;
                     initial_texture = UnitAvatarSaver.SaveInitialAvatar(actor);
                     was_initialized = true;
-                    initial_characteristics.getList().AddRange(actor.stats.getList());
+                    initial_characteristics.getList().AddRange(actor.GetBaseStats().getList());
                     initial_era = World.world_era.id;
                     initial_time = World.world.getCurWorldTime();
                     initial_position = (actor.currentTile.pos.x, actor.currentTile.pos.y);
@@ -226,8 +226,8 @@ namespace UnitsLogger_BepInEx
             {
                 if (!was_initialized)
                 {
-                    initial_name = actor.data.name;
-                    initial_traits.AddRange(actor.data.traits);
+                    initial_name = actor.GetActorData().name;
+                    initial_traits.AddRange(actor.GetActorData().traits);
 
                     if (actor.equipment != null)
                     {
@@ -242,17 +242,17 @@ namespace UnitsLogger_BepInEx
                         }
                     }
 
-                    initial_children = actor.data.children;
-                    initial_profession = actor.data.profession;
+                    initial_children = actor.GetActorData().children;
+                    initial_profession = actor.GetActorData().profession;
                     initial_citizenship = actor.kingdom?.data.name;
                     initial_township = actor.city?.data.name;
                     initial_culturship = actor.getCulture()?.data.name;
-                    initial_mood = actor.data.mood;
-                    initial_kills = actor.data.kills;
+                    initial_mood = actor.GetActorData().mood;
+                    initial_kills = actor.GetActorData().kills;
                     initial_is_group_leader = actor.is_group_leader;
                     initial_texture = UnitAvatarSaver.SaveInitialAvatar(actor);
                     was_initialized = true;
-                    initial_characteristics.getList().AddRange(actor.stats.getList());
+                    initial_characteristics.getList().AddRange(actor.GetBaseStats().getList());
                     initial_era = World.world_era.id;
                     initial_time = World.world.getCurWorldTime();
                     initial_position = (actor.currentTile.pos.x, actor.currentTile.pos.y);

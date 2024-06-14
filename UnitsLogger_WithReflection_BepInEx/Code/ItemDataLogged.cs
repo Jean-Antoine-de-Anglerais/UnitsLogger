@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-namespace UnitsLogger_BepInEx
+namespace UnitsLogger_WithReflection_BepInEx
 {
     public class ItemDataLogged
     {
         public ItemDataLogged(ItemData data)
         {
-            temp_rank_value = data.temp_rank_value;
+            temp_rank_value = (int)Reflection.GetField(data.GetType(), data, "temp_rank_value");
             year = data.year;
             by = data.by;
-            byColor = data.byColor;
+            byColor = (string)Reflection.GetField(data.GetType(), data, "byColor");
             from = data.from;
-            fromColor = data.fromColor;
+            fromColor = (string)Reflection.GetField(data.GetType(), data, "fromColor");
             name = data.name;
             id = data.id;
             material = data.material;

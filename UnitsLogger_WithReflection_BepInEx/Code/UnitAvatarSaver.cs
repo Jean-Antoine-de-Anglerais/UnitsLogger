@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace UnitsLogger_BepInEx
+namespace UnitsLogger_WithReflection_BepInEx
 {
     // Сохранение спрайта юнита
     public class UnitAvatarSaver : MonoBehaviour
@@ -9,7 +9,7 @@ namespace UnitsLogger_BepInEx
         public void SaveAvatarImage(Actor pActor, string filePath)
         {
             // Получаем спрайт для рендера
-            Sprite spriteToRender = pActor.getSpriteToRender();
+            Sprite spriteToRender = (Sprite)Reflection.CallMethod(pActor, "getSpriteToRender");
 
             // Проверка на то, можно ли сохранить текстуру
             if (spriteToRender.texture.isReadable)
@@ -55,7 +55,7 @@ namespace UnitsLogger_BepInEx
         public static Texture2D SaveInitialAvatar(Actor pActor)
         {
             // Получаем спрайт для рендера
-            Sprite spriteToRender = pActor.getSpriteToRender();
+            Sprite spriteToRender = (Sprite)Reflection.CallMethod(pActor, "getSpriteToRender");
 
             // Проверка на то, можно ли сохранить текстуру
             if (spriteToRender.texture.isReadable)
