@@ -2734,5 +2734,25 @@
   "snow_sand": "Snow Sand",
   "ice": "Ise",
   "snow_hills": "Snow Hills",
-  "snow_block": "Snow Block"
+  "snow_block": "Snow Block",
+
+  "biome_grass": "Grass Biome",
+  "biome_savanna": "Savanna Biome",
+  "biome_jungle": "Jungle Biome",
+  "biome_desert": "Desert Biome",
+  "biome_lemon": "Lemon Biome",
+  "biome_permafrost": "Permafrost Biome",
+  "biome_swamp": "Swamp Biome",
+  "biome_crystal": "Crystal Biome",
+  "biome_enchanted": "Enchanted Biome",
+  "biome_corrupted": "Corrupted Biome",
+  "biome_infernal": "Infernal Biome",
+  "biome_candy": "Candy Biome",
+  "biome_mushroom": "Mushroom Biome",
+  "biome_wasteland": "Wasteland Biome",
+  "biome_biomass": "Biomass Biome",
+  "biome_cybertile": "Cybertile Biome",
+  "biome_pumpkin": "Pumpkin Biome",
+  "biome_tumor": "Tumor Biome",
+  "biome_sand": "Sand Biome"
 }

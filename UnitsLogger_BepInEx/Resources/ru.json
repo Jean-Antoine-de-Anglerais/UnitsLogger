@@ -2734,5 +2734,25 @@
   "snow_sand": "Заснеженный Песок",
   "ice": "Лёд",
   "snow_hills": "Заснеженные Холмы",
-  "snow_block": "Заснеженные Горы"
+  "snow_block": "Заснеженные Горы",
+
+  "biome_grass": "Травяной Биом",
+  "biome_savanna": "Саванный Биом",
+  "biome_jungle": "Джунглевый Биом",
+  "biome_desert": "Пустынный Биом",
+  "biome_lemon": "Лимонный Биом",
+  "biome_permafrost": "Замороженный Биом",
+  "biome_swamp": "Болотный Биом",
+  "biome_crystal": "Кристальный Биом",
+  "biome_enchanted": "Зачарованный Биом",
+  "biome_corrupted": "Испорченный Биом",
+  "biome_infernal": "Адский Биом",
+  "biome_candy": "Конфетный Биом",
+  "biome_mushroom": "Грибной Биом",
+  "biome_wasteland": "Пустошный Биом",
+  "biome_biomass": "Биом Биомассы",
+  "biome_cybertile": "Биом",
+  "biome_pumpkin": "Киберплитный Биом",
+  "biome_tumor": "Опухлевый Биом",
+  "biome_sand": "Песчаный Биом"
 }
