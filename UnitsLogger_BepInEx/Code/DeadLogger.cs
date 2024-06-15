@@ -125,6 +125,10 @@ namespace UnitsLogger_BepInEx
                 {
                     unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит построил дорогу по координатам {stat.Item3}";
                 }
+                else if (stat.Item4 == DataType.MakeFarm)
+                {
+                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит вспахал поле по координатам {stat.Item3}";
+                }
                 else if (stat.Item4 == DataType.BuildedConstruction)
                 {
                     unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит построил {("building_" + stat.Item3).GetLocal()}";

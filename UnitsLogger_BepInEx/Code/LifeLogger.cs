@@ -65,6 +65,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), string, DataType)> extract_resources = new List<(double, (int, int), string, DataType)>();
         // Построенные тайлы дороги
         public List<(double, (int, int), string, DataType)> create_road = new List<(double, (int, int), string, DataType)>();
+        // Вспаханные тайлы поля
+        public List<(double, (int, int), string, DataType)> make_farm = new List<(double, (int, int), string, DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";

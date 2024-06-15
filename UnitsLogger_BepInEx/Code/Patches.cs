@@ -641,6 +641,30 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Работа фермера
+        // Вспахивание поля
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(BehMakeFarm), nameof(BehMakeFarm.execute))]
+        public static void execute_BehMakeFarm_Prefix(Actor pActor)
+        {
+            if (!pActor.beh_tile_target.Type.can_be_farm)
+            {
+                return;
+            }
+            if (pActor.beh_tile_target.building != null && !pActor.beh_tile_target.building.canRemoveForFarms())
+            {
+                return;
+            }
+
+            if (StaticStuff.GetIsTracked(pActor))
+            {
+                LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.make_farm.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"X: {pActor.beh_tile_target.x}, Y: {pActor.beh_tile_target.y}", DataType.MakeFarm));
+            }
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]

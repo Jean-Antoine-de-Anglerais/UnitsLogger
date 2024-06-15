@@ -30,6 +30,8 @@ namespace UnitsLogger_BepInEx
             return output;
         }
 
+        public static LifeLogger GetLogger(this Actor actor) => actor.gameObject.GetComponent<LifeLogger>();
+
         #region Localization
         //public static string ProfessionsLocalizationRu(this object input)
         //{

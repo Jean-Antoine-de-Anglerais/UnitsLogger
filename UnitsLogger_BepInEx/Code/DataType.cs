@@ -26,6 +26,7 @@
         BuildedConstruction,
         CleanedConstruction,
         ExtractResources,
-        CreateRoad
+        CreateRoad,
+        MakeFarm
     }
 }
