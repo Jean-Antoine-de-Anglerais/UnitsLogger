@@ -28,11 +28,6 @@ namespace UnitsLogger_BepInEx
 
             if (global::Config.gameLoaded && !_initialized)
             {
-                foreach (var item in AssetManager.actor_library.list)
-                {
-                    Logger.LogMessage(item.id);
-                }
-
                 #region Локализация
                 Localizer.SetLocalization("en", "actor_set_tracked", "Trait Editor now removes traits from a creature");
                 Localizer.SetLocalization("ru", "actor_set_tracked", "Теперь вы отслеживаете жизненный путь этого юнита!");
