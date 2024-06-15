@@ -99,7 +99,7 @@ namespace UnitsLogger_BepInEx
             gender = data.gender.ToString().GetLocal();
             kills = data.kills;
 
-            species = actor.asset.nameLocale.GetLocal();
+            species = actor.asset.id.GetLocal();
 
             if (actor.s_personality != null)
             {
@@ -157,10 +157,10 @@ namespace UnitsLogger_BepInEx
         public string species = "";
 
         // Королевство юнита
-        public new Kingdom kingdom = new Kingdom();
+        public Kingdom kingdom = new Kingdom();
 
         // Город юнита
-        public new City city = new City();
+        public City city = new City();
 
         // Культура юнита
         public Culture culture = new Culture();

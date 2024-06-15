@@ -14,12 +14,12 @@ namespace UnitsLogger_BepInEx
         {
             if (LocalizedTextManager.instance.language == "ru")
             {
-                ru = JsonConvert.DeserializeObject<Dictionary<string, string>>(Encoding.UTF8.GetString(Resource.ru).Trim('\uFEFF'));
+                ru = JsonConvert.DeserializeObject<Dictionary<string, string>>(Encoding.UTF8.GetString(Resource.ru).Trim('\uFEFF', '\r'));
             }
 
             else
             {
-                en = JsonConvert.DeserializeObject<Dictionary<string, string>>(Encoding.UTF8.GetString(Resource.en).Trim('\uFEFF'));
+                en = JsonConvert.DeserializeObject<Dictionary<string, string>>(Encoding.UTF8.GetString(Resource.en).Trim('\uFEFF', '\r'));
             }
         }
 
