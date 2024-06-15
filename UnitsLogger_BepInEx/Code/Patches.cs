@@ -628,9 +628,9 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Постройка дороги
-        [HarmonyPostfix]
+        [HarmonyPrefix]
         [HarmonyPatch(typeof(BehCityCreateRoad), nameof(BehCityCreateRoad.execute))]
-        public static void execute_Postfix(Actor pActor)
+        public static void execute_BehCityCreateRoad_Prefix(Actor pActor)
         {
             if (StaticStuff.GetIsTracked(pActor))
             {
@@ -663,6 +663,9 @@ namespace UnitsLogger_BepInEx
                 logger?.make_farm.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"X: {pActor.beh_tile_target.x}, Y: {pActor.beh_tile_target.y}", DataType.MakeFarm));
             }
         }
+
+        // Посадка пшеницы
+
         #endregion
 
         #region Выпадение за границу мира
