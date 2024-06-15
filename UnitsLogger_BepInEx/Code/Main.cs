@@ -36,49 +36,49 @@ namespace UnitsLogger_BepInEx
                 Localizer.SetLocalization("ru", "actor_set_untracked", "Теперь вы не отслеживаете жизненный путь этого юнита!");
 
                 CustomDictionary.SetLocal("item_mat_base", "Base");
-                CustomDictionary.SetLocal("item_mat_base", "Базовый");
+                CustomDictionary.SetLocal("item_mat_base", "Базовый", "ru");
 
                 CustomDictionary.SetLocal("Генерал", "General");
-                CustomDictionary.SetLocal("Генерал", "Генерал");
+                CustomDictionary.SetLocal("Генерал", "Генерал", "ru");
 
                 CustomDictionary.SetLocal("Гражданская принадлежность", "Civil affiliation");
-                CustomDictionary.SetLocal("Гражданская принадлежность", "Гражданская принадлежность");
+                CustomDictionary.SetLocal("Гражданская принадлежность", "Гражданская принадлежность", "ru");
 
                 CustomDictionary.SetLocal("Профессия", "Profession");
-                CustomDictionary.SetLocal("Профессия", "Профессия");
+                CustomDictionary.SetLocal("Профессия", "Профессия", "ru");
 
                 CustomDictionary.SetLocal("Политические характеристики", "Political characteristics");
-                CustomDictionary.SetLocal("Политические характеристики", "Политические характеристики");
+                CustomDictionary.SetLocal("Политические характеристики", "Политические характеристики", "ru");
 
                 CustomDictionary.SetLocal("Тип", "Type");
-                CustomDictionary.SetLocal("Тип", "Тип");
+                CustomDictionary.SetLocal("Тип", "Тип", "ru");
 
                 CustomDictionary.SetLocal("Год создания", "Year of creation");
-                CustomDictionary.SetLocal("Год создания", "Год создания");
+                CustomDictionary.SetLocal("Год создания", "Год создания", "ru");
 
                 CustomDictionary.SetLocal("Имя", "Name");
-                CustomDictionary.SetLocal("Имя", "Имя");
+                CustomDictionary.SetLocal("Имя", "Имя", "ru");
 
                 CustomDictionary.SetLocal("Создатель", "Creator");
-                CustomDictionary.SetLocal("Создатель", "Создатель");
+                CustomDictionary.SetLocal("Создатель", "Создатель", "ru");
 
                 CustomDictionary.SetLocal("Создан в государстве", "Was created in");
-                CustomDictionary.SetLocal("Создан в государстве", "Создан в государстве");
+                CustomDictionary.SetLocal("Создан в государстве", "Создан в государстве", "ru");
 
                 CustomDictionary.SetLocal("Модификаторы", "Modifiers");
-                CustomDictionary.SetLocal("Модификаторы", "Модификаторы");
+                CustomDictionary.SetLocal("Модификаторы", "Модификаторы", "ru");
 
                 CustomDictionary.SetLocal("Биологический вид", "Biological species");
-                CustomDictionary.SetLocal("Биологический вид", "Биологический вид");
+                CustomDictionary.SetLocal("Биологический вид", "Биологический вид", "ru");
 
                 CustomDictionary.SetLocal("Место смерти", "Place of death");
-                CustomDictionary.SetLocal("Место смерти", "Место смерти");
+                CustomDictionary.SetLocal("Место смерти", "Место смерти", "ru");
 
                 CustomDictionary.SetLocal("Сводка о смерти юнита", "Unit death report");
-                CustomDictionary.SetLocal("Сводка о смерти юнита", "Сводка о смерти юнита");
+                CustomDictionary.SetLocal("Сводка о смерти юнита", "Сводка о смерти юнита", "ru");
 
                 CustomDictionary.SetLocal("Пол", "Gender");
-                CustomDictionary.SetLocal("Пол", "Пол");
+                CustomDictionary.SetLocal("Пол", "Пол", "ru");
 
                 //foreach (var profession in UnitProfession.GetValues(typeof(UnitProfession)))
                 //{

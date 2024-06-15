@@ -25,16 +25,18 @@ namespace UnitsLogger_BepInEx
 
         public static string GetLocal(this string key)
         {
-            var lang = LocalizedTextManager.instance.language;
-            var dictionary = lang == "ru" ? ru : en;
+            var dictionary = en ?? ru;
             return dictionary.TryGetValue(key, out var result) ? result : key;
         }
 
-        public static void SetLocal(this string key, string value)
+        public static void SetLocal(this string key, string value, string lang = "en")
         {
-            var lang = LocalizedTextManager.instance.language;
-            var dictionary = lang == "ru" ? ru : en;
-            dictionary[key] = value;
+            var dictionary = en ?? ru;
+
+            if (lang == dictionary[nameof(lang)])
+            {
+                dictionary[key] = value;
+            }
         }
     }
 }
