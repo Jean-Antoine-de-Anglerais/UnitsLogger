@@ -41,5 +41,16 @@ namespace UnitsLogger_BepInEx
                 parent2.makeChild(MapBox.instance.getCurWorldTime(), parent1, baby);
             }
         }
+
+        public static void updateAttributes_Transpiler(ActorData data, string attribute)
+        {
+            if (StaticStuff.GetIsTracked(data))
+            {
+                Actor actor = World.world.units.get(data.id);
+                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.social_characteristics.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), attribute, DataType.SocialCharacteristics));
+            }
+        }
     }
 }

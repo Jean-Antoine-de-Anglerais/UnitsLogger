@@ -5,6 +5,7 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace UnitsLogger_BepInEx
@@ -517,7 +518,7 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Изменение социальных характеристик юнита
-        [HarmonyPrefix]
+        /*[HarmonyPrefix]
         [HarmonyPatch(typeof(ActorData), "updateAttributes")]
         public static bool updateAttributes_Prefix(ActorData __instance, ActorAsset pAsset, Race pRace, bool pForce = false)
         {
@@ -572,6 +573,61 @@ namespace UnitsLogger_BepInEx
                 }
             }
             return false;
+        }*/
+
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(ActorData), nameof(ActorData.updateAttributes))]
+        public static IEnumerable<CodeInstruction> updateAttributes_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index_intelligence = codes.FindIndex(instruction => instruction.opcode == OpCodes.Stfld && ((FieldInfo)instruction.operand).Name == "intelligence");
+            int index_diplomacy = codes.FindIndex(instruction => instruction.opcode == OpCodes.Stfld && ((FieldInfo)instruction.operand).Name == "diplomacy");
+            int index_warfare = codes.FindIndex(instruction => instruction.opcode == OpCodes.Stfld && ((FieldInfo)instruction.operand).Name == "warfare");
+            int index_stewardship = codes.FindIndex(instruction => instruction.opcode == OpCodes.Stfld && ((FieldInfo)instruction.operand).Name == "stewardship");
+
+
+            if (index_intelligence == -1)
+            {
+                Console.WriteLine("updateAttributes_Transpiler: index_intelligence not found");
+                return codes.AsEnumerable();
+            }
+
+            if (index_diplomacy == -1)
+            {
+                Console.WriteLine("updateAttributes_Transpiler: index_diplomacy not found");
+                return codes.AsEnumerable();
+            }
+
+            if (index_warfare == -1)
+            {
+                Console.WriteLine("updateAttributes_Transpiler: index_warfare not found");
+                return codes.AsEnumerable();
+            }
+
+            if (index_stewardship == -1)
+            {
+                Console.WriteLine("updateAttributes_Transpiler: index_stewardship not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index_intelligence + 1, new CodeInstruction(OpCodes.Ldarg_0));
+            codes.Insert(index_intelligence + 2, new CodeInstruction(OpCodes.Ldstr, "intelligence"));
+            codes.Insert(index_intelligence + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.updateAttributes_Transpiler))));
+
+            codes.Insert(index_diplomacy + 1, new CodeInstruction(OpCodes.Ldarg_0));
+            codes.Insert(index_diplomacy + 2, new CodeInstruction(OpCodes.Ldstr, "diplomacy"));
+            codes.Insert(index_diplomacy + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.updateAttributes_Transpiler))));
+
+            codes.Insert(index_warfare + 1, new CodeInstruction(OpCodes.Ldarg_0));
+            codes.Insert(index_warfare + 2, new CodeInstruction(OpCodes.Ldstr, "warfare"));
+            codes.Insert(index_warfare + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.updateAttributes_Transpiler))));
+
+            codes.Insert(index_stewardship + 1, new CodeInstruction(OpCodes.Ldarg_0));
+            codes.Insert(index_stewardship + 2, new CodeInstruction(OpCodes.Ldstr, "stewardship"));
+            codes.Insert(index_stewardship + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.updateAttributes_Transpiler))));
+
+            return codes.AsEnumerable();
         }
         #endregion
 
