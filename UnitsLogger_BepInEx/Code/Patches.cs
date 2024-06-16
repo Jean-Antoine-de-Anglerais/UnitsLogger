@@ -271,7 +271,7 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Рождение юнита
-        [HarmonyPrefix]
+        /*[HarmonyPrefix]
         [HarmonyPatch(typeof(CityBehProduceUnit), "produceNewCitizen")] // Что-то из этого метода вызывает ошибки (ошибки в блокноте)
         public static bool produceNewCitizen_Prefix(CityBehProduceUnit __instance, ref bool __result, Building pBuilding, City pCity)
         {
@@ -343,6 +343,30 @@ namespace UnitsLogger_BepInEx
 
             __result = true;
             return false;
+        }*/
+
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(CityBehProduceUnit), nameof(CityBehProduceUnit.produceNewCitizen))]
+        public static IEnumerable<CodeInstruction> produceNewCitizen_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Ldc_I4_1);
+
+            if (index == -1)
+            {
+                Console.WriteLine("produceNewCitizen_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            index--;
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldloc_0));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldloc_1));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Ldloc_S, 4));
+            codes.Insert(index + 4, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.produceNewCitizen_Transpiler))));
+
+            return codes.AsEnumerable();
         }
 
         /*[HarmonyPrefix]

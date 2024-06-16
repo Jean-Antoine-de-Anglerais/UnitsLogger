@@ -31,5 +31,15 @@ namespace UnitsLogger_BepInEx
 
             parent2.makeChild(MapBox.instance.getCurWorldTime(), parent1, baby);
         }
+
+        public static void produceNewCitizen_Transpiler(Actor parent1, Actor parent2, ActorData baby)
+        {
+            parent1.makeChild(MapBox.instance.getCurWorldTime(), parent2, baby);
+
+            if (parent2 != null)
+            {
+                parent2.makeChild(MapBox.instance.getCurWorldTime(), parent1, baby);
+            }
+        }
     }
 }
