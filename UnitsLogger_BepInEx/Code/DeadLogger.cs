@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using SAES;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,9 +28,27 @@ namespace UnitsLogger_BepInEx
             return folder_path;
         }
 
-        public static void SavingLife(LifeLogger logger, UnitAvatarSaver saver, string unit_folder_path)
+        public static void SavingAll(Actor actor, string folder_path)
         {
-            string unit_file_path = Path.Combine(unit_folder_path, "Сводка о жизни юнита" + ".txt");
+            string unit_folder_path = Path.Combine(folder_path, actor.data.id);
+            if (!Directory.Exists(unit_folder_path))
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(unit_folder_path);
+                directoryInfo.Create();
+            }
+
+            actor.prepareForSave();
+            SavingInitial(actor, unit_folder_path);
+            SavingDead(actor, unit_folder_path);
+            SavingLife(actor, unit_folder_path);
+        }
+
+        public static void SavingInitial(Actor actor, string unit_folder_path)
+        {
+            LifeLogger logger = actor.GetLogger();
+            UnitAvatarSaver saver = new UnitAvatarSaver();
+
+            string unit_file_path = Path.Combine(unit_folder_path, "Сводка о начале пути юнита" + ".txt");
 
             string unit_statistic = $"{"Изначальные характеристики юнита".GetLocal()}:";
             unit_statistic += $"\rДата, когда юнит стал отслеживаемым - {logger.initial_time.GetDateFromTime()}";
@@ -73,6 +92,53 @@ namespace UnitsLogger_BepInEx
             }
 
             unit_statistic += $"\r\rИзначальные характеристики:\r";
+            foreach (var stat in logger.initial_characteristics.getList())
+            {
+                BaseStatAsset asset = stat.getAsset();
+                if (asset.tooltip_multiply_for_visual_number != 1f)
+                {
+                    stat.value *= asset.tooltip_multiply_for_visual_number;
+                }
+
+                string text;
+                if (stat.value != (float)((int)stat.value))
+                {
+                    text = stat.value.ToString("0.0");
+                }
+                else
+                {
+                    text = stat.value.ToString();
+                }
+                if (asset.show_as_percents)
+                {
+                    text += "%";
+                }
+
+                unit_statistic += $"{stat.id.GetLocal()} - {text}\r";
+            }
+
+            using (StreamWriter writer = new StreamWriter(unit_file_path))
+            {
+                writer.WriteLine(unit_statistic);
+            }
+
+            string avatar_path = Path.Combine(unit_folder_path, "Image Life.png");
+            if (logger.initial_texture != null)
+            {
+                saver.SaveAvatarImage(logger.initial_texture, avatar_path);
+            }
+
+            logger = null;
+            saver = null;
+        }
+
+        public static void SavingLife(Actor actor, string unit_folder_path)
+        {
+            LifeLogger logger = actor.GetLogger();
+
+            string unit_file_path = Path.Combine(unit_folder_path, "Сводка о жизни юнита" + ".txt");
+
+            string unit_statistic = $"Изначальные характеристики:\r";
             foreach (var stat in logger.initial_characteristics.getList())
             {
                 BaseStatAsset asset = stat.getAsset();
@@ -187,27 +253,13 @@ namespace UnitsLogger_BepInEx
                 writer.WriteLine(unit_statistic);
             }
 
-            string avatar_path = Path.Combine(unit_folder_path, "Image Life.png");
-            if (logger.initial_texture != null)
-            {
-                saver.SaveAvatarImage(logger.initial_texture, avatar_path);
-            }
+            logger = null;
         }
 
-        public static void SavingDead(Actor actor, string folder_path)
+        public static void SavingDead(Actor actor, string unit_folder_path)
         {
-            actor.prepareForSave();
             ActorLogged actor_logged = new ActorLogged(actor);
             UnitAvatarSaver saver = new UnitAvatarSaver();
-            LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
-
-            string unit_folder_path = Path.Combine(folder_path, actor_logged.id);
-            if (!Directory.Exists(unit_folder_path))
-            {
-                DirectoryInfo directoryInfo = new DirectoryInfo(unit_folder_path);
-                directoryInfo.Create();
-            }
-            SavingLife(logger, saver, unit_folder_path);
 
             string avatar_path = Path.Combine(unit_folder_path, "Image Dead.png");
             saver.SaveAvatarImage(actor, avatar_path);
@@ -359,7 +411,6 @@ namespace UnitsLogger_BepInEx
             actor_logged.ClearAll();
             actor_logged = null;
             saver = null;
-            logger = null;
         }
     }
 }

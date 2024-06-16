@@ -48,7 +48,7 @@ namespace UnitsLogger_BepInEx
             {
                 if (__instance.isAlive())
                 {
-                    DeadLogger.SavingDead(__instance, DeadLogger.Prepare());
+                    DeadLogger.SavingAll(__instance, DeadLogger.Prepare());
                     StaticStuff.SetIsTracked(__instance, false);
 
                     // Уничтожение компонента LifeLogger
