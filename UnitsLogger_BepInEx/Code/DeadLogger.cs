@@ -267,18 +267,18 @@ namespace UnitsLogger_BepInEx
             unit_statistic += $"\r\r{"Подробные сведения о месте смерти".GetLocal()}:\r";
             unit_statistic += actor.currentTile.zone.city != null ? $"{"Город, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getCityName()}\r" : "";
             unit_statistic += actor.currentTile.zone.culture != null ? $"{"Культура, на территории которой умер юнит".GetLocal()} - {actor.currentTile.zone.culture.name}\r" : "";
-            unit_statistic += actor.currentTile.zone.city.kingdom != null ? $"{"Государство, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.kingdom.name}\r" : "";
-            unit_statistic += actor.currentTile.zone.city.getRoyalClan() != null ? $"{"Клан, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getRoyalClan().name}\r" : "";
+            unit_statistic += actor.currentTile.zone.city?.kingdom != null ? $"{"Государство, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.kingdom.name}\r" : "";
+            unit_statistic += actor.currentTile.zone.city?.getRoyalClan() != null ? $"{"Клан, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getRoyalClan().name}\r" : "";
             unit_statistic += $"{"Чанк, где умер юнит".GetLocal()} - X: {actor.currentTile.zone.x}, Y: {actor.currentTile.zone.y}\r";
-            unit_statistic += actor.currentTile.zone.abandoned.Count != 0 ? $"{"Заброшенные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.abandoned.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.food.Count != 0 ? $"{"Съедобные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.food.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.minerals.Count != 0 ? $"{"Минералы на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.minerals.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.plants.Count != 0 ? $"{"Растения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.plants.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.trees.Count != 0 ? $"{"Деревья на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.trees.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.wheat.Count != 0 ? $"{"Пшеница на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.wheat.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.ruins.Count != 0 ? $"{"Руины на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.ruins.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.buildings.Count != 0 ? $"{"Цивилизационные постройки на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.buildings_all.Count != 0 ? $"{"Все строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings_all.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.abandoned?.Count != 0 ? $"{"Заброшенные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.abandoned.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.food?.Count != 0 ? $"{"Съедобные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.food?.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.minerals?.Count != 0 ? $"{"Минералы на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.minerals?.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.plants?.Count != 0 ? $"{"Растения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.plants?.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.trees?.Count != 0 ? $"{"Деревья на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.trees?.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.wheat?.Count != 0 ? $"{"Пшеница на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.wheat?.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.ruins?.Count != 0 ? $"{"Руины на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.ruins?.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.buildings?.Count != 0 ? $"{"Цивилизационные постройки на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings?.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.buildings_all?.Count != 0 ? $"{"Все строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings_all?.Select(b => b.asset.id.GetLocal()))}\r" : "";
 
 
             //unit_statistic += !(logger.received_names.Count == 0) ? $"\r\r{"Случаи смены имён"}: {string.Join(", ", logger.received_names.Select(n => $"{n.Value} - {n.Key.GetDateFromTime()}"))}" : "";

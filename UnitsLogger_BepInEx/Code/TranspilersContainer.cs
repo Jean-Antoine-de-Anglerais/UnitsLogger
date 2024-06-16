@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UnitsLogger_BepInEx
+﻿namespace UnitsLogger_BepInEx
 {
     public class TranspilersContainer
     {
@@ -16,6 +10,16 @@ namespace UnitsLogger_BepInEx
                 ItemDataLogged data_logged = new ItemDataLogged(item);
 
                 logger?.manufactured_items.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), data_logged, DataType.ManufacturedItem));
+            }
+        }
+
+        public static void makeEgg_Transpiler(Actor parent, Actor baby)
+        {
+            if (StaticStuff.GetIsTracked(parent))
+            {
+                LifeLogger logger = parent.gameObject.GetComponent<LifeLogger>();
+
+                logger?.born_children.Add((World.world.getCurWorldTime(), parent.GetActorPosition(), baby.getName(), baby.data.gender, DataType.Children));
             }
         }
     }

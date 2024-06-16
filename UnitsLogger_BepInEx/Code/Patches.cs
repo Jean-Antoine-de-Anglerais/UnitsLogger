@@ -2,10 +2,10 @@
 using ai.behaviours;
 using BepInEx;
 using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using System;
 
 namespace UnitsLogger_BepInEx
 {
@@ -399,7 +399,7 @@ namespace UnitsLogger_BepInEx
             return false;
         }
 
-        [HarmonyPrefix]
+        /*[HarmonyPrefix]
         [HarmonyPatch(typeof(BehTryBabymaking), "makeEgg")]
         public static bool makeEgg_Prefix(Actor pActor)
         {
@@ -426,10 +426,31 @@ namespace UnitsLogger_BepInEx
             if (StaticStuff.GetIsTracked(pActor))
             {
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
-
+        
                 logger?.born_children.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), actor.getName(), actor.data.gender, DataType.Children));
             }
             return false;
+        }*/
+
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehTryBabymaking), nameof(BehTryBabymaking.makeEgg))]
+        public static IEnumerable<CodeInstruction> makeEgg_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindIndex(instruction => instruction.opcode == OpCodes.Stloc_1);
+
+            if (index == -1)
+            {
+                Console.WriteLine("makeEgg_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldloc_1));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.makeEgg_Transpiler))));
+
+            return codes.AsEnumerable();
         }
         #endregion
 
