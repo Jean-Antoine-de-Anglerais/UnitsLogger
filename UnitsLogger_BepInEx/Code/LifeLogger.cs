@@ -136,13 +136,13 @@ namespace UnitsLogger_BepInEx
                 List<(double, (int, int), string, DataType)> born_children_with_partner_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var child in born_children_with_partner)
                 {
-                    born_children_with_partner_list.Add((child.Item1, (child.Item2.Item1, child.Item2.Item2), $"по имени {child.Item3}, имеющего пол {("gender_" + child.Item4.ToString()).GetLocal()}, вступив в отношения с юнитом по имени {child.Item5}, имеющим пол {("gender_" + child.Item6.ToString()).GetLocal()}", child.Item7));
+                    born_children_with_partner_list.Add((child.Item1, (child.Item2.Item1, child.Item2.Item2), $"по имени {child.Item3}, имеющего пол {child.Item4.ToString().GetLocal()}, вступив в отношения с юнитом по имени {child.Item5}, имеющим пол {child.Item6.ToString().GetLocal()}", child.Item7));
                 }
 
                 List<(double, (int, int), string, DataType)> born_children_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var child in born_children)
                 {
-                    born_children_list.Add((child.Item1, (child.Item2.Item1, child.Item2.Item2), $"по имени {child.Item3}, имеющего пол {("gender_" + child.Item4.ToString()).GetLocal()}", child.Item5));
+                    born_children_list.Add((child.Item1, (child.Item2.Item1, child.Item2.Item2), $"по имени {child.Item3}, имеющего пол {child.Item4.ToString().GetLocal()}", child.Item5));
                 }
 
                 temp_dict.AddRange(received_traits);
@@ -167,6 +167,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(extract_resources);
                 temp_dict.AddRange(create_road);
                 temp_dict.AddRange(born_children_with_partner_list);
+                temp_dict.AddRange(make_farm);
 
                 return temp_dict;
             }

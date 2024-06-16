@@ -660,7 +660,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.make_farm.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"X: {pActor.beh_tile_target.x}, Y: {pActor.beh_tile_target.y}", DataType.MakeFarm));
+                logger?.make_farm.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"top_type: {pActor.beh_tile_target.top_type.id}, main_type: {pActor.beh_tile_target.main_type.id}, cur_tile_type: {pActor.beh_tile_target.cur_tile_type.id}, Height: {pActor.beh_tile_target.Height}", DataType.MakeFarm));
             }
         }
 

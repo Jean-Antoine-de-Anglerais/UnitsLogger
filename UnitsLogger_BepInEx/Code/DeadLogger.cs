@@ -105,98 +105,81 @@ namespace UnitsLogger_BepInEx
 
             foreach (var stat in sortedList)
             {
-                if (stat.Item4 == DataType.Names)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил имя на {stat.Item3}";
-                }
-                else if (stat.Item4 == DataType.Children)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит родил ребёнка {stat.Item3}";
-                }
-                else if (stat.Item4 == DataType.CitizenJobStart)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит начал работать как {stat.Item3.GetLocal()}";
-                }
-                else if (stat.Item4 == DataType.ExtractResources)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит добыл ресурсы из {("building_" + stat.Item3).GetLocal()}";
-                }
-                else if (stat.Item4 == DataType.CreateRoad)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит построил дорогу по координатам {stat.Item3}";
-                }
-                else if (stat.Item4 == DataType.MakeFarm)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит вспахал поле по координатам {stat.Item3}";
-                }
-                else if (stat.Item4 == DataType.BuildedConstruction)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит построил {("building_" + stat.Item3).GetLocal()}";
-                }
-                else if (stat.Item4 == DataType.KilledUnits)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит убил {stat.Item3}";
-                }
-                else if (stat.Item4 == DataType.CleanedConstruction)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит убрал {("building_" + stat.Item3).GetLocal()}";
-                }
-                else if (stat.Item4 == DataType.GetResources)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит добыл {stat.Item3}";
-                }
-                else if (stat.Item4 == DataType.GiveResources)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит положил в хранилище города: {stat.Item3}";
-                }
-                else if (stat.Item4 == DataType.CitizenJobEnd)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит закончил свою работу как {stat.Item3.GetLocal()}";
-                }
-                else if (stat.Item4 == DataType.Food)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит съел {stat.Item3.GetLocal()}";
-                }
-                else if (stat.Item4 == DataType.Culturships)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил культуру на {stat.Item3}";
-                }
-                else if (stat.Item4 == DataType.ReceivedTraits)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит получил черту {("trait_" + stat.Item3).GetLocal()}";
-                }
-                else if (stat.Item4 == DataType.LostTraits)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит потерял черту {("trait_" + stat.Item3).GetLocal()}";
-                }
-                else if (stat.Item4 == DataType.Townships)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2}- юнит сменил город на {stat.Item3}";
-                }
-                else if (stat.Item4 == DataType.Сitizenships)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил государство на {stat.Item3}";
-                }
-                else if (stat.Item4 == DataType.Professions)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил профессию на {stat.Item3.GetLocal()}";
-                }
-                else if (stat.Item4 == DataType.Moods)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит сменил настроение на {("mood_" + stat.Item3).GetLocal()}";
-                }
-                else if (stat.Item4 == DataType.SocialCharacteristics)
-                {
-                    unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - юнит увеличил характеристику {stat.Item3.GetLocal()} на 1";
-                }
-                else if (stat.Item4 == DataType.NewEra)
-                {
-                    unit_statistic += $"{stat.Item1.GetDateFromTime()} - мировая эпоха сменилась на {(stat.Item3 + "_title").GetLocal()}";
+                unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - ";
+
+                switch (stat.Item4)
+                {                    
+                    case DataType.Names:
+                        unit_statistic += $"юнит сменил имя на {stat.Item3}";
+                        break;
+                    case DataType.Children:
+                        unit_statistic += $"юнит родил ребёнка {stat.Item3}";
+                        break;
+                    case DataType.CitizenJobStart:
+                        unit_statistic += $"юнит начал работать как {stat.Item3.GetLocal()}";
+                        break;
+                    case DataType.ExtractResources:
+                        unit_statistic += $"юнит добыл ресурсы из {("building_" + stat.Item3).GetLocal()}";
+                        break;
+                    case DataType.CreateRoad:
+                        unit_statistic += $"юнит построил дорогу на месте тайла со следующими характеристиками: {stat.Item3}";
+                        break;
+                    case DataType.MakeFarm:
+                        unit_statistic += $"юнит вспахал поле на месте тайла со следующими характеристиками: {stat.Item3}";
+                        break;
+                    case DataType.BuildedConstruction:
+                        unit_statistic += $"юнит построил {("building_" + stat.Item3).GetLocal()}";
+                        break;
+                    case DataType.KilledUnits:
+                        unit_statistic += $"юнит убил {stat.Item3}";
+                        break;
+                    case DataType.CleanedConstruction:
+                        unit_statistic += $"юнит убрал {("building_" + stat.Item3).GetLocal()}";
+                        break;
+                    case DataType.GetResources:
+                        unit_statistic += $"юнит добыл {stat.Item3}";
+                        break;
+                    case DataType.GiveResources:
+                        unit_statistic += $"юнит положил в хранилище города: {stat.Item3}";
+                        break;
+                    case DataType.CitizenJobEnd:
+                        unit_statistic += $"юнит закончил свою работу как {stat.Item3.GetLocal()}";
+                        break;
+                    case DataType.Food:
+                        unit_statistic += $"юнит съел {stat.Item3.GetLocal()}";
+                        break;
+                    case DataType.Culturships:
+                        unit_statistic += $"юнит сменил культуру на {stat.Item3}";
+                        break;
+                    case DataType.ReceivedTraits:
+                        unit_statistic += $"юнит получил черту {("trait_" + stat.Item3).GetLocal()}";
+                        break;
+                    case DataType.LostTraits:
+                        unit_statistic += $"юнит потерял черту {("trait_" + stat.Item3).GetLocal()}";
+                        break;
+                    case DataType.Townships:
+                        unit_statistic += $"юнит сменил город на {stat.Item3}";
+                        break;
+                    case DataType.Сitizenships:
+                        unit_statistic += $"юнит сменил государство на {stat.Item3}";
+                        break;
+                    case DataType.Professions:
+                        unit_statistic += $"юнит сменил профессию на {stat.Item3.GetLocal()}";
+                        break;
+                    case DataType.Moods:
+                        unit_statistic += $"юнит сменил настроение на {("mood_" + stat.Item3).GetLocal()}";
+                        break;
+                    case DataType.SocialCharacteristics:
+                        unit_statistic += $"юнит увеличил характеристику {stat.Item3.GetLocal()} на 1";
+                        break;
+                    case DataType.NewEra:
+                        unit_statistic += $"мировая эпоха сменилась на {(stat.Item3 + "_title").GetLocal()}";
+                        break;
                 }
                 unit_statistic += $"\r\r";
             }
 
-            unit_statistic += $"{(World.world.getCurWorldTime()).GetDateFromTime()} - юнит умер\r";
+            unit_statistic += $"{World.world.getCurWorldTime().GetDateFromTime()} - юнит умер\r";
 
 
             using (StreamWriter writer = new StreamWriter(unit_file_path))
@@ -236,21 +219,39 @@ namespace UnitsLogger_BepInEx
             unit_statistic += $"\r{"Имя".GetLocal()} - {actor_logged.name}";
             unit_statistic += $"\rГоды жизни - с {actor_logged.born_in} по {actor_logged.dead_in}";
             unit_statistic += $"\r{"world_current_age_title".GetLocal()} - {(World.world_era.id + "_title").GetLocal()}";
-            unit_statistic += !(actor_logged.traits.Count == 0) ? $"\r{"traits".GetLocal()} - {string.Join(", ", actor_logged.traits.Select(t => t))}" : "";
+            unit_statistic += actor_logged.traits.Count != 0 ? $"\r{"traits".GetLocal()} - {string.Join(", ", actor_logged.traits.Select(t => t))}" : "";
             unit_statistic += $"\r{"Профессия".GetLocal()} - {actor_logged.profession}" + (actor.is_group_leader ? $", {"Генерал".GetLocal()}" : "");
             unit_statistic += $"\r{"Место смерти".GetLocal()} - X: {actor_logged.place_of_death.Item1}, Y: {actor_logged.place_of_death.Item2}";
-            unit_statistic += !(actor_logged.resources.Count == 0) ? $"\r{"resources".GetLocal()} - {string.Join(", ", actor_logged.resources.Select(r => $"{r.Key}: {r.Value}"))}" : "";
+            unit_statistic += actor_logged.resources.Count != 0 ? $"\r{"resources".GetLocal()} - {string.Join(", ", actor_logged.resources.Select(r => $"{r.Key}: {r.Value}"))}" : "";
             unit_statistic += !actor_logged.favorite_food.IsNullOrWhiteSpace() ? $"\r{"creature_statistics_favorite_food".GetLocal()} - {actor_logged.favorite_food}" : "";
             unit_statistic += !actor_logged.mood.IsNullOrWhiteSpace() ? $"\r {"creature_statistics_mood".GetLocal()} - {actor_logged.mood}" : "";
             unit_statistic += $"\r{"Пол".GetLocal()} - {actor_logged.gender}";
-            unit_statistic += !(actor_logged.kills == 0) ? $"\r{"creature_statistics_kills".GetLocal()} - {actor_logged.kills}" : "";
+            unit_statistic += actor_logged.kills != 0 ? $"\r{"creature_statistics_kills".GetLocal()} - {actor_logged.kills}" : "";
             unit_statistic += $"\r{"Биологический вид".GetLocal()} - {actor_logged.species}";
             unit_statistic += actor.hasClan() ? $"\r {"influence".GetLocal()} - {actor_logged.influence}" : "";
             unit_statistic += actor.asset.needFood ? $"\r{"hunger".GetLocal()} - {actor_logged.hunger}%" : "";
-            unit_statistic += !(actor_logged.level == 0) ? $"\r{"creature_statistics_character_level".GetLocal()} - {actor_logged.level}" : "";
-            unit_statistic += !(actor_logged.experience == 0) ? $"\r{"creature_statistics_character_experience".GetLocal()} - {actor_logged.experience}" : "";
+            unit_statistic += actor_logged.level != 0 ? $"\r{"creature_statistics_character_level".GetLocal()} - {actor_logged.level}" : "";
+            unit_statistic += actor_logged.experience != 0 ? $"\r{"creature_statistics_character_experience".GetLocal()} - {actor_logged.experience}" : "";
             unit_statistic += !actor_logged.personality.IsNullOrWhiteSpace() ? $"\r{"creature_statistics_personality".GetLocal()} - {actor_logged.personality}" : "";
-            unit_statistic += !(actor_logged.children == 0) ? $"\r{"creature_statistics_children".GetLocal()} - {actor_logged.children}" : "";
+            unit_statistic += actor_logged.children != 0 ? $"\r{"creature_statistics_children".GetLocal()} - {actor_logged.children}" : "";
+
+
+            unit_statistic += $"\r\r{"Подробные сведения о месте смерти".GetLocal()}:\r";
+            unit_statistic += actor.currentTile.zone.city != null ? $"{"Город, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getCityName()}\r" : "";
+            unit_statistic += actor.currentTile.zone.culture != null ? $"{"Культура, на территории которой умер юнит".GetLocal()} - {actor.currentTile.zone.culture.name}\r" : "";
+            unit_statistic += actor.currentTile.zone.city.kingdom != null ? $"{"Государство, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.kingdom.name}\r" : "";
+            unit_statistic += actor.currentTile.zone.city.getRoyalClan() != null ? $"{"Клан, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getRoyalClan().name}\r" : "";
+            unit_statistic += $"{"Чанк, где умер юнит".GetLocal()} - X: {actor.currentTile.zone.x}, Y: {actor.currentTile.zone.y}\r";
+            unit_statistic += actor.currentTile.zone.abandoned.Count != 0 ? $"{"Заброшенные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.abandoned.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.food.Count != 0 ? $"{"Съедобные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.food.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.minerals.Count != 0 ? $"{"Минералы на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.minerals.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.plants.Count != 0 ? $"{"Растения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.plants.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.trees.Count != 0 ? $"{"Деревья на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.trees.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.wheat.Count != 0 ? $"{"Пшеница на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.wheat.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.ruins.Count != 0 ? $"{"Руины на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.ruins.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.buildings.Count != 0 ? $"{"Цивилизационные постройки на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.buildings_all.Count != 0 ? $"{"Все строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings_all.Select(b => b.asset.id.GetLocal()))}\r" : "";
+
 
             //unit_statistic += !(logger.received_names.Count == 0) ? $"\r\r{"Случаи смены имён"}: {string.Join(", ", logger.received_names.Select(n => $"{n.Value} - {n.Key.GetDateFromTime()}"))}" : "";
             //unit_statistic += !(logger.received_traits.Count == 0) ? $"\r{"Случаи получения черт"}: {string.Join(", ", logger.received_traits.Select(n => $"{("trait_" + n.Item2).GetLocalization()} - {n.Item1.GetDateFromTime()}"))}" : "";
@@ -270,7 +271,7 @@ namespace UnitsLogger_BepInEx
                 if (actor_logged.culture != null) { civil_affiliation.Add("culture".GetLocal(), actor_logged.culture.name); }
 
 
-                unit_statistic += !(civil_affiliation.Count == 0) ? $"\r\r{"Гражданская принадлежность".GetLocal()}: {string.Join(", ", civil_affiliation.Select(c => $"{c.Key} - {c.Value}"))}" : "";
+                unit_statistic += civil_affiliation.Count != 0 ? $"\r\r{"Гражданская принадлежность".GetLocal()}: {string.Join(", ", civil_affiliation.Select(c => $"{c.Key} - {c.Value}"))}" : "";
 
                 //unit_statistic += $"\r\rГражданская принадлежность:";
                 //unit_statistic += !(actor_logged.kingdom == null) ? $"\rКоролевство - {actor_logged.kingdom.name}" : "";
@@ -330,7 +331,7 @@ namespace UnitsLogger_BepInEx
                     unit_statistic += $"\r{"Тип".GetLocal()} - {("item_" + item.id).GetLocal()}";
                     unit_statistic += $"\r{"item_material".GetLocal()} - {("item_mat_" + item.material).GetLocal()}";
                     unit_statistic += !item.name.IsNullOrWhiteSpace() ? $"\r{"Имя".GetLocal()} - {item.name}" : "";
-                    unit_statistic += !(item.kills == 0) ? $"\r{"creature_statistics_kills".GetLocal()} - {item.kills}" : "";
+                    unit_statistic += item.kills != 0 ? $"\r{"creature_statistics_kills".GetLocal()} - {item.kills}" : "";
                     unit_statistic += $"\r{"Год создания".GetLocal()} - {item.year}";
                     unit_statistic += !item.by.IsNullOrWhiteSpace() ? $"\r{"Создатель".GetLocal()} - {item.by}" : "";
                     unit_statistic += !item.from.IsNullOrWhiteSpace() ? $"\r{"Создан в государстве".GetLocal()} - {item.from}" : "";
