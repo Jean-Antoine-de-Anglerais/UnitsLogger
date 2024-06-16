@@ -158,7 +158,7 @@ namespace UnitsLogger_BepInEx
                         unit_statistic += $"юнит начал работать как {stat.Item3.GetLocal()}";
                         break;
                     case DataType.ManufacturedItem:
-                        unit_statistic += $"юнит произвёл предмет {stat.Item3.GetLocal()}";
+                        unit_statistic += $"юнит произвёл предмет: {stat.Item3.GetLocal()}";
                         break;
                     case DataType.ExtractResources:
                         unit_statistic += $"юнит добыл ресурсы из {("building_" + stat.Item3).GetLocal()}";
