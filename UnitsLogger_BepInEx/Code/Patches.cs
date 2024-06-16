@@ -345,7 +345,7 @@ namespace UnitsLogger_BepInEx
             return false;
         }
 
-        [HarmonyPrefix]
+        /*[HarmonyPrefix]
         [HarmonyPatch(typeof(BehMakeBaby), "makeBaby")]
         public static bool makeBaby_Prefix(Actor pActor1, Actor pActor2)
         {
@@ -397,6 +397,30 @@ namespace UnitsLogger_BepInEx
 
             MapBox.instance.gameStats.data.creaturesBorn++;
             return false;
+        }*/
+
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehMakeBaby), nameof(BehMakeBaby.makeBaby))]
+        public static IEnumerable<CodeInstruction> makeBaby_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Ret);
+
+            if (index == -1)
+            {
+                Console.WriteLine("makeBaby_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            index--;
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldarg_2));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Ldloc_2));
+            codes.Insert(index + 4, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.makeBaby_Transpiler))));
+
+            return codes.AsEnumerable();
         }
 
         /*[HarmonyPrefix]

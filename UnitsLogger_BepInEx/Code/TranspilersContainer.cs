@@ -1,4 +1,6 @@
-﻿namespace UnitsLogger_BepInEx
+﻿using UnityEngine;
+
+namespace UnitsLogger_BepInEx
 {
     public class TranspilersContainer
     {
@@ -21,6 +23,13 @@
 
                 logger?.born_children.Add((World.world.getCurWorldTime(), parent.GetActorPosition(), baby.getName(), baby.data.gender, DataType.Children));
             }
+        }
+
+        public static void makeBaby_Transpiler(Actor parent1, Actor parent2, Actor baby)
+        {
+            parent1.makeChild(MapBox.instance.getCurWorldTime(), parent2, baby);
+
+            parent2.makeChild(MapBox.instance.getCurWorldTime(), parent1, baby);
         }
     }
 }
