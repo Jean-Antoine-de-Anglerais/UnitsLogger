@@ -28,9 +28,10 @@ namespace UnitsLogger_BepInEx
 
             if (global::Config.gameLoaded && !_initialized)
             {
-                foreach (var item in AssetManager.biome_library.list)
+                foreach (var item in AssetManager.base_stats_library.list)
                 {
-                    Logger.LogMessage("  " + '"' + item.id + '"' + ": " + '"' + '"' + ',');
+                    //Logger.LogMessage("  " + '"' + item.id + '"' + ": " + '"' + '"' + ',');
+                    Logger.LogMessage(item.id);
                 }
                 //
                 //Logger.LogMessage("=================================================================================================");

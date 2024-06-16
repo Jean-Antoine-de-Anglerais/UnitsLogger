@@ -137,33 +137,7 @@ namespace UnitsLogger_BepInEx
 
             string unit_file_path = Path.Combine(unit_folder_path, "Сводка о жизни юнита" + ".txt");
 
-            string unit_statistic = $"Изначальные характеристики:\r";
-            foreach (var stat in logger.initial_characteristics.getList())
-            {
-                BaseStatAsset asset = stat.getAsset();
-                if (asset.tooltip_multiply_for_visual_number != 1f)
-                {
-                    stat.value *= asset.tooltip_multiply_for_visual_number;
-                }
-
-                string text;
-                if (stat.value != (float)((int)stat.value))
-                {
-                    text = stat.value.ToString("0.0");
-                }
-                else
-                {
-                    text = stat.value.ToString();
-                }
-                if (asset.show_as_percents)
-                {
-                    text += "%";
-                }
-
-                unit_statistic += $"{stat.id.GetLocal()} - {text}\r";
-            }
-
-            unit_statistic += $"\r\rИстория жизни:\r";
+            string unit_statistic = $"История жизни:\r";
 
             List<(double, (int, int), string, DataType)> sortedList = logger.main_dict; // Ранее это вызывало бесконечную рекурсию, из-за которой игра завершалась
             sortedList = sortedList.OrderBy(item => item.Item1).ToList();
@@ -182,6 +156,9 @@ namespace UnitsLogger_BepInEx
                         break;
                     case DataType.CitizenJobStart:
                         unit_statistic += $"юнит начал работать как {stat.Item3.GetLocal()}";
+                        break;
+                    case DataType.ManufacturedItem:
+                        unit_statistic += $"юнит произвёл предмет {stat.Item3.GetLocal()}";
                         break;
                     case DataType.ExtractResources:
                         unit_statistic += $"юнит добыл ресурсы из {("building_" + stat.Item3).GetLocal()}";

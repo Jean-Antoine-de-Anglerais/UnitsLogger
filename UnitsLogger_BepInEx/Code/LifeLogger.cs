@@ -40,7 +40,7 @@ namespace UnitsLogger_BepInEx
         // Случаи, когда юнит что-то ел
         public List<(double, (int, int), string, DataType)> eaten_food = new List<(double, (int, int), string, DataType)>();
         // Случаи производства предметов
-        public List<(double, ItemData)> manufactured_items = new List<(double, ItemData)>();
+        public List<(double, (int, int), ItemDataLogged, DataType)> manufactured_items = new List<(double, (int, int), ItemDataLogged, DataType)>();
         // Случаи убийства кого-либо
         public List<(double, (int, int), string, DataType)> killed_units = new List<(double, (int, int), string, DataType)>();
         // Случаи изменение социальных характеристик, не связанные с чертами и чем-то таким
@@ -145,6 +145,12 @@ namespace UnitsLogger_BepInEx
                     born_children_list.Add((child.Item1, (child.Item2.Item1, child.Item2.Item2), $"по имени {child.Item3}, имеющего пол {child.Item4.ToString().GetLocal()}", child.Item5));
                 }
 
+                List<(double, (int, int), string, DataType)> manufactured_items_list = new List<(double, (int, int), string, DataType)>();
+                foreach (var item in manufactured_items)
+                {
+                    manufactured_items_list.Add((item.Item1, (item.Item2.Item1, item.Item2.Item2), item.Item3.id, item.Item4));
+                }
+
                 temp_dict.AddRange(received_traits);
                 temp_dict.AddRange(received_name_list);
                 temp_dict.AddRange(received_professions_list);
@@ -168,6 +174,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(create_road);
                 temp_dict.AddRange(born_children_with_partner_list);
                 temp_dict.AddRange(make_farm);
+                temp_dict.AddRange(manufactured_items_list);
 
                 return temp_dict;
             }

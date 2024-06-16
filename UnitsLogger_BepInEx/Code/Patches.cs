@@ -2,7 +2,10 @@
 using ai.behaviours;
 using BepInEx;
 using HarmonyLib;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System;
 
 namespace UnitsLogger_BepInEx
 {
@@ -676,6 +679,29 @@ namespace UnitsLogger_BepInEx
             }
         }
 
+        #endregion
+
+        #region Производство предмета
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(City), nameof(City.produceItem))]
+        public static IEnumerable<CodeInstruction> produceItem_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindIndex(instruction => instruction.opcode == OpCodes.Pop);
+
+            if (index == -1)
+            {
+                Console.WriteLine("produceItem_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldloc_S, 6));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.produceItem_Transpiler))));
+
+            return codes.AsEnumerable();
+        }
         #endregion
 
         #region Выпадение за границу мира
