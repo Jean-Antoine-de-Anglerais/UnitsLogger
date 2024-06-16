@@ -757,7 +757,7 @@ namespace UnitsLogger_BepInEx
         {
             var codes = new List<CodeInstruction>(instructions);
 
-            int index = codes.FindIndex(instruction => instruction.opcode == OpCodes.Pop);
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Pop);
 
             if (index == -1)
             {
