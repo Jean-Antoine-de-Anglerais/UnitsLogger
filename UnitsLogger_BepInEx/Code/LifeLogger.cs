@@ -69,8 +69,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), string, DataType)> create_road = new List<(double, (int, int), string, DataType)>();
         // Вспаханные тайлы поля
         public List<(double, (int, int), string, DataType)> make_farm = new List<(double, (int, int), string, DataType)>();
-        // Основанные государства
-        public List<(double, (int, int), string, (int, int), DataType)> founded_cities = new List<(double, (int, int), string, (int, int), DataType)>();
+        // Основанные государства (дата, координаты юнита, было ли основано королевство, название города, название королевства, координаты чанка королевства
+        public List<(double, (int, int), bool, string, string, (int, int), DataType)> founded_cities = new List<(double, (int, int), bool, string, string, (int, int), DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -158,7 +158,14 @@ namespace UnitsLogger_BepInEx
                 List<(double, (int, int), string, DataType)> founded_cities_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var city in founded_cities)
                 {
-                    founded_cities_list.Add((city.Item1, (city.Item2.Item1, city.Item2.Item2), city.Item3 + $", на чанке с координатами X{city.Item4.Item1}, Y{city.Item4.Item2}", city.Item5));
+                    if (city.Item3)
+                    {
+                        founded_cities_list.Add((city.Item1, (city.Item2.Item1, city.Item2.Item2), city.Item4 + $", и королевство под названием {city.Item5}, на чанке с координатами X{city.Item6.Item1}, Y{city.Item6.Item2}", city.Item7));
+                    }
+                    else 
+                    {
+                        founded_cities_list.Add((city.Item1, (city.Item2.Item1, city.Item2.Item2), city.Item4 + $", на чанке с координатами X{city.Item6.Item1}, Y{city.Item6.Item2}", city.Item7));
+                    }
                 }
 
 

@@ -59,7 +59,12 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.founded_cities.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), city.name, (zone.x, zone.y), DataType.FoundedCities));
+                if (kingdom == null)
+                {
+                    logger?.founded_cities.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), true, city.name, actor.kingdom.name, (zone.x, zone.y), DataType.FoundedCities));
+                }
+
+                logger?.founded_cities.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), false, city.name, "", (zone.x, zone.y), DataType.FoundedCities));
             }
         }
     }
