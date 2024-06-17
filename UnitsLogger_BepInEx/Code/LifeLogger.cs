@@ -71,6 +71,9 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), string, DataType)> make_farm = new List<(double, (int, int), string, DataType)>();
         // Основанные государства (дата, координаты юнита, было ли основано королевство, название города, название королевства, координаты чанка королевства
         public List<(double, (int, int), bool, string, string, (int, int), DataType)> founded_cities = new List<(double, (int, int), bool, string, string, (int, int), DataType)>();
+        // Съеденные животным постройки
+        public List<(double, (int, int), string, DataType)> eaten_buildings = new List<(double, (int, int), string, DataType)>();
+
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -194,6 +197,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(make_farm);
                 temp_dict.AddRange(manufactured_items_list);
                 temp_dict.AddRange(founded_cities_list);
+                temp_dict.AddRange(eaten_buildings);
 
                 return temp_dict;
             }

@@ -28,6 +28,7 @@
         ExtractResources,
         CreateRoad,
         MakeFarm,
-        FoundedCities
+        FoundedCities,
+        EatenBuildings
     }
 }

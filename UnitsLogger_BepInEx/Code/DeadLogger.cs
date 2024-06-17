@@ -208,6 +208,10 @@ namespace UnitsLogger_BepInEx
                         unit_statistic += $"юнит съел {stat.Item3.GetLocal()}";
                         break;
 
+                    case DataType.EatenBuildings:
+                        unit_statistic += $"юнит съел {("building_" + stat.Item3).GetLocal()}";
+                        break;
+
                     case DataType.Culturships:
                         unit_statistic += $"юнит сменил культуру на {stat.Item3}";
                         break;

@@ -855,6 +855,36 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Поедание построек
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(BehConsumeTargetBuilding), nameof(BehConsumeTargetBuilding.execute))]
+        public static void execute_BehConsumeTargetBuilding_Prefix(Actor pActor)
+        {
+            string type = pActor.beh_building_target.asset.type;
+            if (type == SB.type_fruits)
+            {
+                if (pActor.beh_building_target.hasResources)
+                {
+                    if (StaticStuff.GetIsTracked(pActor))
+                    {
+                        LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                        logger?.eaten_buildings.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), pActor.beh_building_target.asset.id, DataType.EatenBuildings));
+                    }
+                }
+            }
+            else if ((type == SB.type_crops || type == SB.type_flower || type == SB.type_vegetation) && pActor.beh_building_target.isAlive())
+            {
+                if (StaticStuff.GetIsTracked(pActor))
+                {
+                    LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                    logger?.eaten_buildings.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), pActor.beh_building_target.asset.id, DataType.EatenBuildings));
+                }
+            }
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]
