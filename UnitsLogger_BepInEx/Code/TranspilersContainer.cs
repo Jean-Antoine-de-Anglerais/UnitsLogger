@@ -57,7 +57,7 @@
             {
                 LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                if (kingdom == null)
+                if (kingdom == null || kingdom.countCities() == 1)
                 {
                     logger?.founded_cities.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), true, city.name, actor.kingdom.name, (zone.x, zone.y), DataType.FoundedCities));
                 }
