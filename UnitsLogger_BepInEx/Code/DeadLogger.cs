@@ -144,7 +144,7 @@ namespace UnitsLogger_BepInEx
 
             foreach (var stat in sortedList)
             {
-                unit_statistic += $"Время: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - ";
+                unit_statistic += $"Дата: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - ";
 
                 switch (stat.Item4)
                 {
