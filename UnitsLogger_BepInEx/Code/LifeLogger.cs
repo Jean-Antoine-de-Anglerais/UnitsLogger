@@ -73,6 +73,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), bool, string, string, (int, int), DataType)> founded_cities = new List<(double, (int, int), bool, string, string, (int, int), DataType)>();
         // Съеденные животным постройки
         public List<(double, (int, int), string, DataType)> eaten_buildings = new List<(double, (int, int), string, DataType)>();
+        // Добытые в шахте ресурсы
+        public List<(double, (int, int), string, DataType)> mine_resources = new List<(double, (int, int), string, DataType)>();
 
 
         // Имя, бывшее у юнита изначально
@@ -198,6 +200,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(manufactured_items_list);
                 temp_dict.AddRange(founded_cities_list);
                 temp_dict.AddRange(eaten_buildings);
+                temp_dict.AddRange(mine_resources);
 
                 return temp_dict;
             }

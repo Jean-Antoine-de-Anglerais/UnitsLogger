@@ -67,5 +67,15 @@
                 }
             }
         }
+
+        public static void execute_BehGetResourcesFromMine_Transpiler(Actor actor, BuildingAsset building_asset)
+        {
+            if (StaticStuff.GetIsTracked(actor))
+            {
+                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.mine_resources.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), building_asset.id, DataType.MineResources));
+            }
+        }
     }
 }

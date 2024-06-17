@@ -885,6 +885,31 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Добыча ресурсов в шахте
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehGetResourcesFromMine), nameof(BehGetResourcesFromMine.execute))]
+        public static IEnumerable<CodeInstruction> execute_BehGetResourcesFromMine_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Ldc_I4_0 || instruction.Is(OpCodes.Ldc_I4, 0));
+
+            index--;
+
+            if (index == -1)
+            {
+                Console.WriteLine("execute_BehGetResourcesFromMine_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldloc_0));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehGetResourcesFromMine_Transpiler))));
+
+            return codes.AsEnumerable();
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]

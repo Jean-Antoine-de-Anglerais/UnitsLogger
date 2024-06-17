@@ -29,6 +29,7 @@
         CreateRoad,
         MakeFarm,
         FoundedCities,
-        EatenBuildings
+        EatenBuildings,
+        MineResources
     }
 }

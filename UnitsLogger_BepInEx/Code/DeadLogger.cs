@@ -172,6 +172,10 @@ namespace UnitsLogger_BepInEx
                         unit_statistic += $"юнит добыл ресурсы из {("building_" + stat.Item3).GetLocal()}";
                         break;
 
+                    case DataType.MineResources:
+                        unit_statistic += $"юнит добыл в шахте минерал {("building_" + stat.Item3).GetLocal()}";
+                        break;
+
                     case DataType.CreateRoad:
                         unit_statistic += $"юнит построил дорогу на месте тайла со следующими характеристиками: {stat.Item3}";
                         break;
