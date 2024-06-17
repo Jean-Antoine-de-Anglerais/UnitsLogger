@@ -152,6 +152,10 @@ namespace UnitsLogger_BepInEx
                         unit_statistic += $"юнит сменил имя на {stat.Item3}";
                         break;
 
+                    case DataType.ReplenishHunger:
+                        unit_statistic += $"юнит полностью пополнил сытость";
+                        break;
+
                     case DataType.Children:
                         unit_statistic += $"юнит родил ребёнка {stat.Item3}";
                         break;

@@ -910,6 +910,20 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Полное пополнение голода (для крабов и существ, кормящихся на воде)
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(BehReplenishHunger), nameof(BehReplenishHunger.execute))]
+        public static void execute_BehReplenishHunger_Prefix(Actor pActor)
+        {
+            if (StaticStuff.GetIsTracked(pActor))
+            {
+                LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.replenish_hunger.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), "", DataType.ReplenishHunger));
+            }
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]

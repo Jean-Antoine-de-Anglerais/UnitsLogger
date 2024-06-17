@@ -30,6 +30,7 @@
         MakeFarm,
         FoundedCities,
         EatenBuildings,
-        MineResources
+        MineResources,
+        ReplenishHunger
     }
 }
