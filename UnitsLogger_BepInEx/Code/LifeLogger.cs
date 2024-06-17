@@ -162,7 +162,7 @@ namespace UnitsLogger_BepInEx
                     {
                         founded_cities_list.Add((city.Item1, (city.Item2.Item1, city.Item2.Item2), city.Item4 + $", и королевство под названием {city.Item5}, на чанке с координатами X{city.Item6.Item1}, Y{city.Item6.Item2}", city.Item7));
                     }
-                    else 
+                    else
                     {
                         founded_cities_list.Add((city.Item1, (city.Item2.Item1, city.Item2.Item2), city.Item4 + $", на чанке с координатами X{city.Item6.Item1}, Y{city.Item6.Item2}", city.Item7));
                     }

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace UnitsLogger_BepInEx
+﻿namespace UnitsLogger_BepInEx
 {
     public class TranspilersContainer
     {
@@ -63,8 +61,10 @@ namespace UnitsLogger_BepInEx
                 {
                     logger?.founded_cities.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), true, city.name, actor.kingdom.name, (zone.x, zone.y), DataType.FoundedCities));
                 }
-
-                logger?.founded_cities.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), false, city.name, "", (zone.x, zone.y), DataType.FoundedCities));
+                else
+                {
+                    logger?.founded_cities.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), false, city.name, "", (zone.x, zone.y), DataType.FoundedCities));
+                }
             }
         }
     }
