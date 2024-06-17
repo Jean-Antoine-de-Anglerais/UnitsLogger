@@ -80,5 +80,15 @@
                 }
             }
         }
+
+        public static void execute_BehMagicMakeSkeleton_Transpiler(WorldTile tile, Actor actor)
+        {
+            if (StaticStuff.GetIsTracked(actor))
+            {
+                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.maked_skeletons.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), (tile.x, tile.y), DataType.MakeSkeleton));
+            }
+        }
     }
 }

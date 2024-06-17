@@ -160,6 +160,10 @@ namespace UnitsLogger_BepInEx
                         unit_statistic += $"юнит родил ребёнка {stat.Item3}";
                         break;
 
+                    case DataType.MakeSkeleton:
+                        unit_statistic += $"юнит заспавнил скелета по координатам {stat.Item3}";
+                        break;
+
                     case DataType.CitizenJobStart:
                         unit_statistic += $"юнит начал работать как {stat.Item3.GetLocal()}";
                         break;

@@ -77,6 +77,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), string, DataType)> mine_resources = new List<(double, (int, int), string, DataType)>();
         // Полное пополнение голода (для крабов и существ, кормящихся на воде)
         public List<(double, (int, int), string, DataType)> replenish_hunger = new List<(double, (int, int), string, DataType)>();
+        // Случаи каста заклинания спавна скелетов (дата, координаты юнита, координаты заспавненного скелета, тип данных)
+        public List<(double, (int, int), (int, int), DataType)> maked_skeletons = new List<(double, (int, int), (int, int), DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -173,6 +175,12 @@ namespace UnitsLogger_BepInEx
                         founded_cities_list.Add((city.Item1, (city.Item2.Item1, city.Item2.Item2), city.Item4 + $", на чанке с координатами X{city.Item6.Item1}, Y{city.Item6.Item2}", city.Item7));
                     }
                 }
+                
+                List<(double, (int, int), string, DataType)> maked_skeletons_list = new List<(double, (int, int), string, DataType)>();
+                foreach (var maked in maked_skeletons)
+                {
+                    maked_skeletons_list.Add((maked.Item1, maked.Item2, $"X{maked.Item3.Item1}, Y{maked.Item3.Item2}", maked.Item4));
+                }
 
 
                 temp_dict.AddRange(received_traits);
@@ -203,6 +211,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(eaten_buildings);
                 temp_dict.AddRange(mine_resources);
                 temp_dict.AddRange(replenish_hunger);
+                temp_dict.AddRange(maked_skeletons_list);
 
                 return temp_dict;
             }

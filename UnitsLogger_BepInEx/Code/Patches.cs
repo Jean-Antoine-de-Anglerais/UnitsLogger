@@ -924,6 +924,34 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Каст заклинания спавна скелетов
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehMagicMakeSkeleton), nameof(BehMagicMakeSkeleton.execute))]
+        public static IEnumerable<CodeInstruction> execute_BehMagicMakeSkeleton_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Ldc_I4_0 || instruction.Is(OpCodes.Ldc_I4, 0));
+            index--;
+            if (index == -1)
+            {
+                Console.WriteLine("execute_BehMagicMakeSkeleton_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            var containerType = typeof(BehMagicMakeSkeleton).GetNestedType("<>c__DisplayClass0_0", BindingFlags.NonPublic);
+            var field = containerType.GetField("tTile", BindingFlags.Instance | BindingFlags.Public);
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldloc_0));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldfld, field));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 4, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehMagicMakeSkeleton_Transpiler))));
+
+            return codes.AsEnumerable();
+        }
+        #endregion
+
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]

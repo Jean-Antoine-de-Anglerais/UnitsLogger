@@ -31,6 +31,7 @@
         FoundedCities,
         EatenBuildings,
         MineResources,
-        ReplenishHunger
+        ReplenishHunger,
+        MakeSkeleton
     }
 }
