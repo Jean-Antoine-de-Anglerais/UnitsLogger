@@ -70,11 +70,14 @@
 
         public static void execute_BehGetResourcesFromMine_Transpiler(Actor actor, BuildingAsset building_asset)
         {
-            if (StaticStuff.GetIsTracked(actor))
+            if (building_asset != null)
             {
-                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+                if (StaticStuff.GetIsTracked(actor))
+                {
+                    LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.mine_resources.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), building_asset.id, DataType.MineResources));
+                    logger?.mine_resources.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), building_asset.id, DataType.MineResources));
+                }
             }
         }
     }
