@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace UnitsLogger_BepInEx
 {
-    public class DeadLogger
+    public partial class DeadLogger
     {
         public static string Prepare()
         {
@@ -151,69 +151,95 @@ namespace UnitsLogger_BepInEx
                     case DataType.Names:
                         unit_statistic += $"юнит сменил имя на {stat.Item3}";
                         break;
+
                     case DataType.Children:
                         unit_statistic += $"юнит родил ребёнка {stat.Item3}";
                         break;
+
                     case DataType.CitizenJobStart:
                         unit_statistic += $"юнит начал работать как {stat.Item3.GetLocal()}";
                         break;
+
+                    case DataType.FoundedCities:
+                        unit_statistic += $"юнит основал город под названием {stat.Item3}";
+                        break;
+
                     case DataType.ManufacturedItem:
                         unit_statistic += $"юнит произвёл предмет: {stat.Item3.GetLocal()}";
                         break;
+
                     case DataType.ExtractResources:
                         unit_statistic += $"юнит добыл ресурсы из {("building_" + stat.Item3).GetLocal()}";
                         break;
+
                     case DataType.CreateRoad:
                         unit_statistic += $"юнит построил дорогу на месте тайла со следующими характеристиками: {stat.Item3}";
                         break;
+
                     case DataType.MakeFarm:
                         unit_statistic += $"юнит вспахал поле на месте тайла со следующими характеристиками: {stat.Item3}";
                         break;
+
                     case DataType.BuildedConstruction:
                         unit_statistic += $"юнит построил {("building_" + stat.Item3).GetLocal()}";
                         break;
+
                     case DataType.KilledUnits:
                         unit_statistic += $"юнит убил {stat.Item3}";
                         break;
+
                     case DataType.CleanedConstruction:
                         unit_statistic += $"юнит убрал {("building_" + stat.Item3).GetLocal()}";
                         break;
+
                     case DataType.GetResources:
                         unit_statistic += $"юнит добыл {stat.Item3}";
                         break;
+
                     case DataType.GiveResources:
                         unit_statistic += $"юнит положил в хранилище города: {stat.Item3}";
                         break;
+
                     case DataType.CitizenJobEnd:
                         unit_statistic += $"юнит закончил свою работу как {stat.Item3.GetLocal()}";
                         break;
+
                     case DataType.Food:
                         unit_statistic += $"юнит съел {stat.Item3.GetLocal()}";
                         break;
+
                     case DataType.Culturships:
                         unit_statistic += $"юнит сменил культуру на {stat.Item3}";
                         break;
+
                     case DataType.ReceivedTraits:
                         unit_statistic += $"юнит получил черту {("trait_" + stat.Item3).GetLocal()}";
                         break;
+
                     case DataType.LostTraits:
                         unit_statistic += $"юнит потерял черту {("trait_" + stat.Item3).GetLocal()}";
                         break;
+
                     case DataType.Townships:
                         unit_statistic += $"юнит сменил город на {stat.Item3}";
                         break;
+
                     case DataType.Сitizenships:
                         unit_statistic += $"юнит сменил государство на {stat.Item3}";
                         break;
+
                     case DataType.Professions:
                         unit_statistic += $"юнит сменил профессию на {stat.Item3.GetLocal()}";
                         break;
+
                     case DataType.Moods:
                         unit_statistic += $"юнит сменил настроение на {("mood_" + stat.Item3).GetLocal()}";
                         break;
+
                     case DataType.SocialCharacteristics:
                         unit_statistic += $"юнит увеличил характеристику {stat.Item3.GetLocal()} на 1";
                         break;
+
                     case DataType.NewEra:
                         unit_statistic += $"мировая эпоха сменилась на {(stat.Item3 + "_title").GetLocal()}";
                         break;
@@ -270,15 +296,15 @@ namespace UnitsLogger_BepInEx
             unit_statistic += actor.currentTile.zone.city?.kingdom != null ? $"{"Государство, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.kingdom.name}\r" : "";
             unit_statistic += actor.currentTile.zone.city?.getRoyalClan() != null ? $"{"Клан, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getRoyalClan().name}\r" : "";
             unit_statistic += $"{"Чанк, где умер юнит".GetLocal()} - X: {actor.currentTile.zone.x}, Y: {actor.currentTile.zone.y}\r";
-            unit_statistic += actor.currentTile.zone.abandoned?.Count != 0 ? $"{"Заброшенные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.abandoned.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.food?.Count != 0 ? $"{"Съедобные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.food?.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.minerals?.Count != 0 ? $"{"Минералы на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.minerals?.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.plants?.Count != 0 ? $"{"Растения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.plants?.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.trees?.Count != 0 ? $"{"Деревья на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.trees?.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.wheat?.Count != 0 ? $"{"Пшеница на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.wheat?.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.ruins?.Count != 0 ? $"{"Руины на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.ruins?.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.buildings?.Count != 0 ? $"{"Цивилизационные постройки на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings?.Select(b => b.asset.id.GetLocal()))}\r" : "";
-            unit_statistic += actor.currentTile.zone.buildings_all?.Count != 0 ? $"{"Все строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings_all?.Select(b => b.asset.id.GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.abandoned?.Count != 0 ? $"{"Заброшенные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.abandoned.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.food?.Count != 0 ? $"{"Съедобные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.food?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.minerals?.Count != 0 ? $"{"Минералы на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.minerals?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.plants?.Count != 0 ? $"{"Растения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.plants?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.trees?.Count != 0 ? $"{"Деревья на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.trees?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.wheat?.Count != 0 ? $"{"Пшеница на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.wheat?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.ruins?.Count != 0 ? $"{"Руины на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.ruins?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.buildings?.Count != 0 ? $"{"Цивилизационные постройки на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "";
+            unit_statistic += actor.currentTile.zone.buildings_all?.Count != 0 ? $"{"Все строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings_all?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "";
 
 
             //unit_statistic += !(logger.received_names.Count == 0) ? $"\r\r{"Случаи смены имён"}: {string.Join(", ", logger.received_names.Select(n => $"{n.Value} - {n.Key.GetDateFromTime()}"))}" : "";

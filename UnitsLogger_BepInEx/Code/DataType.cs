@@ -27,6 +27,7 @@
         CleanedConstruction,
         ExtractResources,
         CreateRoad,
-        MakeFarm
+        MakeFarm,
+        FoundedCities
     }
 }

@@ -52,5 +52,15 @@ namespace UnitsLogger_BepInEx
                 logger?.social_characteristics.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), attribute, DataType.SocialCharacteristics));
             }
         }
+
+        public static void execute_BehCheckBuildCity_Transpiler(Actor actor, City city, TileZone zone, Kingdom kingdom)
+        {
+            if (StaticStuff.GetIsTracked(actor))
+            {
+                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.founded_cities.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), city.name, (zone.x, zone.y), DataType.FoundedCities));
+            }
+        }
     }
 }

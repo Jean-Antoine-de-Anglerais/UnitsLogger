@@ -69,6 +69,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), string, DataType)> create_road = new List<(double, (int, int), string, DataType)>();
         // Вспаханные тайлы поля
         public List<(double, (int, int), string, DataType)> make_farm = new List<(double, (int, int), string, DataType)>();
+        // Основанные государства
+        public List<(double, (int, int), string, (int, int), DataType)> founded_cities = new List<(double, (int, int), string, (int, int), DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -103,12 +105,12 @@ namespace UnitsLogger_BepInEx
         public string initial_era = "";
         // Момент, когда юнита сделали отслеживаемым
         public double initial_time = 0;
+        // Изначальное местоположение юнита
+        public (int, int) initial_position = (0, 0);
 
         // Были ли исходные данные уже добавлены
         public bool was_initialized = false;
 
-        // Изначальное местоположение юнита
-        public (int, int) initial_position = (0, 0);
 
         // Список, который объединяет все остальные списки и словари в один, для дальнейшей сортировки
         public List<(double, (int, int), string, DataType)> main_dict
@@ -153,6 +155,13 @@ namespace UnitsLogger_BepInEx
                     manufactured_items_list.Add((item.Item1, (item.Item2.Item1, item.Item2.Item2), (!item.Item3.name.IsNullOrWhiteSpace() ? $"название {item.Item3.name}, " : "") + $"тип {("item_" + item.Item3.id).GetLocal()}, материал {("item_mat_" + item.Item3.material).GetLocal()}" + (item.Item3.modifiers.Count != 0 ? $", модификаторы {string.Join(", ", item.Item3.modifiers.Select(m => (m.DecodeModifier().Item2 != ' ') ? $"{("mod_" + m.DecodeModifier().Item1).GetLocal()} {m.DecodeModifier().Item2}" : $"{("mod_" + m.DecodeModifier().Item1).GetLocal()}"))}" : ""), item.Item4));
                 }
 
+                List<(double, (int, int), string, DataType)> founded_cities_list = new List<(double, (int, int), string, DataType)>();
+                foreach (var city in founded_cities)
+                {
+                    founded_cities_list.Add((city.Item1, (city.Item2.Item1, city.Item2.Item2), city.Item3 + $", на чанке с координатами X{city.Item4.Item1}, Y{city.Item4.Item2}", city.Item5));
+                }
+
+
                 temp_dict.AddRange(received_traits);
                 temp_dict.AddRange(received_name_list);
                 temp_dict.AddRange(received_professions_list);
@@ -177,6 +186,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(born_children_with_partner_list);
                 temp_dict.AddRange(make_farm);
                 temp_dict.AddRange(manufactured_items_list);
+                temp_dict.AddRange(founded_cities_list);
 
                 return temp_dict;
             }
@@ -189,14 +199,14 @@ namespace UnitsLogger_BepInEx
 
 
         // Используется для инициализации
-        void Start()
+        /*void Start()
         {
             Actor actor = gameObject.GetComponent<Actor>();
             if (actor != null)
             {
                 if (!was_initialized)
                 {
-                    initial_name = actor.data.name;
+                    initial_name = actor.getName();
                     initial_traits.AddRange(actor.data.traits);
 
                     if (actor.equipment != null)
@@ -228,7 +238,7 @@ namespace UnitsLogger_BepInEx
                     initial_position = (actor.currentTile.pos.x, actor.currentTile.pos.y);
                 }
             }
-        }
+        }*/
 
         // Используется для инициализации
         void OnEnable()
@@ -238,7 +248,7 @@ namespace UnitsLogger_BepInEx
             {
                 if (!was_initialized)
                 {
-                    initial_name = actor.data.name;
+                    initial_name = actor.getName();
                     initial_traits.AddRange(actor.data.traits);
 
                     if (actor.equipment != null)

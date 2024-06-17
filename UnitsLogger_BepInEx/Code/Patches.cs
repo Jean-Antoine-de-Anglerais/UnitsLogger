@@ -829,6 +829,33 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Основание государства
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehCheckBuildCity), nameof(BehCheckBuildCity.execute))]
+        public static IEnumerable<CodeInstruction> execute_BehCheckBuildCity_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Ldc_I4_0 || instruction.Is(OpCodes.Ldc_I4, 0));
+
+            index--;
+
+            if (index == -1)
+            {
+                Console.WriteLine("execute_BehCheckBuildCity_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldloc_0));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Ldloc_1));
+            codes.Insert(index + 4, new CodeInstruction(OpCodes.Ldloc_2));
+            codes.Insert(index + 5, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehCheckBuildCity_Transpiler))));
+
+            return codes.AsEnumerable();
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]
