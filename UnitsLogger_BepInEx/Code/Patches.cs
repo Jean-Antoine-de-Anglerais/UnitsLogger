@@ -951,6 +951,53 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Зарывание краба в песок
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehCrabBurrow), nameof(BehCrabBurrow.execute))]
+        public static IEnumerable<CodeInstruction> execute_BehCrabBurrow_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index_Stop_1 = codes.FindIndex(instruction => instruction.opcode == OpCodes.Ldc_I4_1 || instruction.Is(OpCodes.Ldc_I4, 1));
+            int index_Stop_2 = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Ldc_I4_1 || instruction.Is(OpCodes.Ldc_I4, 1));
+            int index_RepeatStep = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Ldc_I4_2 || instruction.Is(OpCodes.Ldc_I4, 2));
+
+            index_Stop_1--;
+            if (index_Stop_1 == -1)
+            {
+                Console.WriteLine("updateAttributes_Transpiler: index_Stop_1 not found");
+                return codes.AsEnumerable();
+            }
+
+            index_Stop_2--;
+            if (index_Stop_2 == -1)
+            {
+                Console.WriteLine("updateAttributes_Transpiler: index_Stop_2 not found");
+                return codes.AsEnumerable();
+            }
+
+            index_RepeatStep--;
+            if (index_RepeatStep == -1)
+            {
+                Console.WriteLine("updateAttributes_Transpiler: index_RepeatStep not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index_Stop_1 + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index_Stop_1 + 2, new CodeInstruction(OpCodes.Ldstr, "type_hunger"));
+            codes.Insert(index_Stop_1 + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehCrabBurrow_Transpiler))));
+
+            codes.Insert(index_Stop_2 + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index_Stop_2 + 2, new CodeInstruction(OpCodes.Ldstr, "type_danger"));
+            codes.Insert(index_Stop_2 + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehCrabBurrow_Transpiler))));
+
+            codes.Insert(index_RepeatStep + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index_RepeatStep + 2, new CodeInstruction(OpCodes.Ldstr, "type_repeat"));
+            codes.Insert(index_RepeatStep + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehCrabBurrow_Transpiler))));
+
+            return codes.AsEnumerable();
+        }
+        #endregion
 
         #region Выпадение за границу мира
         [HarmonyPrefix]

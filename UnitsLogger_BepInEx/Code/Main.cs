@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using HarmonyLib;
+using HarmonyLib.Tools;
 using static ConstantNamespace.ConstantClass;
 
 namespace UnitsLogger_BepInEx
@@ -9,6 +10,11 @@ namespace UnitsLogger_BepInEx
     {
         public static Harmony harmony = new Harmony(pluginName);
         private bool _initialized = false;
+
+        public void Awake()
+        {
+            HarmonyFileLog.Enabled = true;
+        }
 
         // Метод, запускающийся каждый кадр (в моём случае он зависим от загрузки игры)
         public void Update()

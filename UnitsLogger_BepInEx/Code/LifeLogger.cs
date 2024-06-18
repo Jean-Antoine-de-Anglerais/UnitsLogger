@@ -79,6 +79,9 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), string, DataType)> replenish_hunger = new List<(double, (int, int), string, DataType)>();
         // Случаи каста заклинания спавна скелетов (дата, координаты юнита, координаты заспавненного скелета, тип данных)
         public List<(double, (int, int), (int, int), DataType)> maked_skeletons = new List<(double, (int, int), (int, int), DataType)>();
+        // Случаи, когда краб зарывается в землю
+        public List<(double, (int, int), string, float, DataType)> crab_burrow = new List<(double, (int, int), string, float, DataType)>();
+
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -182,6 +185,22 @@ namespace UnitsLogger_BepInEx
                     maked_skeletons_list.Add((maked.Item1, maked.Item2, $"X{maked.Item3.Item1}, Y{maked.Item3.Item2}", maked.Item4));
                 }
 
+                List<(double, (int, int), string, DataType)> crab_burrow_list = new List<(double, (int, int), string, DataType)>();
+                foreach (var burrow in crab_burrow)
+                {
+                    if (burrow.Item3 == "type_repeat")
+                    {
+                        crab_burrow_list.Add((burrow.Item1, burrow.Item2, $"зарылся в землю ещё на {burrow.Item4}", burrow.Item5));
+                    }
+                    else if (burrow.Item3 == "type_hunger")
+                    {
+                        crab_burrow_list.Add((burrow.Item1, burrow.Item2, $"выкопался из земли, потому что проголодался", burrow.Item5));
+                    }
+                    else if (burrow.Item3 == "type_danger")
+                    {
+                        crab_burrow_list.Add((burrow.Item1, burrow.Item2, $"выкопался из земли, потому что почувствовал себя в опасности", burrow.Item5));
+                    }
+                }
 
                 temp_dict.AddRange(received_traits);
                 temp_dict.AddRange(received_name_list);
@@ -212,6 +231,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(mine_resources);
                 temp_dict.AddRange(replenish_hunger);
                 temp_dict.AddRange(maked_skeletons_list);
+                temp_dict.AddRange(crab_burrow_list);
 
                 return temp_dict;
             }

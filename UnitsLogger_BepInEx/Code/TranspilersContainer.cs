@@ -90,5 +90,26 @@
                 logger?.maked_skeletons.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), (tile.x, tile.y), DataType.MakeSkeleton));
             }
         }
+
+        public static void execute_BehCrabBurrow_Transpiler(Actor actor, string behaviour_type)
+        {
+            if (StaticStuff.GetIsTracked(actor))
+            {
+                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                if (behaviour_type == "type_repeat")
+                {
+                    logger?.crab_burrow.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "type_repeat", actor.timer_action, DataType.CrabBurrow));
+                }
+                else if (behaviour_type == "type_hunger")
+                {
+                    logger?.crab_burrow.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "type_hunger", 0, DataType.CrabBurrow));
+                }
+                else if (behaviour_type == "type_danger")
+                {
+                    logger?.crab_burrow.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "type_danger", 0, DataType.CrabBurrow));
+                }
+            }
+        }
     }
 }

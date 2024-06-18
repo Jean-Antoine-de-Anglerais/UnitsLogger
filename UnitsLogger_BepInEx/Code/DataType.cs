@@ -32,6 +32,7 @@
         EatenBuildings,
         MineResources,
         ReplenishHunger,
-        MakeSkeleton
+        MakeSkeleton,
+        CrabBurrow
     }
 }
