@@ -952,8 +952,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Зарывание краба в песок
-        [HarmonyTranspiler]
-        [HarmonyPatch(typeof(BehCrabBurrow), nameof(BehCrabBurrow.execute))]
+        //[HarmonyTranspiler]
+        //[HarmonyPatch(typeof(BehCrabBurrow), nameof(BehCrabBurrow.execute))]
         public static IEnumerable<CodeInstruction> execute_BehCrabBurrow_Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);
@@ -997,6 +997,32 @@ namespace UnitsLogger_BepInEx
 
             return codes.AsEnumerable();
         }
+        #endregion
+
+        #region Тушение пожара
+        //[HarmonyPrefix]
+        //[HarmonyPatch(typeof(BehCityRemoveFire), nameof(BehCityRemoveFire.execute))]
+        public static void execute_BehCityRemoveFire_Prefix(Actor pActor)
+        {
+            TileZone zone = pActor.currentTile.zone;
+            if (WorldBehaviourActionFire.countFires(zone) > 0)
+            {
+                for (int i = 0; i < zone.tiles.Count; i++)
+                {
+                    WorldTile worldTile = zone.tiles[i];
+                    if (worldTile.isOnFire())
+                    {
+                        worldTile.stopFire();
+                    }
+                    if (worldTile.building != null)
+                    {
+                        worldTile.building.stopFire();
+                    }
+                }
+            }
+            return;
+        }
+
         #endregion
 
         #region Выпадение за границу мира

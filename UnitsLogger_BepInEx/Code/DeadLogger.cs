@@ -205,7 +205,7 @@ namespace UnitsLogger_BepInEx
                         break;
 
                     case DataType.CleanedConstruction:
-                        unit_statistic += $"юнит убрал {("building_" + stat.Item3).GetLocal()}";
+                        unit_statistic += $"юнит убрал руины {("building_" + stat.Item3).GetLocal()}";
                         break;
 
                     case DataType.GetResources:
