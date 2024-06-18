@@ -83,6 +83,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), string, float, DataType)> crab_burrow = new List<(double, (int, int), string, float, DataType)>();
         // Случаи каста заклинания телепорта (дата, координаты юнита, координаты тайла, куда юнит хочет переместиться, тип данных)
         public List<(double, (int, int), (int, int), DataType)> teleport_random = new List<(double, (int, int), (int, int), DataType)>();
+        // Случаи каста заклинания молнии (дата, координаты юнита, координаты тайла, куда юнит хочет переместиться, тип данных)
+        public List<(double, (int, int), (int, int), DataType)> cast_lightning = new List<(double, (int, int), (int, int), DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -192,6 +194,12 @@ namespace UnitsLogger_BepInEx
                     teleport_random_list.Add((teleport.Item1, teleport.Item2, $"X{teleport.Item3.Item1}, Y{teleport.Item3.Item2}", teleport.Item4));
                 }
 
+                List<(double, (int, int), string, DataType)> cast_lightning_list = new List<(double, (int, int), string, DataType)>();
+                foreach (var lightning in cast_lightning)
+                {
+                    cast_lightning_list.Add((lightning.Item1, lightning.Item2, $"X{lightning.Item3.Item1}, Y{lightning.Item3.Item2}", lightning.Item4));
+                }
+
                 List<(double, (int, int), string, DataType)> crab_burrow_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var burrow in crab_burrow)
                 {
@@ -240,6 +248,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(maked_skeletons_list);
                 temp_dict.AddRange(crab_burrow_list);
                 temp_dict.AddRange(teleport_random_list);
+                temp_dict.AddRange(cast_lightning_list);
 
                 return temp_dict;
             }

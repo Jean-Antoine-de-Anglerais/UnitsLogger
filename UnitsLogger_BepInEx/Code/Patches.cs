@@ -1048,6 +1048,25 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Каст заклинания молнии
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(ActionLibrary), nameof(ActionLibrary.castLightning))]
+        public static void castLightning_Prefix(BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile = null)
+        {
+            if (StaticStuff.GetIsTracked(pSelf))
+            {
+                if (pTarget != null)
+                {
+                    pTile = pTarget.currentTile;
+                }
+
+                LifeLogger logger = pSelf.gameObject.GetComponent<LifeLogger>();
+
+                logger?.cast_lightning.Add((World.world.getCurWorldTime(), pSelf.GetActorPosition(), (pTile.x, pTile.y), DataType.CastLightning));
+            }
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]

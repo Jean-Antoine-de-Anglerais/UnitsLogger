@@ -34,6 +34,7 @@
         ReplenishHunger,
         MakeSkeleton,
         CrabBurrow,
-        TeleportRandom
+        TeleportRandom,
+        CastLightning
     }
 }
