@@ -156,6 +156,10 @@ namespace UnitsLogger_BepInEx
                         unit_statistic += $"юнит полностью пополнил сытость";
                         break;
 
+                    case DataType.TeleportRandom:
+                        unit_statistic += $"юнит собирается телепортироваться по координатам {stat.Item3}";
+                        break;
+
                     case DataType.CrabBurrow:
                         unit_statistic += $"юнит {stat.Item3}";
                         break;

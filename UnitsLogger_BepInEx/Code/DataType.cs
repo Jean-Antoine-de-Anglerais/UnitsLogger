@@ -33,6 +33,7 @@
         MineResources,
         ReplenishHunger,
         MakeSkeleton,
-        CrabBurrow
+        CrabBurrow,
+        TeleportRandom
     }
 }

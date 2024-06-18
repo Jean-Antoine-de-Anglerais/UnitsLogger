@@ -100,7 +100,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Resources\en.json" />
     <None Include="Resources\ru.json" />
   </ItemGroup>

@@ -81,7 +81,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), (int, int), DataType)> maked_skeletons = new List<(double, (int, int), (int, int), DataType)>();
         // Случаи, когда краб зарывается в землю
         public List<(double, (int, int), string, float, DataType)> crab_burrow = new List<(double, (int, int), string, float, DataType)>();
-
+        // Случаи каста заклинания телепорта (дата, координаты юнита, координаты тайла, куда юнит хочет переместиться, тип данных)
+        public List<(double, (int, int), (int, int), DataType)> teleport_random = new List<(double, (int, int), (int, int), DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -178,11 +179,17 @@ namespace UnitsLogger_BepInEx
                         founded_cities_list.Add((city.Item1, (city.Item2.Item1, city.Item2.Item2), city.Item4 + $", на чанке с координатами X{city.Item6.Item1}, Y{city.Item6.Item2}", city.Item7));
                     }
                 }
-                
+
                 List<(double, (int, int), string, DataType)> maked_skeletons_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var maked in maked_skeletons)
                 {
                     maked_skeletons_list.Add((maked.Item1, maked.Item2, $"X{maked.Item3.Item1}, Y{maked.Item3.Item2}", maked.Item4));
+                }
+
+                List<(double, (int, int), string, DataType)> teleport_random_list = new List<(double, (int, int), string, DataType)>();
+                foreach (var teleport in teleport_random)
+                {
+                    teleport_random_list.Add((teleport.Item1, teleport.Item2, $"X{teleport.Item3.Item1}, Y{teleport.Item3.Item2}", teleport.Item4));
                 }
 
                 List<(double, (int, int), string, DataType)> crab_burrow_list = new List<(double, (int, int), string, DataType)>();
@@ -232,6 +239,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(replenish_hunger);
                 temp_dict.AddRange(maked_skeletons_list);
                 temp_dict.AddRange(crab_burrow_list);
+                temp_dict.AddRange(teleport_random_list);
 
                 return temp_dict;
             }

@@ -111,5 +111,15 @@
                 }
             }
         }
+
+        public static void teleportRandom_Transpiler(BaseSimObject actor, WorldTile tile)
+        {
+            if (StaticStuff.GetIsTracked(actor))
+            {
+                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.teleport_random.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), (tile.x, tile.y), DataType.TeleportRandom));
+            }
+        }
     }
 }

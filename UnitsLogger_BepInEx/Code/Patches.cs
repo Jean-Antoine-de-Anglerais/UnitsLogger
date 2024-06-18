@@ -1025,6 +1025,29 @@ namespace UnitsLogger_BepInEx
 
         #endregion
 
+        #region Телепорт
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(ActionLibrary), nameof(ActionLibrary.teleportRandom))]
+        public static IEnumerable<CodeInstruction> teleportRandom_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Pop);
+
+            if (index == -1)
+            {
+                Console.WriteLine("teleportRandom_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldloc_0));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.teleportRandom_Transpiler))));
+
+            return codes.AsEnumerable();
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]
