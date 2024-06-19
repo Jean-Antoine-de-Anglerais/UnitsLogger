@@ -1,4 +1,6 @@
-﻿namespace UnitsLogger_BepInEx
+﻿using static UnityEngine.GraphicsBuffer;
+
+namespace UnitsLogger_BepInEx
 {
     public class TranspilersContainer
     {
@@ -119,6 +121,16 @@
                 LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
                 logger?.teleport_random.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), (tile.x, tile.y), DataType.TeleportRandom));
+            }
+        }
+
+        public static void tryToCastSpell_Transpiler(Actor initiator, BaseSimObject target, Spell spell)
+        {
+            if (StaticStuff.GetIsTracked(initiator))
+            {
+                LifeLogger logger = initiator.gameObject.GetComponent<LifeLogger>();
+
+                logger?.cast_spell.Add((World.world.getCurWorldTime(), initiator.GetActorPosition(), spell.id, target.GetActorPosition(), DataType.CastSpell));
             }
         }
     }

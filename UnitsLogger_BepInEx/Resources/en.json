@@ -2754,5 +2754,17 @@
   "biome_cybertile": "Cybertile Biome",
   "biome_pumpkin": "Pumpkin Biome",
   "biome_tumor": "Tumor Biome",
-  "biome_sand": "Sand Biome"
+  "biome_sand": "Sand Biome",
+
+  "spell_teleportRandom": "Teleport Random",
+  "spell_lightning": "Lightning",
+  "spell_tornado": "Tornado",
+  "spell_curse": "Curse",
+  "spell_fire": "Fire",
+  "spell_bloodRain": "Blood Rain",
+  "spell_spawnGrassSeeds": "Spawn Grass Seeds",
+  "spell_spawnFertilizer": "Spawn Fertilizer",
+  "spell_spawnSkeleton": "Spawn Skeleton",
+  "spell_shield": "Shield",
+  "spell_cure": "Cure"
 }

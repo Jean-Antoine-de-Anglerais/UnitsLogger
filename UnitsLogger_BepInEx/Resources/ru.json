@@ -2754,5 +2754,17 @@
   "biome_cybertile": "Биом",
   "biome_pumpkin": "Киберплитный Биом",
   "biome_tumor": "Опухлевый Биом",
-  "biome_sand": "Песчаный Биом"
+  "biome_sand": "Песчаный Биом",
+
+  "spell_teleportRandom": "Рандомный Телепорт",
+  "spell_lightning": "Удар Молнией",
+  "spell_tornado": "Торнадо",
+  "spell_curse": "Проклятие",
+  "spell_fire": "Огонь",
+  "spell_bloodRain": "Кровавый Дождь",
+  "spell_spawnGrassSeeds": "Спавн Семян Трав",
+  "spell_spawnFertilizer": "Спавн Удобрений",
+  "spell_spawnSkeleton": "Спавн Скелета",
+  "spell_shield": "Щит",
+  "spell_cure": "Лечение"
 }

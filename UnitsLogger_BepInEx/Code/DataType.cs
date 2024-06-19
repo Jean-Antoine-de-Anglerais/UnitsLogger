@@ -35,6 +35,6 @@
         MakeSkeleton,
         CrabBurrow,
         TeleportRandom,
-        CastLightning
+        CastSpell
     }
 }

@@ -1048,22 +1048,30 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
-        #region Каст заклинания молнии
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(ActionLibrary), nameof(ActionLibrary.castLightning))]
-        public static void castLightning_Prefix(BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile = null)
+        #region Каст комбатных заклинаний
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(CombatActionLibrary), nameof(CombatActionLibrary.tryToCastSpell))]
+        public static IEnumerable<CodeInstruction> tryToCastSpell_Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (StaticStuff.GetIsTracked(pSelf))
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Callvirt && ((MethodInfo)instruction.operand).Name == "doCastAnimation");
+
+            index--;
+            index--;
+
+            if (index == -1)
             {
-                if (pTarget != null)
-                {
-                    pTile = pTarget.currentTile;
-                }
-
-                LifeLogger logger = pSelf.gameObject.GetComponent<LifeLogger>();
-
-                logger?.cast_lightning.Add((World.world.getCurWorldTime(), pSelf.GetActorPosition(), (pTile.x, pTile.y), DataType.CastLightning));
+                Console.WriteLine("tryToCastSpell_Transpiler: index not found");
+                return codes.AsEnumerable();
             }
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldloc_0));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldloc_1));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Ldloc_2));
+            codes.Insert(index + 4, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.tryToCastSpell_Transpiler))));
+
+            return codes.AsEnumerable();
         }
         #endregion
 
