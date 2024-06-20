@@ -89,7 +89,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.maked_skeletons.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), (tile.x, tile.y), DataType.MakeSkeleton));
+                logger?.cast_spell.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "spawnSkeleton", (tile.x, tile.y), DataType.CastSpell));
             }
         }
 
@@ -120,7 +120,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.teleport_random.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), (tile.x, tile.y), DataType.TeleportRandom));
+                logger?.cast_spell.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "teleportRandom", (tile.x, tile.y), DataType.CastSpell));
             }
         }
 

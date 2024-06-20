@@ -1025,7 +1025,7 @@ namespace UnitsLogger_BepInEx
 
         #endregion
 
-        #region Телепорт
+        #region Каст телепорта
         [HarmonyTranspiler]
         [HarmonyPatch(typeof(ActionLibrary), nameof(ActionLibrary.teleportRandom))]
         public static IEnumerable<CodeInstruction> teleportRandom_Transpiler(IEnumerable<CodeInstruction> instructions)

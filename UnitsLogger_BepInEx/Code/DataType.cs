@@ -32,9 +32,7 @@
         EatenBuildings,
         MineResources,
         ReplenishHunger,
-        MakeSkeleton,
         CrabBurrow,
-        TeleportRandom,
         CastSpell
     }
 }

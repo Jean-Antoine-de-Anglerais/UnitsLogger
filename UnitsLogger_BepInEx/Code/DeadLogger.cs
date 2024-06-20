@@ -160,20 +160,12 @@ namespace UnitsLogger_BepInEx
                         unit_statistic += $"юнит кастанул заклинание {stat.Item3}";
                         break;
 
-                    case DataType.TeleportRandom:
-                        unit_statistic += $"юнит собирается телепортироваться по координатам {stat.Item3}";
-                        break;
-
                     case DataType.CrabBurrow:
                         unit_statistic += $"юнит {stat.Item3}";
                         break;
 
                     case DataType.Children:
                         unit_statistic += $"юнит родил ребёнка {stat.Item3}";
-                        break;
-
-                    case DataType.MakeSkeleton:
-                        unit_statistic += $"юнит заспавнил скелета по координатам {stat.Item3}";
                         break;
 
                     case DataType.CitizenJobStart:
