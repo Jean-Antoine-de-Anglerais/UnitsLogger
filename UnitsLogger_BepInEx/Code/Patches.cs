@@ -1156,6 +1156,28 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Каст кровавого огня
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehHeal), nameof(BehHeal.execute))]
+        public static IEnumerable<CodeInstruction> execute_BehHeal_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Callvirt && ((MethodInfo)instruction.operand).Name == "Invoke");
+
+            if (index == -1)
+            {
+                Console.WriteLine("execute_BehHeal_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehHeal_Transpiler))));
+
+            return codes.AsEnumerable();
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]

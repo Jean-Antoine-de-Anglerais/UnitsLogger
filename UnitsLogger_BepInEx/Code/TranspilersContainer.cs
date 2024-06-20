@@ -163,5 +163,15 @@ namespace UnitsLogger_BepInEx
                 logger?.cast_spell.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), actor_target.asset.id, actor_target.GetActorPosition(), DataType.CastSpell));
             }
         }
+
+        public static void execute_BehHeal_Transpiler(Actor actor)
+        {
+            if (StaticStuff.GetIsTracked(actor))
+            {
+                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.cast_spell.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "bloodRain", actor.GetActorPosition(), DataType.CastSpell));
+            }
+        }
     }
 }
