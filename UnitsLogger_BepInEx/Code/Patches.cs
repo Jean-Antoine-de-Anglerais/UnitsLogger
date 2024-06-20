@@ -1075,6 +1075,64 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Каст огня для сжигания опухоли
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehBurnTumorTiles), nameof(BehBurnTumorTiles.execute))]
+        public static IEnumerable<CodeInstruction> execute_BehBurnTumorTiles_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Callvirt && ((MethodInfo)instruction.operand).Name == "doCastAnimation");
+
+            if (index == -1)
+            {
+                Console.WriteLine("execute_BehBurnTumorTiles_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldloc_0));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehBurnTumorTiles_Transpiler))));
+
+            return codes.AsEnumerable();
+        }
+        #endregion
+
+        #region Каст удобрения для деревьев
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehSpawnTreeFertilizer), nameof(BehSpawnTreeFertilizer.execute))]
+        public static IEnumerable<CodeInstruction> execute_BehSpawnTreeFertilizer_Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+            LocalBuilder builder = generator.DeclareLocal(typeof(WorldTile));
+
+            int index_new_field = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Call && ((MethodInfo)instruction.operand).Name == "GetRandom");
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Callvirt && ((MethodInfo)instruction.operand).Name == "Invoke");
+
+            if (index == -1)
+            {
+                Console.WriteLine("execute_BehSpawnTreeFertilizer_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+
+            if (index_new_field == -1)
+            {
+                Console.WriteLine("execute_BehSpawnTreeFertilizer_Transpiler: index_new_field not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index_new_field + 1, new CodeInstruction(OpCodes.Stloc_S, builder.LocalIndex));
+            codes.Insert(index_new_field + 2, new CodeInstruction(OpCodes.Ldloc_S, builder.LocalIndex));
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldloc_S, builder.LocalIndex));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehSpawnTreeFertilizer_Transpiler))));
+
+            return codes.AsEnumerable();
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]

@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Code\ActorLogged.cs" />
     <Compile Include="Code\AuxiliarySpace.cs" />
+    <Compile Include="Code\Test.cs" />
     <Compile Include="Code\TranspilerExample.cs" />
     <Compile Include="Code\TranspilersContainer.cs" />
     <Compile Include="Code\CustomDictionary.cs" />

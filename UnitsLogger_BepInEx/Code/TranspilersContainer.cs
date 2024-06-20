@@ -133,5 +133,25 @@ namespace UnitsLogger_BepInEx
                 logger?.cast_spell.Add((World.world.getCurWorldTime(), initiator.GetActorPosition(), spell.id, target.GetActorPosition(), DataType.CastSpell));
             }
         }
+
+        public static void execute_BehBurnTumorTiles_Transpiler(Actor actor, WorldTile tile)
+        {
+            if (StaticStuff.GetIsTracked(actor))
+            {
+                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.cast_spell.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "fire", (tile.x, tile.y), DataType.CastSpell));
+            }
+        }
+
+        public static void execute_BehSpawnTreeFertilizer_Transpiler(Actor actor, WorldTile tile)
+        {
+            if (StaticStuff.GetIsTracked(actor))
+            {
+                LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+                logger?.cast_spell.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "spawnFertilizer", (tile.x, tile.y), DataType.CastSpell));
+            }
+        }
     }
 }
