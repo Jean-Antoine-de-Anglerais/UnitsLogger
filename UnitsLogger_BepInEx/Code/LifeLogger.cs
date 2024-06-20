@@ -85,6 +85,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), (int, int), DataType)> teleport_random = new List<(double, (int, int), (int, int), DataType)>();
         // Случаи каста заклинаний во время боя
         public List<(double, (int, int), string, (int, int), DataType)> cast_spell = new List<(double, (int, int), string, (int, int), DataType)>();
+        // Cлучаи каста лечения (так как в касте лечения, помимо x и y использется также цель)
+        public List<(double, (int, int), string, (int, int), DataType)> cast_cure = new List<(double, (int, int), string, (int, int), DataType)>();
 
         // Имя, бывшее у юнита изначально
         public string initial_name = "";
@@ -200,6 +202,12 @@ namespace UnitsLogger_BepInEx
                     cast_spell_list.Add((lightning.Item1, lightning.Item2, $"типа {("spell_" + lightning.Item3).GetLocal()}, по координатам X{lightning.Item4.Item1}, Y{lightning.Item4.Item2}", lightning.Item5));
                 }
 
+                List<(double, (int, int), string, DataType)> cast_cure_list = new List<(double, (int, int), string, DataType)>();
+                foreach (var cure in cast_cure)
+                {
+                    cast_spell_list.Add((cure.Item1, cure.Item2, $"типа {"spell_cure".GetLocal()}, по координатам X{cure.Item4.Item1}, Y{cure.Item4.Item2}, по цели {cure.Item3.GetLocal()}", cure.Item5));
+                }
+
                 List<(double, (int, int), string, DataType)> crab_burrow_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var burrow in crab_burrow)
                 {
@@ -249,6 +257,7 @@ namespace UnitsLogger_BepInEx
                 temp_dict.AddRange(crab_burrow_list);
                 temp_dict.AddRange(teleport_random_list);
                 temp_dict.AddRange(cast_spell_list);
+                temp_dict.AddRange(cast_cure_list);
 
                 return temp_dict;
             }

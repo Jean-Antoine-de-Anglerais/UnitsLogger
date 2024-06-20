@@ -1133,6 +1133,29 @@ namespace UnitsLogger_BepInEx
         }
         #endregion
 
+        #region Каст лечения
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehCheckCure), nameof(BehCheckCure.execute))]
+        public static IEnumerable<CodeInstruction> execute_BehCheckCure_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = new List<CodeInstruction>(instructions);
+
+            int index = codes.FindLastIndex(instruction => instruction.opcode == OpCodes.Callvirt && ((MethodInfo)instruction.operand).Name == "Invoke");
+
+            if (index == -1)
+            {
+                Console.WriteLine("execute_BehCheckCure_Transpiler: index not found");
+                return codes.AsEnumerable();
+            }
+
+            codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Ldloc_0));
+            codes.Insert(index + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehCheckCure_Transpiler))));
+
+            return codes.AsEnumerable();
+        }
+        #endregion
+
         #region Выпадение за границу мира
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]
