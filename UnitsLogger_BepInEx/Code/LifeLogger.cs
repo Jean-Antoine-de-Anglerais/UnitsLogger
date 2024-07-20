@@ -473,7 +473,7 @@ namespace UnitsLogger_BepInEx
             // Обнуляем main_dict (если у него есть сеттер)
             main_dict = null;
 
-            GC.Collect();
+            //GC.Collect();
         }
     }
 }
