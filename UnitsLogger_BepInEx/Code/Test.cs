@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace UnitsLogger_BepInEx
 {
-    internal class Test : BehaviourActionCity
+    internal class Test //: BehaviourActionCity
     {
-        private List<Actor> _possibleParents = new List<Actor>();
+        /*private List<Actor> _possibleParents = new List<Actor>();
 
         private bool unitProduced;
 
@@ -229,6 +229,6 @@ namespace UnitsLogger_BepInEx
                 return BehaviourActionBase<City>.world.cultures.get(text);
             }
             return BehaviourActionBase<City>.world.cultures.get(text2);
-        }
+        }*/
     }
 }

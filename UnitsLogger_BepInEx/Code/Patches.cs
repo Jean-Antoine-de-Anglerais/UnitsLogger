@@ -1157,9 +1157,9 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Каст кровавого огня
-        [HarmonyTranspiler]
-        [HarmonyPatch(typeof(BehHeal), nameof(BehHeal.execute))]
-        public static IEnumerable<CodeInstruction> execute_BehHeal_Transpiler(IEnumerable<CodeInstruction> instructions)
+        //[HarmonyTranspiler]
+        //[HarmonyPatch(typeof(BehHeal), nameof(BehHeal.execute))]
+        public static IEnumerable<CodeInstruction> execute_BehHeal_Transpiler(IEnumerable<CodeInstruction> instructions) // выдаёт ошибку, потом проверить
         {
             var codes = new List<CodeInstruction>(instructions);
 
