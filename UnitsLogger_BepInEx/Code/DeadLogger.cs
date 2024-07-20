@@ -54,11 +54,11 @@ namespace UnitsLogger_BepInEx
             unit_statistic.Append($"{"Изначальные характеристики юнита".GetLocal()}:");
             unit_statistic.Append($"\rДата, когда юнит стал отслеживаемым - {logger.initial_time.GetDateFromTime()}");
             unit_statistic.Append($"\r{"Имя".GetLocal()} - {logger.initial_name}");
-            unit_statistic.Append(!(logger.initial_traits.Count == 0) ? $"\r{"traits".GetLocal()} - {string.Join(", ", logger.initial_traits.Select(t => ("trait_" + t).GetLocal()))}" : "");
+            if (logger.initial_traits.Count != 0) unit_statistic.Append($"\r{"traits".GetLocal()} - {string.Join(", ", logger.initial_traits.Select(t => ("trait_" + t).GetLocal()))}");            
             unit_statistic.Append($"\r{"Профессия".GetLocal()} - {logger.initial_profession.ToString().GetLocal()}" + (logger.initial_is_group_leader ? $", {"Генерал".GetLocal()}" : ""));
-            unit_statistic.Append(!logger.initial_mood.IsNullOrWhiteSpace() ? $"\r{"creature_statistics_mood".GetLocal()} - {("mood_" + logger.initial_mood).GetLocal()}" : "");
-            unit_statistic.Append(!(logger.initial_kills == 0) ? $"\r{"creature_statistics_kills".GetLocal()} - {logger.initial_kills}" : "");
-            unit_statistic.Append(!(logger.initial_children == 0) ? $"\r{"creature_statistics_children".GetLocal()} - {logger.initial_children}" : "");
+            if (!logger.initial_mood.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"creature_statistics_mood".GetLocal()} - {("mood_" + logger.initial_mood).GetLocal()}");
+            if (logger.initial_kills != 0) unit_statistic.Append($"\r{"creature_statistics_kills".GetLocal()} - {logger.initial_kills}");
+            if (logger.initial_children != 0) unit_statistic.Append($"\r{"creature_statistics_children".GetLocal()} - {logger.initial_children}");
             unit_statistic.Append($"\r{"opinion_world_era".GetLocal()} - {(logger.initial_era + "_title").GetLocal()}");
 
             if (logger.initial_items.Count != 0)
@@ -71,11 +71,11 @@ namespace UnitsLogger_BepInEx
                     unit_statistic.Append($"\r");
                     unit_statistic.Append($"\r{"Тип".GetLocal()} - {("item_" + item.id).GetLocal()}");
                     unit_statistic.Append($"\r{"item_material".GetLocal()} - {("item_mat_" + item.material).GetLocal()}");
-                    unit_statistic.Append(!item.name.IsNullOrWhiteSpace() ? $"\r{"Имя".GetLocal()} - {item.name}" : "");
-                    unit_statistic.Append(!(item.kills == 0) ? $"\r{"creature_statistics_kills".GetLocal()} - {item.kills}" : "");
+                    if (!item.name.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"Имя".GetLocal()} - {item.name}");
+                    if (item.kills != 0) unit_statistic.Append($"\r{"creature_statistics_kills".GetLocal()} - {item.kills}");
                     unit_statistic.Append($"\r{"Год создания".GetLocal()} - {item.year}");
-                    unit_statistic.Append(!item.by.IsNullOrWhiteSpace() ? $"\r{"Создатель".GetLocal()} - {item.by}" : "");
-                    unit_statistic.Append(!item.from.IsNullOrWhiteSpace() ? $"\r{"Создан в государстве".GetLocal()} - {item.from}" : "");
+                    if (!item.by.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"Создатель".GetLocal()} - {item.by}");
+                    if (!item.from.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"Создан в государстве".GetLocal()} - {item.from}");
 
                     if (item.modifiers.Count != 0)
                     {
@@ -87,7 +87,7 @@ namespace UnitsLogger_BepInEx
                             items_modifiers.Add(modifier);
                         }
 
-                        unit_statistic.Append(items_modifiers.Count != 0 ? $"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != ' ') ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}" : "");
+                        if (items_modifiers.Count != 0) unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != ' ') ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}");
                     }
                 }
             }
@@ -298,38 +298,38 @@ namespace UnitsLogger_BepInEx
             unit_statistic.Append($"\r{"Имя".GetLocal()} - {actor_logged.name}");
             unit_statistic.Append($"\rГоды жизни - с {actor_logged.born_in} по {actor_logged.dead_in}");
             unit_statistic.Append($"\r{"world_current_age_title".GetLocal()} - {(World.world_era.id + "_title").GetLocal()}");
-            unit_statistic.Append(actor_logged.traits.Count != 0 ? $"\r{"traits".GetLocal()} - {string.Join(", ", actor_logged.traits.Select(t => t))}" : "");
+            if (actor_logged.traits.Count != 0) unit_statistic.Append($"\r{"traits".GetLocal()} - {string.Join(", ", actor_logged.traits.Select(t => t))}");
             unit_statistic.Append($"\r{"Профессия".GetLocal()} - {actor_logged.profession}" + (actor.is_group_leader ? $", {"Генерал".GetLocal()}" : ""));
             unit_statistic.Append($"\r{"Место смерти".GetLocal()} - X: {actor_logged.place_of_death.Item1}, Y: {actor_logged.place_of_death.Item2}");
-            unit_statistic.Append(actor_logged.resources.Count != 0 ? $"\r{"resources".GetLocal()} - {string.Join(", ", actor_logged.resources.Select(r => $"{r.Key}: {r.Value}"))}" : "");
-            unit_statistic.Append(!actor_logged.favorite_food.IsNullOrWhiteSpace() ? $"\r{"creature_statistics_favorite_food".GetLocal()} - {actor_logged.favorite_food}" : "");
-            unit_statistic.Append(!actor_logged.mood.IsNullOrWhiteSpace() ? $"\r {"creature_statistics_mood".GetLocal()} - {actor_logged.mood}" : "");
+            if (actor_logged.resources.Count != 0) unit_statistic.Append($"\r{"resources".GetLocal()} - {string.Join(", ", actor_logged.resources.Select(r => $"{r.Key}: {r.Value}"))}");
+            if (!actor_logged.favorite_food.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"creature_statistics_favorite_food".GetLocal()} - {actor_logged.favorite_food}");
+            if (!actor_logged.mood.IsNullOrWhiteSpace()) unit_statistic.Append($"\r {"creature_statistics_mood".GetLocal()} - {actor_logged.mood}");
             unit_statistic.Append($"\r{"Пол".GetLocal()} - {actor_logged.gender}");
-            unit_statistic.Append(actor_logged.kills != 0 ? $"\r{"creature_statistics_kills".GetLocal()} - {actor_logged.kills}" : "");
+            if (actor_logged.kills != 0) unit_statistic.Append($"\r{"creature_statistics_kills".GetLocal()} - {actor_logged.kills}");
             unit_statistic.Append($"\r{"Биологический вид".GetLocal()} - {actor_logged.species}");
-            unit_statistic.Append(actor.hasClan() ? $"\r {"influence".GetLocal()} - {actor_logged.influence}" : "");
-            unit_statistic.Append(actor.asset.needFood ? $"\r{"hunger".GetLocal()} - {actor_logged.hunger}%" : "");
-            unit_statistic.Append(actor_logged.level != 0 ? $"\r{"creature_statistics_character_level".GetLocal()} - {actor_logged.level}" : "");
-            unit_statistic.Append(actor_logged.experience != 0 ? $"\r{"creature_statistics_character_experience".GetLocal()} - {actor_logged.experience}" : "");
-            unit_statistic.Append(!actor_logged.personality.IsNullOrWhiteSpace() ? $"\r{"creature_statistics_personality".GetLocal()} - {actor_logged.personality}" : "");
-            unit_statistic.Append(actor_logged.children != 0 ? $"\r{"creature_statistics_children".GetLocal()} - {actor_logged.children}" : "");
+            if (actor.hasClan()) unit_statistic.Append($"\r {"influence".GetLocal()} - {actor_logged.influence}");
+            if (actor.asset.needFood) unit_statistic.Append($"\r{"hunger".GetLocal()} - {actor_logged.hunger}%");
+            if (actor_logged.level != 0) unit_statistic.Append($"\r{"creature_statistics_character_level".GetLocal()} - {actor_logged.level}");
+            if (actor_logged.experience != 0) unit_statistic.Append($"\r{"creature_statistics_character_experience".GetLocal()} - {actor_logged.experience}");
+            if (!actor_logged.personality.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"creature_statistics_personality".GetLocal()} - {actor_logged.personality}");
+            if (actor_logged.children != 0) unit_statistic.Append($"\r{"creature_statistics_children".GetLocal()} - {actor_logged.children}");
                           
                           
             unit_statistic.Append($"\r\r{"Подробные сведения о месте смерти".GetLocal()}:\r");
-            unit_statistic.Append(actor.currentTile.zone.city != null ? $"{"Город, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getCityName()}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.culture != null ? $"{"Культура, на территории которой умер юнит".GetLocal()} - {actor.currentTile.zone.culture.name}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.city?.kingdom != null ? $"{"Государство, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.kingdom.name}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.city?.getRoyalClan() != null ? $"{"Клан, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getRoyalClan().name}\r" : "");
-            unit_statistic.Append($"{"Чанк, где умер юнит".GetLocal()} - X: {actor.currentTile.zone.x}, Y: {actor.currentTile.zone.y}\r");
-            unit_statistic.Append(actor.currentTile.zone.abandoned?.Count != 0 ? $"{"Заброшенные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.abandoned.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.food?.Count != 0 ? $"{"Съедобные строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.food?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.minerals?.Count != 0 ? $"{"Минералы на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.minerals?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.plants?.Count != 0 ? $"{"Растения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.plants?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.trees?.Count != 0 ? $"{"Деревья на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.trees?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.wheat?.Count != 0 ? $"{"Пшеница на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.wheat?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.ruins?.Count != 0 ? $"{"Руины на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.ruins?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.buildings?.Count != 0 ? $"{"Цивилизационные постройки на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "");
-            unit_statistic.Append(actor.currentTile.zone.buildings_all?.Count != 0 ? $"{"Все строения на чанке".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings_all?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r" : "");
+            if (actor.currentTile.zone.city != null) unit_statistic.Append($"{"Город, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getCityName()}\r");
+            if (actor.currentTile.zone.culture != null) unit_statistic.Append($"{"Культура, на территории которой умер юнит".GetLocal()} - {actor.currentTile.zone.culture.name}\r");
+            if (actor.currentTile.zone.city?.kingdom != null) unit_statistic.Append($"{"Государство, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.kingdom.name}\r");
+            if (actor.currentTile.zone.city?.getRoyalClan() != null) unit_statistic.Append($"{"Клан, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getRoyalClan().name}\r");
+            unit_statistic.Append($"{"Зона, где умер юнит".GetLocal()} - X: {actor.currentTile.zone.x}, Y: {actor.currentTile.zone.y}\r");
+            if (actor.currentTile.zone.abandoned?.Count != 0) unit_statistic.Append($"{"Заброшенные строения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.abandoned.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.food?.Count != 0) unit_statistic.Append($"{"Съедобные строения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.food?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.minerals?.Count != 0) unit_statistic.Append($"{"Минералы на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.minerals?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.plants?.Count != 0) unit_statistic.Append($"{"Растения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.plants?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.trees?.Count != 0) unit_statistic.Append($"{"Деревья на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.trees?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.wheat?.Count != 0) unit_statistic.Append($"{"Пшеница на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.wheat?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.ruins?.Count != 0) unit_statistic.Append($"{"Руины на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.ruins?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.buildings?.Count != 0) unit_statistic.Append($"{"Цивилизационные постройки на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.buildings_all?.Count != 0) unit_statistic.Append($"{"Все строения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings_all?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
 
 
             //unit_statistic += !(logger.received_names.Count == 0) ? $"\r\r{"Случаи смены имён"}: {string.Join(", ", logger.received_names.Select(n => $"{n.Value} - {n.Key.GetDateFromTime()}"))}" : "";
@@ -344,13 +344,13 @@ namespace UnitsLogger_BepInEx
             {
                 List<(string, string)> civil_affiliation = new List<(string, string)>();
 
-                if (actor_logged.kingdom != null) { civil_affiliation.Add(("kingdom".GetLocal(), actor_logged.kingdom.name)); }
-                if (actor_logged.city != null) { civil_affiliation.Add(("village".GetLocal(), actor_logged.city.name)); }
-                if (actor_logged.clan != null) { civil_affiliation.Add(("clan".GetLocal(), actor_logged.clan.name)); }
-                if (actor_logged.culture != null) { civil_affiliation.Add(("culture".GetLocal(), actor_logged.culture.name)); }
+                if (actor_logged.kingdom != null) civil_affiliation.Add(("kingdom".GetLocal(), actor_logged.kingdom.name));
+                if (actor_logged.city != null) civil_affiliation.Add(("village".GetLocal(), actor_logged.city.name));
+                if (actor_logged.clan != null) civil_affiliation.Add(("clan".GetLocal(), actor_logged.clan.name));
+                if (actor_logged.culture != null) civil_affiliation.Add(("culture".GetLocal(), actor_logged.culture.name));
 
 
-                unit_statistic.Append(civil_affiliation.Count != 0 ? $"\r\r{"Гражданская принадлежность".GetLocal()}: {string.Join(", ", civil_affiliation.Select(c => $"{c.Item1} - {c.Item2}"))}" : "");
+                if (civil_affiliation.Count != 0) unit_statistic.Append($"\r\r{"Гражданская принадлежность".GetLocal()}: {string.Join(", ", civil_affiliation.Select(c => $"{c.Item1} - {c.Item2}"))}");
 
                 //unit_statistic += $"\r\rГражданская принадлежность:";
                 //unit_statistic += !(actor_logged.kingdom == null) ? $"\rКоролевство - {actor_logged.kingdom.name}" : "";
@@ -372,7 +372,7 @@ namespace UnitsLogger_BepInEx
                 //unit_statistic += $"\r\rПолитические характеристики: {(!(actor_logged.diplomacy == 0) ? $"{"diplomacy".GetLocalization()} {actor_logged.diplomacy}," : "")} {(!(actor_logged.intelligence == 0) ? $"{"intelligence".GetLocalization()} {actor_logged.intelligence}," : "")} {(!(actor_logged.stewardship == 0) ? $"{"stewardship".GetLocalization()} {actor_logged.stewardship}," : "")} {(!(actor_logged.warfare == 0) ? $"{"warfare".GetLocalization()} {actor_logged.warfare}" : "")}";
             }*/
 
-            unit_statistic.Append(!(actor.stats.getList().Count == 0) ? $"\r\r{"Характеристики".GetLocal()}:\r" : "");
+            if (actor.stats.getList().Count != 0) unit_statistic.Append($"\r\r{"Характеристики".GetLocal()}:\r");
 
             foreach (var stat in actor.stats.getList())
             {
@@ -409,11 +409,11 @@ namespace UnitsLogger_BepInEx
                     unit_statistic.Append($"\r");
                     unit_statistic.Append($"\r{"Тип".GetLocal()} - {("item_" + item.id).GetLocal()}");
                     unit_statistic.Append($"\r{"item_material".GetLocal()} - {("item_mat_" + item.material).GetLocal()}");
-                    unit_statistic.Append(!item.name.IsNullOrWhiteSpace() ? $"\r{"Имя".GetLocal()} - {item.name}" : "");
-                    unit_statistic.Append(item.kills != 0 ? $"\r{"creature_statistics_kills".GetLocal()} - {item.kills}" : "");
+                    if (!item.name.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"Имя".GetLocal()} - {item.name}");
+                    if (item.kills != 0) unit_statistic.Append($"\r{"creature_statistics_kills".GetLocal()} - {item.kills}");
                     unit_statistic.Append($"\r{"Год создания".GetLocal()} - {item.year}");
-                    unit_statistic.Append(!item.by.IsNullOrWhiteSpace() ? $"\r{"Создатель".GetLocal()} - {item.by}" : "");
-                    unit_statistic.Append(!item.from.IsNullOrWhiteSpace() ? $"\r{"Создан в государстве".GetLocal()} - {item.from}" : "");
+                    if (!item.by.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"Создатель".GetLocal()} - {item.by}");
+                    if (!item.from.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"Создан в государстве".GetLocal()} - {item.from}");
 
                     if (item.modifiers.Count != 0)
                     {
@@ -425,7 +425,7 @@ namespace UnitsLogger_BepInEx
                             items_modifiers.Add(modifier);
                         }
 
-                        unit_statistic.Append(items_modifiers.Count != 0 ? $"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != ' ') ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}" : "");
+                        if (items_modifiers.Count != 0) unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != ' ') ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}");
                     }
                 }
             }
