@@ -79,15 +79,15 @@ namespace UnitsLogger_BepInEx
 
                     if (item.modifiers.Count != 0)
                     {
-                        List<(string, char)> items_modifiers = new List<(string, char)>();
+                        List<(string, string)> items_modifiers = new List<(string, string)>();
 
                         foreach (var item_modifier in item.modifiers)
                         {
-                            (string, char) modifier = item_modifier.DecodeModifier();
+                            (string, string) modifier = item_modifier.DecodeModifier();
                             items_modifiers.Add(modifier);
                         }
 
-                        if (items_modifiers.Count != 0) unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != ' ') ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}");
+                        if (items_modifiers.Count != 0) unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != "") ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}");
                     }
                 }
             }
@@ -417,15 +417,15 @@ namespace UnitsLogger_BepInEx
 
                     if (item.modifiers.Count != 0)
                     {
-                        List<(string, char)> items_modifiers = new List<(string, char)>();
+                        List<(string, string)> items_modifiers = new List<(string, string)>();
 
                         foreach (var item_modifier in item.modifiers)
                         {
-                            (string, char) modifier = item_modifier.DecodeModifier();
+                            (string, string) modifier = item_modifier.DecodeModifier();
                             items_modifiers.Add(modifier);
                         }
 
-                        if (items_modifiers.Count != 0) unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != ' ') ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}");
+                        if (items_modifiers.Count != 0) unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != "") ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}");
                     }
                 }
             }

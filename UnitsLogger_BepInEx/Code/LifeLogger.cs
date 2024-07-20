@@ -164,7 +164,7 @@ namespace UnitsLogger_BepInEx
                 List<(double, (int, int), string, DataType)> manufactured_items_list = new List<(double, (int, int), string, DataType)>();
                 foreach (var item in manufactured_items)
                 {
-                    manufactured_items_list.Add((item.Item1, (item.Item2.Item1, item.Item2.Item2), (!item.Item3.name.IsNullOrWhiteSpace() ? $"название {item.Item3.name}, " : "") + $"тип {("item_" + item.Item3.id).GetLocal()}, материал {("item_mat_" + item.Item3.material).GetLocal()}" + (item.Item3.modifiers.Count != 0 ? $", модификаторы {string.Join(", ", item.Item3.modifiers.Select(m => (m.DecodeModifier().Item2 != ' ') ? $"{("mod_" + m.DecodeModifier().Item1).GetLocal()} {m.DecodeModifier().Item2}" : $"{("mod_" + m.DecodeModifier().Item1).GetLocal()}"))}" : ""), item.Item4));
+                    manufactured_items_list.Add((item.Item1, (item.Item2.Item1, item.Item2.Item2), (!item.Item3.name.IsNullOrWhiteSpace() ? $"название {item.Item3.name}, " : "") + $"тип {("item_" + item.Item3.id).GetLocal()}, материал {("item_mat_" + item.Item3.material).GetLocal()}" + (item.Item3.modifiers.Count != 0 ? $", модификаторы {string.Join(", ", item.Item3.modifiers.Select(m => (m.DecodeModifier().Item2 != "") ? $"{("mod_" + m.DecodeModifier().Item1).GetLocal()} {m.DecodeModifier().Item2}" : $"{("mod_" + m.DecodeModifier().Item1).GetLocal()}"))}" : ""), item.Item4));
                 }
 
                 List<(double, (int, int), string, DataType)> founded_cities_list = new List<(double, (int, int), string, DataType)>();

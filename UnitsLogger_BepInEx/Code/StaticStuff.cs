@@ -6,11 +6,13 @@ namespace UnitsLogger_BepInEx
     {
         public static string GetDateFromTime(this double time) => World.world.mapStats.getDate(time);
 
-        public static (string, char) DecodeModifier(this string modifier)
+        public static (string, string) DecodeModifier(this string modifier)
         {
             List<char> chars = new List<char>();
 
-            (string, char) output = ("", ' ');
+            List<char> numbers = new List<char>();
+
+            (string, string) output = ("", "");
 
             foreach (var item in modifier)
             {
@@ -21,11 +23,12 @@ namespace UnitsLogger_BepInEx
 
                 else if (char.IsDigit(item))
                 {
-                    output.Item2 = item;
+                    numbers.Add(item);
                 }
             }
 
             output.Item1 = string.Concat(chars);
+            output.Item2 = string.Concat(numbers);
 
             return output;
         }
