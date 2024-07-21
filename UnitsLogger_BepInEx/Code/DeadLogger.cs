@@ -54,7 +54,7 @@ namespace UnitsLogger_BepInEx
             unit_statistic.Append($"{"Изначальные характеристики юнита".GetLocal()}:");
             unit_statistic.Append($"\rДата, когда юнит стал отслеживаемым - {logger.initial_time.GetDateFromTime()}");
             unit_statistic.Append($"\r{"Имя".GetLocal()} - {logger.initial_name}");
-            if (logger.initial_traits.Count != 0) unit_statistic.Append($"\r{"traits".GetLocal()} - {string.Join(", ", logger.initial_traits.Select(t => ("trait_" + t).GetLocal()))}");            
+            if (logger.initial_traits.Count != 0) unit_statistic.Append($"\r{"traits".GetLocal()} - {string.Join(", ", logger.initial_traits.Select(t => ("trait_" + t).GetLocal()))}");
             unit_statistic.Append($"\r{"Профессия".GetLocal()} - {logger.initial_profession.ToString().GetLocal()}" + (logger.initial_is_group_leader ? $", {"Генерал".GetLocal()}" : ""));
             if (!logger.initial_mood.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"creature_statistics_mood".GetLocal()} - {("mood_" + logger.initial_mood).GetLocal()}");
             if (logger.initial_kills != 0) unit_statistic.Append($"\r{"creature_statistics_kills".GetLocal()} - {logger.initial_kills}");
@@ -179,16 +179,20 @@ namespace UnitsLogger_BepInEx
                         unit_statistic.Append($"юнит основал город под названием {stat.Item3}");
                         break;
 
+                    case DataType.PlantCrops:
+                        unit_statistic.Append($"юнит посадил пшеницу");
+                        break;
+
                     case DataType.ManufacturedItem:
                         unit_statistic.Append($"юнит произвёл предмет: {stat.Item3.GetLocal()}");
                         break;
 
                     case DataType.ExtractResources:
-                        unit_statistic.Append($"юнит добыл ресурсы из {("building_" + stat.Item3).GetLocal()}");
+                        unit_statistic.Append($"юнит добыл ресурсы из {stat.Item3.GetLocal()}");
                         break;
 
                     case DataType.MineResources:
-                        unit_statistic.Append($"юнит добыл в шахте минерал {("building_" + stat.Item3).GetLocal()}");
+                        unit_statistic.Append($"юнит добыл в шахте минерал {stat.Item3.GetLocal()}");
                         break;
 
                     case DataType.CreateRoad:
@@ -200,7 +204,7 @@ namespace UnitsLogger_BepInEx
                         break;
 
                     case DataType.BuildedConstruction:
-                        unit_statistic.Append($"юнит построил {("building_" + stat.Item3).GetLocal()}");
+                        unit_statistic.Append($"юнит построил {stat.Item3.GetLocal()}");
                         break;
 
                     case DataType.KilledUnits:
@@ -208,7 +212,7 @@ namespace UnitsLogger_BepInEx
                         break;
 
                     case DataType.CleanedConstruction:
-                        unit_statistic.Append($"юнит убрал руины {("building_" + stat.Item3).GetLocal()}");
+                        unit_statistic.Append($"юнит убрал руины {stat.Item3.GetLocal()}");
                         break;
 
                     case DataType.GetResources:
@@ -228,7 +232,7 @@ namespace UnitsLogger_BepInEx
                         break;
 
                     case DataType.EatenBuildings:
-                        unit_statistic.Append($"юнит съел {("building_" + stat.Item3).GetLocal()}");
+                        unit_statistic.Append($"юнит съел {stat.Item3.GetLocal()}");
                         break;
 
                     case DataType.Culturships:
@@ -313,8 +317,8 @@ namespace UnitsLogger_BepInEx
             if (actor_logged.experience != 0) unit_statistic.Append($"\r{"creature_statistics_character_experience".GetLocal()} - {actor_logged.experience}");
             if (!actor_logged.personality.IsNullOrWhiteSpace()) unit_statistic.Append($"\r{"creature_statistics_personality".GetLocal()} - {actor_logged.personality}");
             if (actor_logged.children != 0) unit_statistic.Append($"\r{"creature_statistics_children".GetLocal()} - {actor_logged.children}");
-                          
-                          
+
+
             unit_statistic.Append($"\r\r{"Подробные сведения о месте смерти".GetLocal()}:\r");
             if (actor.currentTile.zone.city != null) unit_statistic.Append($"{"Город, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getCityName()}\r");
             if (actor.currentTile.zone.culture != null) unit_statistic.Append($"{"Культура, на территории которой умер юнит".GetLocal()} - {actor.currentTile.zone.culture.name}\r");

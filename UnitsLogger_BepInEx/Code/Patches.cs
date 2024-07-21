@@ -763,7 +763,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.create_road.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"top_type: {pActor.beh_tile_target.top_type.id}, main_type: {pActor.beh_tile_target.main_type.id}, cur_tile_type: {pActor.beh_tile_target.cur_tile_type.id}, Height: {pActor.beh_tile_target.Height}", DataType.CreateRoad));
+                logger?.create_road.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"{((pActor.beh_tile_target.top_type != null) ? ("top_type: " + pActor.beh_tile_target.top_type.id + ", ") : "")} top_type: main_type: {pActor?.beh_tile_target?.main_type.id}, cur_tile_type: {pActor?.beh_tile_target?.cur_tile_type.id}, Height: {pActor?.beh_tile_target?.Height}", DataType.CreateRoad));
             }
         }
         #endregion
@@ -787,7 +787,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.make_farm.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"top_type: {pActor.beh_tile_target.top_type.id}, main_type: {pActor.beh_tile_target.main_type.id}, cur_tile_type: {pActor.beh_tile_target.cur_tile_type.id}, Height: {pActor.beh_tile_target.Height}", DataType.MakeFarm));
+                logger?.make_farm.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"{ ((pActor.beh_tile_target.top_type != null) ? ("top_type: " + pActor.beh_tile_target.top_type.id + ", ") : "")} top_type: main_type: {pActor?.beh_tile_target?.main_type.id}, cur_tile_type: {pActor?.beh_tile_target?.cur_tile_type.id}, Height: {pActor?.beh_tile_target?.Height}", DataType.MakeFarm));
             }
         }
 
@@ -798,8 +798,12 @@ namespace UnitsLogger_BepInEx
         {
             if (pActor.beh_tile_target.Type == TopTileLibrary.field && pActor.beh_tile_target.building == null)
             {
-                BehaviourActionBase<Actor>.world.buildings.addBuilding(SB.wheat_0, pActor.beh_tile_target, false, false, BuildPlacingType.New);
-                MusicBox.playSound("event:/SFX/CIVILIZATIONS/PlantCrops", pActor.beh_tile_target, true, false);
+                if (StaticStuff.GetIsTracked(pActor))
+                {
+                    LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+
+                    logger?.plant_crops.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), "", DataType.PlantCrops));
+                }
             }
         }
 

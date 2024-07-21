@@ -1,6 +1,4 @@
-﻿using static UnityEngine.GraphicsBuffer;
-
-namespace UnitsLogger_BepInEx
+﻿namespace UnitsLogger_BepInEx
 {
     public class TranspilersContainer
     {

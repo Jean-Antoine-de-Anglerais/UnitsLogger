@@ -28,6 +28,7 @@
         ExtractResources,
         CreateRoad,
         MakeFarm,
+        PlantCrops,
         FoundedCities,
         EatenBuildings,
         MineResources,

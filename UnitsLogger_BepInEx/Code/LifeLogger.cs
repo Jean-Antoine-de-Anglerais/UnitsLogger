@@ -1,5 +1,4 @@
 ﻿using BepInEx;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -69,6 +68,8 @@ namespace UnitsLogger_BepInEx
         public List<(double, (int, int), string, DataType)> create_road = new List<(double, (int, int), string, DataType)>();
         // Вспаханные тайлы поля
         public List<(double, (int, int), string, DataType)> make_farm = new List<(double, (int, int), string, DataType)>();
+        // Посаженная пшеница
+        public List<(double, (int, int), string, DataType)> plant_crops = new List<(double, (int, int), string, DataType)>();
         // Основанные государства (дата, координаты юнита, было ли основано королевство, название города, название королевства, координаты чанка королевства
         public List<(double, (int, int), bool, string, string, (int, int), DataType)> founded_cities = new List<(double, (int, int), bool, string, string, (int, int), DataType)>();
         // Съеденные животным постройки
