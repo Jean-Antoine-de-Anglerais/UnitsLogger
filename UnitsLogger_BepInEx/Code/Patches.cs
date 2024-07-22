@@ -3,14 +3,36 @@ using BepInEx;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using UnityEngine;
 
 namespace UnitsLogger_BepInEx
 {
     public static class Patches
     {
+        #region Сохранение статистики тестов
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(global::ClickQuitTheGame), nameof(ClickQuitTheGame.clickQuit))]
+        public static void clickQuit_Postfix()
+        {
+            if (Test.ms.Count > 0)
+            {
+                ulong l = 0;
+
+                l = (ulong)(Test.ms.Sum() / Test.ms.Count);
+
+                using (StreamWriter writer = new StreamWriter(Path.Combine(Application.streamingAssetsPath, "test.txt")))
+                {
+                    writer.WriteLine(l.ToString() + " " + Test.ms.Count.ToString() + " " + Test.ms.Max().ToString());
+                }
+            }
+        }
+        #endregion
+
         #region Переключить отслеживаемость юнита
         [HarmonyPostfix]
         [HarmonyPatch(typeof(RaceClick), nameof(RaceClick.click))]
@@ -44,14 +66,26 @@ namespace UnitsLogger_BepInEx
 
         #region Запуск сохранения
         [HarmonyPrefix]
-        [HarmonyPatch(typeof(Actor), nameof(Actor.killHimself))]
+        [HarmonyPatch(typeof(Actor), nameof(Actor.killHimself))]     
         public static void killHimself_Prefix(Actor __instance, bool pDestroy = false, AttackType pType = AttackType.Other, bool pCountDeath = true, bool pLaunchCallbacks = true, bool pLogFavorite = true)
         {
             if (StaticStuff.GetIsTracked(__instance))
             {
                 if (__instance.isAlive())
                 {
+                    // Создание и запуск секундомера
+                    Stopwatch stopwatch = Stopwatch.StartNew();
+
                     DeadLogger.SavingAll(__instance, DeadLogger.Prepare());
+
+                    // Остановка секундомера
+                    stopwatch.Stop();
+
+                    Test.ms.Add(stopwatch.ElapsedMilliseconds);
+
+                    // Вывод времени выполнения в консоль
+                    UnityEngine.Debug.Log($"DeadLogger.SavingAll execution time for actor {__instance.getName()}: {stopwatch.ElapsedMilliseconds} ms");
+
                     StaticStuff.SetIsTracked(__instance, false);
 
                     // Уничтожение компонента LifeLogger
@@ -755,8 +789,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Постройка дороги
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(BehCityCreateRoad), nameof(BehCityCreateRoad.execute))]
+        //[HarmonyPrefix]
+        //[HarmonyPatch(typeof(BehCityCreateRoad), nameof(BehCityCreateRoad.execute))]
         public static void execute_BehCityCreateRoad_Prefix(Actor pActor)
         {
             if (StaticStuff.GetIsTracked(pActor))
@@ -770,8 +804,8 @@ namespace UnitsLogger_BepInEx
 
         #region Работа фермера
         // Вспахивание поля
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(BehMakeFarm), nameof(BehMakeFarm.execute))]
+        //[HarmonyPrefix]
+        //[HarmonyPatch(typeof(BehMakeFarm), nameof(BehMakeFarm.execute))]
         public static void execute_BehMakeFarm_Prefix(Actor pActor)
         {
             if (!pActor.beh_tile_target.Type.can_be_farm)
@@ -787,7 +821,7 @@ namespace UnitsLogger_BepInEx
             {
                 LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 
-                logger?.make_farm.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"{ ((pActor.beh_tile_target.top_type != null) ? ("top_type: " + pActor.beh_tile_target.top_type.id + ", ") : "")} top_type: main_type: {pActor?.beh_tile_target?.main_type.id}, cur_tile_type: {pActor?.beh_tile_target?.cur_tile_type.id}, Height: {pActor?.beh_tile_target?.Height}", DataType.MakeFarm));
+                logger?.make_farm.Add((World.world.getCurWorldTime(), pActor.GetActorPosition(), $"{((pActor.beh_tile_target.top_type != null) ? ("top_type: " + pActor.beh_tile_target.top_type.id + ", ") : "")} top_type: main_type: {pActor?.beh_tile_target?.main_type.id}, cur_tile_type: {pActor?.beh_tile_target?.cur_tile_type.id}, Height: {pActor?.beh_tile_target?.Height}", DataType.MakeFarm));
             }
         }
 
