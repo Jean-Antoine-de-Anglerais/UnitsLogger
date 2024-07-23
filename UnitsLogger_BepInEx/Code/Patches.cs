@@ -21,9 +21,7 @@ namespace UnitsLogger_BepInEx
         {
             if (Test.ms.Count > 0)
             {
-                ulong l = 0;
-
-                l = (ulong)(Test.ms.Sum() / Test.ms.Count);
+                double l = Test.ms.Sum() / Test.ms.Count;
 
                 using (StreamWriter writer = new StreamWriter(Path.Combine(Application.streamingAssetsPath, "test.txt")))
                 {
@@ -84,7 +82,7 @@ namespace UnitsLogger_BepInEx
                     Test.ms.Add(stopwatch.ElapsedMilliseconds);
 
                     // Вывод времени выполнения в консоль
-                    UnityEngine.Debug.Log($"DeadLogger.SavingAll execution time for actor {__instance.getName()}: {stopwatch.ElapsedMilliseconds} ms");
+                    UnityEngine.Debug.Log($"DeadLogger.SavingAll execution time for actor {__instance.base_data.id}, {__instance.asset.id}: {stopwatch.ElapsedMilliseconds} ms");
 
                     StaticStuff.SetIsTracked(__instance, false);
 
@@ -1195,8 +1193,8 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Каст кровавого огня
-        //[HarmonyTranspiler]
-        //[HarmonyPatch(typeof(BehHeal), nameof(BehHeal.execute))]
+        [HarmonyTranspiler]
+        [HarmonyPatch(typeof(BehHeal), nameof(BehHeal.execute))]
         public static IEnumerable<CodeInstruction> execute_BehHeal_Transpiler(IEnumerable<CodeInstruction> instructions) // выдаёт ошибку, потом проверить
         {
             var codes = new List<CodeInstruction>(instructions);
@@ -1210,50 +1208,50 @@ namespace UnitsLogger_BepInEx
             }
 
             codes.Insert(index + 1, new CodeInstruction(OpCodes.Ldarg_1));
-            codes.Insert(index + 3, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehHeal_Transpiler))));
+            codes.Insert(index + 2, new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.execute_BehHeal_Transpiler))));
 
             return codes.AsEnumerable();
         }
         #endregion
 
         #region Выпадение за границу мира
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]
-        public static void checkDeathOutsideMap_Prefix(Actor __instance, Actor pActor)
-        {
-            if (StaticStuff.GetIsTracked(__instance))
-            {
-                if (!__instance.inMapBorder())
-                {
-                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
-
-                    if (logger?.dead_reason == DeadReason.Null)
-                    {
-                        logger.dead_reason = DeadReason.WorldBorder;
-                    }
-                }
-            }
-        }
+        //[HarmonyPrefix]
+        //[HarmonyPatch(typeof(Actor), "checkDeathOutsideMap")]
+        //public static void checkDeathOutsideMap_Prefix(Actor __instance, Actor pActor)
+        //{
+        //    if (StaticStuff.GetIsTracked(__instance))
+        //    {
+        //        if (!__instance.inMapBorder())
+        //        {
+        //            LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+        //
+        //            if (logger?.dead_reason == DeadReason.Null)
+        //            {
+        //                logger.dead_reason = DeadReason.WorldBorder;
+        //            }
+        //        }
+        //    }
+        //}
         #endregion
 
         #region Смерть от земли
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(Actor), nameof(Actor.checkDieOnGround))]
-        public static void checkDieOnGround_Prefix(Actor __instance)
-        {
-            if (StaticStuff.GetIsTracked(__instance))
-            {
-                if (!__instance.currentTile.Type.liquid && __instance.isAlive() && !__instance.isInMagnet())
-                {
-                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
-
-                    if (logger?.dead_reason == DeadReason.Null)
-                    {
-                        logger.dead_reason = DeadReason.Ground;
-                    }
-                }
-            }
-        }
+        //[HarmonyPrefix]
+        //[HarmonyPatch(typeof(Actor), nameof(Actor.checkDieOnGround))]
+        //public static void checkDieOnGround_Prefix(Actor __instance)
+        //{
+        //    if (StaticStuff.GetIsTracked(__instance))
+        //    {
+        //        if (!__instance.currentTile.Type.liquid && __instance.isAlive() && !__instance.isInMagnet())
+        //        {
+        //            LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+        //
+        //            if (logger?.dead_reason == DeadReason.Null)
+        //            {
+        //                logger.dead_reason = DeadReason.Ground;
+        //            }
+        //        }
+        //    }
+        //}
         #endregion
 
         #region Смерть от старости
@@ -1301,20 +1299,20 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Смерть от трансформации
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(ActionLibrary), nameof(ActionLibrary.removeUnit))]
-        public static void removeUnit_Prefix(Actor pActor)
-        {
-            if (StaticStuff.GetIsTracked(pActor))
-            {
-                LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
-
-                if (logger?.dead_reason == DeadReason.Null)
-                {
-                    logger.dead_reason = DeadReason.Transformation;
-                }
-            }
-        }
+        //[HarmonyPrefix]
+        //[HarmonyPatch(typeof(ActionLibrary), nameof(ActionLibrary.removeUnit))]
+        //public static void removeUnit_Prefix(Actor pActor)
+        //{
+        //    if (StaticStuff.GetIsTracked(pActor))
+        //    {
+        //        LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
+        //
+        //        if (logger?.dead_reason == DeadReason.Null)
+        //        {
+        //            logger.dead_reason = DeadReason.Transformation;
+        //        }
+        //    }
+        //}
         #endregion
     }
 }
