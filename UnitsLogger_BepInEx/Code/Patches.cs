@@ -103,9 +103,9 @@ namespace UnitsLogger_BepInEx
         [HarmonyPatch(typeof(ActorBase), nameof(ActorBase.addTrait))]
         public static void addTrait_ActorBase_Prefix(ActorBase __instance, string pTrait, bool pRemoveOpposites = false)
         {
-            if (StaticStuff.GetIsTracked(__instance))
+            if (!__instance.hasTrait(pTrait) && !(AssetManager.traits.get(pTrait) == null) && (pRemoveOpposites || !__instance.hasOppositeTrait(pTrait)))
             {
-                if (!__instance.hasTrait(pTrait) && !(AssetManager.traits.get(pTrait) == null) && (pRemoveOpposites || !__instance.hasOppositeTrait(pTrait)))
+                if (StaticStuff.GetIsTracked(__instance))
                 {
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
                     logger?.received_traits.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pTrait, DataType.ReceivedTraits));
@@ -117,9 +117,9 @@ namespace UnitsLogger_BepInEx
         [HarmonyPatch(typeof(ActorData), nameof(ActorData.addTrait))]
         public static void addTrait_ActorData_Prefix(ActorData __instance, string pTrait)
         {
-            if (StaticStuff.GetIsTracked(__instance))
+            if (!__instance.traits.Contains(pTrait))
             {
-                if (!__instance.traits.Contains(pTrait))
+                if (StaticStuff.GetIsTracked(__instance))
                 {
                     Actor actor = World.world.units.get(__instance.id);
 
@@ -136,9 +136,9 @@ namespace UnitsLogger_BepInEx
         [HarmonyPatch(typeof(ActorBase), nameof(ActorBase.removeTrait))]
         public static void removeTrait_ActorBase_Prefix(ActorBase __instance, string pTraitID)
         {
-            if (StaticStuff.GetIsTracked(__instance))
+            if (__instance.hasTrait(pTraitID))
             {
-                if (__instance.hasTrait(pTraitID))
+                if (StaticStuff.GetIsTracked(__instance))
                 {
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
@@ -151,9 +151,9 @@ namespace UnitsLogger_BepInEx
         [HarmonyPatch(typeof(ActorData), nameof(ActorData.removeTrait))]
         public static void removeTrait_ActorData_Prefix(ActorData __instance, string pTraitID)
         {
-            if (StaticStuff.GetIsTracked(__instance))
+            if (__instance.hasTrait(pTraitID))
             {
-                if (__instance.hasTrait(pTraitID))
+                if (StaticStuff.GetIsTracked(__instance))
                 {
                     Actor actor = World.world.units.get(__instance.id);
 
@@ -184,9 +184,9 @@ namespace UnitsLogger_BepInEx
         [HarmonyPatch(typeof(ActorBase), "setKingdom")]
         public static void setKingdom_Prefix(ActorBase __instance, Kingdom pKingdom)
         {
-            if (StaticStuff.GetIsTracked(__instance))
+            if (__instance.kingdom != pKingdom)
             {
-                if (__instance.kingdom != pKingdom)
+                if (StaticStuff.GetIsTracked(__instance))
                 {
                     LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
 
@@ -207,7 +207,7 @@ namespace UnitsLogger_BepInEx
 
                 if (pCity != null && logger != null)
                 {
-                    logger?.received_townships.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pCity.data.name, DataType.Townships));
+                    logger.received_townships.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pCity.data.name, DataType.Townships));
                 }
             }
         }
@@ -264,12 +264,12 @@ namespace UnitsLogger_BepInEx
         [HarmonyPatch(typeof(Actor), "changeMood")]
         public static void changeMood_Prefix(Actor __instance, string pMood)
         {
-            if (StaticStuff.GetIsTracked(__instance))
+            if (pMood != __instance.data.mood)
             {
-                LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
-
-                if (pMood != __instance.data.mood)
+                if (StaticStuff.GetIsTracked(__instance))
                 {
+                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+
                     logger?.received_moods.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), pMood, DataType.Moods));
                 }
             }
@@ -281,23 +281,23 @@ namespace UnitsLogger_BepInEx
         [HarmonyPatch(typeof(Actor), "newKillAction")]
         public static void newKillAction_Prefix(Actor __instance, Actor pDeadUnit, Kingdom pPrevKingdom)
         {
-            if (StaticStuff.GetIsTracked(__instance))
+            if (pDeadUnit != null && __instance != null)
             {
-                LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
-
-                if (pDeadUnit != null)
+                if (StaticStuff.GetIsTracked(__instance))
                 {
+                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+
                     logger?.killed_units.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), $"существо вида {pDeadUnit.asset.id.GetLocal()}, по имени {pDeadUnit.getName()}", DataType.KilledUnits));
                 }
-            }
 
-            if (StaticStuff.GetIsTracked(pDeadUnit))
-            {
-                LifeLogger logger = pDeadUnit.gameObject.GetComponent<LifeLogger>();
-
-                if (__instance != null)
+                if (StaticStuff.GetIsTracked(pDeadUnit))
                 {
-                    logger.killer_actor = __instance;
+                    LifeLogger logger = pDeadUnit.gameObject.GetComponent<LifeLogger>();
+
+                    if (logger != null)
+                    {
+                        logger.killer_actor = __instance;
+                    }
                 }
             }
         }
@@ -890,9 +890,9 @@ namespace UnitsLogger_BepInEx
         [HarmonyPatch(typeof(BehBuildTargetProgress), nameof(BehBuildTargetProgress.execute))]
         public static void execute_BehBuildTargetProgress_Prefix(Actor pActor)
         {
-            if (StaticStuff.GetIsTracked(pActor))
+            if (!pActor.beh_building_target.isUnderConstruction())
             {
-                if (!pActor.beh_building_target.isUnderConstruction())
+                if (StaticStuff.GetIsTracked(pActor))
                 {
                     LifeLogger logger = pActor.gameObject.GetComponent<LifeLogger>();
 

@@ -21,15 +21,29 @@ namespace UnitsLogger_BepInEx
         {
             if (global::Config.gameLoaded)
             {
-                foreach (var unit in World.world.units)
-                {
-                    if (!unit.data.favorite)
-                    {
-                        unit?.SetIsTracked(true);
-                        unit?.gameObject?.AddComponent<LifeLogger>();
-                        unit.data.favorite = true;
-                    }
-                }
+                // TODO: выяснить, что производительнее в данном случае
+
+                //  foreach (Actor unit in World.world.units)
+                //  {
+                //      if (!unit.data.favorite)
+                //      {
+                //          unit?.SetIsTracked(true);
+                //          unit?.gameObject?.AddComponent<LifeLogger>();
+                //          unit.data.favorite = true;
+                //      }
+                //  }
+
+                //  for (int i = 0; i < World.world.units.Count; i++)
+                //  {
+                //      var unit = World.world.units.getSimpleList()[i];
+                //  
+                //      if (!unit.data.favorite)
+                //      {
+                //          unit?.SetIsTracked(true);
+                //          unit?.gameObject?.AddComponent<LifeLogger>();
+                //          unit.data.favorite = true;
+                //      }
+                //  }
             }
 
             if (global::Config.gameLoaded && !_initialized)
