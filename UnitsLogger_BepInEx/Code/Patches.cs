@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
 using UnityEngine;
 
 namespace UnitsLogger_BepInEx
@@ -64,7 +65,7 @@ namespace UnitsLogger_BepInEx
 
         #region Запуск сохранения
         [HarmonyPrefix]
-        [HarmonyPatch(typeof(Actor), nameof(Actor.killHimself))]     
+        [HarmonyPatch(typeof(Actor), nameof(Actor.killHimself))]
         public static void killHimself_Prefix(Actor __instance, bool pDestroy = false, AttackType pType = AttackType.Other, bool pCountDeath = true, bool pLaunchCallbacks = true, bool pLogFavorite = true)
         {
             if (StaticStuff.GetIsTracked(__instance))
@@ -677,25 +678,171 @@ namespace UnitsLogger_BepInEx
         #endregion
 
         #region Передача ресурсов городу
-        [HarmonyPrefix]
+        [HarmonyTranspiler]
         [HarmonyPatch(typeof(ActorBase), nameof(ActorBase.giveInventoryResourcesToCity))]
-        public static void giveInventoryResourcesToCity_Prefix(ActorBase __instance)
+        public static IEnumerable<CodeInstruction> giveInventoryResourcesToCity_Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
-            if (__instance.inventory.hasResources() && __instance.city != null && __instance.city.isAlive())
-            {
-                if (StaticStuff.GetIsTracked(__instance))
-                {
-                    LifeLogger logger = __instance.gameObject.GetComponent<LifeLogger>();
+            // var actor = Config.selectedUnit;
+            // 
+            // if (actor.inventory.hasResources() && actor.city != null && actor.city.isAlive())
+            // {
+            //     if (StaticStuff.GetIsTracked(actor))
+            //     {
+            //         LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+            // 
+            //         logger?.given_resources.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), string.Join(", ", actor.inventory.getResources().Values.Select(r => $"{r.id.GetLocal()} - {r.amount}")), DataType.GiveResources));
+            // 
+            //         StringBuilder str = new StringBuilder();
+            // 
+            //         Dictionary<string, ResourceContainer>.ValueCollection.Enumerator enumerator = actor.inventory.getResources().Values.GetEnumerator();
+            //         try
+            //         {
+            //             while (enumerator.MoveNext())
+            //             {
+            //                 ResourceContainer value = enumerator.Current;
+            //                 actor.city.data.storage.change(value.id, value.amount);
+            // 
+            //                 str.Append($"{value.id.GetLocal()} - {value.amount}, ");
+            //             }
+            //         }
+            //         finally
+            //         {
+            //             enumerator.Dispose();
+            //         }
+            // 
+            //         logger?.given_resources.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), str.ToString(), DataType.GiveResources));
+            //     }
+            // }
+            // 
+            // void giveInventoryResourcesToCity()
+            // {
+            //     if (actor.inventory.hasResources() && actor.city != null && actor.city.isAlive())
+            //     {
+            //         Dictionary<string, ResourceContainer>.ValueCollection.Enumerator enumerator = actor.inventory.getResources().Values.GetEnumerator();
+            //         try
+            //         {
+            //             while (enumerator.MoveNext())
+            //             {
+            //                 ResourceContainer value = enumerator.Current;
+            //                 actor.city.data.storage.change(value.id, value.amount);
+            //             }
+            //         }
+            //         finally
+            //         {
+            //             enumerator.Dispose();
+            //         }
+            //     }
+            //     actor.inventory.empty();
+            //     if (!actor.asset.use_items)
+            //         return;
+            //     actor.dirty_sprite_item = true;
+            // }
 
-                    logger?.given_resources.Add((World.world.getCurWorldTime(), __instance.GetActorPosition(), string.Join(", ", __instance.inventory.getResources().Values.Select(r => $"{r.id.GetLocal()} - {r.amount}")), DataType.GiveResources));
+            // public void giveInventoryResourcesToCity()
+            // {
+            //     if (inventory.hasResources() && city != null && city.isAlive())
+            //     {
+            //         foreach (ResourceContainer value in inventory.getResources().Values)
+            //         {
+            //             city.data.storage.change(value.id, value.amount);
+            //         }
+            //     }
+            //     inventory.empty();
+            //     if (asset.use_items)
+            //     {
+            //         dirty_sprite_item = true;
+            //     }
+            // }
+
+
+
+            var codes = new List<CodeInstruction>(instructions);
+
+            Label label = generator.DefineLabel();
+
+            LocalBuilder builder = generator.DeclareLocal(typeof(StringBuilder));
+
+            for (int i = 0; i < codes.Count; i++)
+            {
+                if (codes[i].opcode == OpCodes.Callvirt && ((MethodInfo)codes[i].operand).Name == "isAlive")
+                {
+                    Console.WriteLine("FOUND 1");
+
+                    var newCodes = new List<CodeInstruction>
+                    {
+                        new CodeInstruction(OpCodes.Newobj, AccessTools.Constructor(typeof(StringBuilder))),
+                        new CodeInstruction(OpCodes.Stloc_S, builder.LocalIndex)
+                    };
+
+                    codes.InsertRange(i + 1, newCodes);
+                }
+
+                if (codes[i].opcode == OpCodes.Pop && codes[i + 1].opcode == OpCodes.Ldloca_S && codes[i - 1].opcode == OpCodes.Callvirt)
+                {
+                    Console.WriteLine("FOUND 2");
+
+                    var newCodes = new List<CodeInstruction>
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_S, builder.LocalIndex),
+                        new CodeInstruction(OpCodes.Ldstr, "{0} - {1}, "),
+                        new CodeInstruction(OpCodes.Ldloc_1),
+                        new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(ResourceContainer), "id")),
+                        new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(CustomDictionary), nameof(CustomDictionary.GetLocal))),
+                        new CodeInstruction(OpCodes.Ldloc_1),
+                        new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(ResourceContainer), "amount")),
+                        new CodeInstruction(OpCodes.Box, typeof(System.Int32)),
+                        new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(String), nameof(String.Format), new System.Type[] {typeof(string), typeof(object), typeof(object)})),
+                        new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(StringBuilder), nameof(StringBuilder.Append), new System.Type[] {typeof(string)})),
+                        new CodeInstruction(OpCodes.Pop)
+                    };
+
+                    codes.InsertRange(i, newCodes);
+                }
+
+                if (codes[i].opcode == OpCodes.Endfinally)
+                {
+                    Console.WriteLine("FOUND 3");
+
+                    var newCodes = new List<CodeInstruction>
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(StaticStuff), nameof(StaticStuff.GetIsTracked), new System.Type[] {typeof(ActorBase)})),
+                        new CodeInstruction(OpCodes.Brfalse_S, label),
+
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldloca_S, builder.LocalIndex),
+                        new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(TranspilersContainer), nameof(TranspilersContainer.giveInventoryResourcesToCity_Transpiler))),
+
+                        new CodeInstruction(OpCodes.Ldnull),
+                        new CodeInstruction(OpCodes.Stloc_S, builder.LocalIndex),
+                    };
+
+                    codes.InsertRange(i + 1, newCodes);
+                }
+
+                else
+                {
+                    Console.WriteLine("UNFOUNDED");
                 }
             }
+
+            foreach (var item in codes)
+            {
+                if (item.opcode == OpCodes.Ldnull)
+                {
+                    Console.WriteLine("FOUND 4");
+
+                    item.labels.Add(label);
+                }
+            }
+
+            return codes.AsEnumerable();
         }
         #endregion
 
         #region Смена эпохи
         [HarmonyPrefix]
-        [HarmonyPatch(typeof(EraManager), "setEra", new System.Type[] { typeof(EraAsset), typeof(bool) })]
+        [HarmonyPatch(typeof(EraManager), nameof(EraManager.setEra), new System.Type[] { typeof(EraAsset), typeof(bool) })]
         public static void setEra_Prefix(EraAsset pAsset, bool pOverrideTime = true)
         {
             foreach (var actor in World.world.units.getSimpleList())

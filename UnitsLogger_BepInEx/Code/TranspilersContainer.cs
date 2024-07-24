@@ -1,4 +1,7 @@
-﻿namespace UnitsLogger_BepInEx
+﻿using System;
+using System.Text;
+
+namespace UnitsLogger_BepInEx
 {
     public class TranspilersContainer
     {
@@ -169,6 +172,24 @@
                 LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
 
                 logger?.cast_spell.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), "bloodRain", actor.GetActorPosition(), DataType.CastSpell));
+            }
+        }
+
+        public static void giveInventoryResourcesToCity_Transpiler(ActorBase actor, ref StringBuilder builder)
+        {
+            LifeLogger logger = actor.gameObject.GetComponent<LifeLogger>();
+
+            if (logger != null && builder.Length > 0)
+            {
+                string suffix = ", ";
+                if (builder.Length >= suffix.Length && builder.ToString().EndsWith(suffix))
+                {
+                    builder.Remove(builder.Length - suffix.Length, suffix.Length);
+                }
+
+                logger.given_resources.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), builder.ToString(), DataType.GiveResources));
+
+                Console.WriteLine("ПРОИЗОШЛА ПИЗДАТЕЙШАЯ ХУЙНЯ ПРОСТО СОУС ПРОСТО СТАЙЛ");
             }
         }
     }
