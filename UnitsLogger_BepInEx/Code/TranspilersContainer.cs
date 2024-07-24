@@ -188,8 +188,6 @@ namespace UnitsLogger_BepInEx
                 }
 
                 logger.given_resources.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), builder.ToString(), DataType.GiveResources));
-
-                Console.WriteLine("ПРОИЗОШЛА ПИЗДАТЕЙШАЯ ХУЙНЯ ПРОСТО СОУС ПРОСТО СТАЙЛ");
             }
         }
     }
