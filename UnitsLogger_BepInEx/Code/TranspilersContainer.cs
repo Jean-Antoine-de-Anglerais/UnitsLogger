@@ -181,14 +181,15 @@ namespace UnitsLogger_BepInEx
 
             if (logger != null && builder.Length > 0)
             {
-                string suffix = ", ";
-                if (builder.Length >= suffix.Length && builder.ToString().EndsWith(suffix))
+                if (builder.Length >= ", ".Length && builder.ToString().EndsWith(", "))
                 {
-                    builder.Remove(builder.Length - suffix.Length, suffix.Length);
+                    builder.Remove(builder.Length - ", ".Length, ", ".Length);
                 }
 
                 logger.given_resources.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), builder.ToString(), DataType.GiveResources));
             }
+
+            builder = null;
         }
     }
 }
