@@ -820,19 +820,16 @@ namespace UnitsLogger_BepInEx
                     codes.InsertRange(i + 1, newCodes);
                 }
 
-                else
-                {
-                    Console.WriteLine("UNFOUNDED");
-                }
-            }
-
-            foreach (var item in codes)
-            {
-                if (item.opcode == OpCodes.Ldnull)
+                if (codes[i].opcode == OpCodes.Ldnull)
                 {
                     Console.WriteLine("FOUND 4");
 
-                    item.labels.Add(label);
+                    codes[i].labels.Add(label);
+                }
+
+                else
+                {
+                    Console.WriteLine("UNFOUNDED");
                 }
             }
 
