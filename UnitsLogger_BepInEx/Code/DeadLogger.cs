@@ -65,8 +65,10 @@ namespace UnitsLogger_BepInEx
             {
                 unit_statistic.Append($"\r\r{"inventory".GetLocal()}:");
 
-                foreach (var item in logger.initial_items)
+                for (int i = 0; i < logger.initial_items.Count; i++)
                 {
+                    var item = logger.initial_items[i];
+
                     var item_asset = AssetManager.items.get(item.id);
                     unit_statistic.Append($"\r");
                     unit_statistic.Append($"\r{"Тип".GetLocal()} - {("item_" + item.id).GetLocal()}");
@@ -79,22 +81,29 @@ namespace UnitsLogger_BepInEx
 
                     if (item.modifiers.Count != 0)
                     {
-                        List<(string, string)> items_modifiers = new List<(string, string)>();
+                        unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: ");
 
-                        foreach (var item_modifier in item.modifiers)
+                        for (int j = 0; j < item.modifiers.Count; j++)
                         {
-                            (string, string) modifier = item_modifier.DecodeModifier();
-                            items_modifiers.Add(modifier);
+                            var item_modifier = item.modifiers[j];
+
+                            var m = item_modifier.DecodeModifier();
+
+                            unit_statistic.Append((m.Item2 != "") ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}, " : $"{("mod_" + m.Item1).GetLocal()}, ");
                         }
 
-                        if (items_modifiers.Count != 0) unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != "") ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}");
+                        unit_statistic.Remove(unit_statistic.Length - 2, 2);
                     }
                 }
             }
 
             unit_statistic.Append($"\r\rИзначальные характеристики:\r");
-            foreach (var stat in logger.initial_characteristics.getList())
+
+            var charList = logger.initial_characteristics.getList();
+            for (int i = 0; i < charList.Count; i++)
             {
+                var stat = charList[i];
+
                 BaseStatAsset asset = stat.getAsset();
                 if (asset.tooltip_multiply_for_visual_number != 1f)
                 {
@@ -118,6 +127,31 @@ namespace UnitsLogger_BepInEx
                 unit_statistic.Append($"{stat.id.GetLocal()} - {text}\r");
             }
 
+            // foreach (var stat in logger.initial_characteristics.getList())
+            // {
+            //     BaseStatAsset asset = stat.getAsset();
+            //     if (asset.tooltip_multiply_for_visual_number != 1f)
+            //     {
+            //         stat.value *= asset.tooltip_multiply_for_visual_number;
+            //     }
+            // 
+            //     string text;
+            //     if (stat.value != (float)((int)stat.value))
+            //     {
+            //         text = stat.value.ToString("0.0");
+            //     }
+            //     else
+            //     {
+            //         text = stat.value.ToString();
+            //     }
+            //     if (asset.show_as_percents)
+            //     {
+            //         text += "%";
+            //     }
+            // 
+            //     unit_statistic.Append($"{stat.id.GetLocal()} - {text}\r");
+            // }
+
             using (StreamWriter writer = new StreamWriter(unit_file_path))
             {
                 writer.WriteLine(unit_statistic.ToString());
@@ -140,13 +174,16 @@ namespace UnitsLogger_BepInEx
             string unit_file_path = Path.Combine(unit_folder_path, "Сводка о жизни юнита" + ".txt");
 
             StringBuilder unit_statistic = new StringBuilder();
+
             unit_statistic.Append($"История жизни:\r");
 
             List<(double, (int, int), string, DataType)> sortedList = logger.main_dict; // Ранее это вызывало бесконечную рекурсию, из-за которой игра завершалась
+            
             sortedList = sortedList.OrderBy(item => item.Item1).ToList();
-
-            foreach (var stat in sortedList)
+            for (int i = 0; i < sortedList.Count; i++)
             {
+                var stat = sortedList[i];
+
                 unit_statistic.Append($"Дата: {stat.Item1.GetDateFromTime()}, место: X{stat.Item2.Item1}, Y{stat.Item2.Item2} - ");
 
                 switch (stat.Item4)
