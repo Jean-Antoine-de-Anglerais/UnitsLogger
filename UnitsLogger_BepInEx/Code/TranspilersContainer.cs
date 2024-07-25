@@ -180,9 +180,14 @@ namespace UnitsLogger_BepInEx
 
             if (logger != null && builder.Length > 0)
             {
-                if (builder.Length >= ", ".Length && builder.ToString().EndsWith(", "))
+                // if (builder.Length >= ", ".Length && builder.ToString().EndsWith(", "))
+                // {
+                //     builder.Remove(builder.Length - ", ".Length, ", ".Length);
+                // }
+
+                if (builder.Length >= 2 && builder.ToString().EndsWith(", "))
                 {
-                    builder.Remove(builder.Length - ", ".Length, ", ".Length);
+                    builder.Remove(builder.Length - 2, 2);
                 }
 
                 logger.given_resources.Add((World.world.getCurWorldTime(), actor.GetActorPosition(), builder.ToString(), DataType.GiveResources));

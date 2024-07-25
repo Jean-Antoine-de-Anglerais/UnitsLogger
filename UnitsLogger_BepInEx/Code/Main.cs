@@ -2,6 +2,7 @@
 using HarmonyLib;
 using HarmonyLib.Tools;
 using static ConstantNamespace.ConstantClass;
+using static UnityEngine.UI.CanvasScaler;
 
 namespace UnitsLogger_BepInEx
 {
@@ -33,17 +34,19 @@ namespace UnitsLogger_BepInEx
                 //      }
                 //  }
 
-                //  for (int i = 0; i < World.world.units.Count; i++)
-                //  {
-                //      var unit = World.world.units.getSimpleList()[i];
-                //  
-                //      if (!unit.data.favorite)
-                //      {
-                //          unit?.SetIsTracked(true);
-                //          unit?.gameObject?.AddComponent<LifeLogger>();
-                //          unit.data.favorite = true;
-                //      }
-                //  }
+                var unitList = World.world.units.getSimpleList();
+
+                for (int i = 0; i < unitList.Count; i++)
+                {                    
+                    var unit = unitList[i];
+
+                    if (!unit.data.favorite)
+                    {
+                        unit?.SetIsTracked(true);
+                        unit?.gameObject?.AddComponent<LifeLogger>();
+                        unit.data.favorite = true;
+                    }
+                }
             }
 
             if (global::Config.gameLoaded && !_initialized)

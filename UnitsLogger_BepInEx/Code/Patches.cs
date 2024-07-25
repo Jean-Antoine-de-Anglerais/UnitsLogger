@@ -835,7 +835,7 @@ namespace UnitsLogger_BepInEx
 
             for (int j = 0; j < codes.Count; j++)
             {
-                Console.WriteLine($"{j}  {codes[j].opcode.Name}   " + codes[j]?.operand?.ToString());
+                Console.WriteLine($"{j}   {codes[j].opcode.Name}   " + codes[j]?.operand?.ToString());
             }
 
             return codes.AsEnumerable();

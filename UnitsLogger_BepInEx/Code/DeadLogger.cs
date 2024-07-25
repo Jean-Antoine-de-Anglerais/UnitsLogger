@@ -311,7 +311,7 @@ namespace UnitsLogger_BepInEx
             unit_statistic.Append($"\r{"Пол".GetLocal()} - {actor_logged.gender}");
             if (actor_logged.kills != 0) unit_statistic.Append($"\r{"creature_statistics_kills".GetLocal()} - {actor_logged.kills}");
             unit_statistic.Append($"\r{"Биологический вид".GetLocal()} - {actor_logged.species}");
-            if (actor.hasClan()) unit_statistic.Append($"\r {"influence".GetLocal()} - {actor_logged.influence}");
+            if (actor.hasClan()) unit_statistic.Append($"\r{"influence".GetLocal()} - {actor_logged.influence}");
             if (actor.asset.needFood) unit_statistic.Append($"\r{"hunger".GetLocal()} - {actor_logged.hunger}%");
             if (actor_logged.level != 0) unit_statistic.Append($"\r{"creature_statistics_character_level".GetLocal()} - {actor_logged.level}");
             if (actor_logged.experience != 0) unit_statistic.Append($"\r{"creature_statistics_character_experience".GetLocal()} - {actor_logged.experience}");
@@ -325,15 +325,15 @@ namespace UnitsLogger_BepInEx
             if (actor.currentTile.zone.city?.kingdom != null) unit_statistic.Append($"{"Государство, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.kingdom.name}\r");
             if (actor.currentTile.zone.city?.getRoyalClan() != null) unit_statistic.Append($"{"Клан, на территории которого умер юнит".GetLocal()} - {actor.currentTile.zone.city.getRoyalClan().name}\r");
             unit_statistic.Append($"{"Зона, где умер юнит".GetLocal()} - X: {actor.currentTile.zone.x}, Y: {actor.currentTile.zone.y}\r");
-            if (actor.currentTile.zone.abandoned?.Count != 0) unit_statistic.Append($"{"Заброшенные строения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.abandoned.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
-            if (actor.currentTile.zone.food?.Count != 0) unit_statistic.Append($"{"Съедобные строения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.food?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
-            if (actor.currentTile.zone.minerals?.Count != 0) unit_statistic.Append($"{"Минералы на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.minerals?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
-            if (actor.currentTile.zone.plants?.Count != 0) unit_statistic.Append($"{"Растения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.plants?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
-            if (actor.currentTile.zone.trees?.Count != 0) unit_statistic.Append($"{"Деревья на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.trees?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
-            if (actor.currentTile.zone.wheat?.Count != 0) unit_statistic.Append($"{"Пшеница на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.wheat?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
-            if (actor.currentTile.zone.ruins?.Count != 0) unit_statistic.Append($"{"Руины на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.ruins?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
-            if (actor.currentTile.zone.buildings?.Count != 0) unit_statistic.Append($"{"Цивилизационные постройки на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
-            if (actor.currentTile.zone.buildings_all?.Count != 0) unit_statistic.Append($"{"Все строения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings_all?.Select(b => ("building_" + b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.abandoned?.Count != 0) unit_statistic.Append($"{"Заброшенные строения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.abandoned.Select(b => (b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.food?.Count != 0) unit_statistic.Append($"{"Съедобные строения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.food?.Select(b => (b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.minerals?.Count != 0) unit_statistic.Append($"{"Минералы на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.minerals?.Select(b => (b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.plants?.Count != 0) unit_statistic.Append($"{"Растения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.plants?.Select(b => (b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.trees?.Count != 0) unit_statistic.Append($"{"Деревья на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.trees?.Select(b => (b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.wheat?.Count != 0) unit_statistic.Append($"{"Пшеница на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.wheat?.Select(b => (b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.ruins?.Count != 0) unit_statistic.Append($"{"Руины на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.ruins?.Select(b => (b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.buildings?.Count != 0) unit_statistic.Append($"{"Цивилизационные постройки на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings?.Select(b => (b.asset.id).GetLocal()))}\r");
+            if (actor.currentTile.zone.buildings_all?.Count != 0) unit_statistic.Append($"{"Все строения на зоне".GetLocal()} - {string.Join(", ", actor.currentTile.zone.buildings_all?.Select(b => (b.asset.id).GetLocal()))}\r");
 
 
             //unit_statistic += !(logger.received_names.Count == 0) ? $"\r\r{"Случаи смены имён"}: {string.Join(", ", logger.received_names.Select(n => $"{n.Value} - {n.Key.GetDateFromTime()}"))}" : "";
@@ -346,15 +346,22 @@ namespace UnitsLogger_BepInEx
 
             if (actor_logged.kingdom != null || actor_logged.city != null || actor_logged.clan != null || actor_logged.culture != null)
             {
-                List<(string, string)> civil_affiliation = new List<(string, string)>();
+                unit_statistic.Append($"\r\r{"Гражданская принадлежность".GetLocal()}: ");
 
-                if (actor_logged.kingdom != null) civil_affiliation.Add(("kingdom".GetLocal(), actor_logged.kingdom.name));
-                if (actor_logged.city != null) civil_affiliation.Add(("village".GetLocal(), actor_logged.city.name));
-                if (actor_logged.clan != null) civil_affiliation.Add(("clan".GetLocal(), actor_logged.clan.name));
-                if (actor_logged.culture != null) civil_affiliation.Add(("culture".GetLocal(), actor_logged.culture.name));
+                if (actor_logged.kingdom != null) unit_statistic.Append($"{"kingdom".GetLocal()} - {actor_logged.kingdom.name}, ");
+                if (actor_logged.city != null) unit_statistic.Append($"{"village".GetLocal()} - {actor_logged.city.name}, ");
+                if (actor_logged.clan != null) unit_statistic.Append($"{"clan".GetLocal()} - {actor_logged.clan.name}, ");
+                if (actor_logged.culture != null) unit_statistic.Append($"{"culture".GetLocal()} - {actor_logged.culture.name}, ");
+
+                unit_statistic.Remove(unit_statistic.Length - 2, 2);
+
+                //if (actor_logged.kingdom != null) civil_affiliation.Add(("kingdom".GetLocal(), actor_logged.kingdom.name));
+                //if (actor_logged.city != null) civil_affiliation.Add(("village".GetLocal(), actor_logged.city.name));
+                //if (actor_logged.clan != null) civil_affiliation.Add(("clan".GetLocal(), actor_logged.clan.name));
+                //if (actor_logged.culture != null) civil_affiliation.Add(("culture".GetLocal(), actor_logged.culture.name));
 
 
-                if (civil_affiliation.Count != 0) unit_statistic.Append($"\r\r{"Гражданская принадлежность".GetLocal()}: {string.Join(", ", civil_affiliation.Select(c => $"{c.Item1} - {c.Item2}"))}");
+                //if (civil_affiliation.Count != 0) unit_statistic.Append($"\r\r{"Гражданская принадлежность".GetLocal()}: {string.Join(", ", civil_affiliation.Select(c => $"{c.Item1} - {c.Item2}"))}");
 
                 //unit_statistic += $"\r\rГражданская принадлежность:";
                 //unit_statistic += !(actor_logged.kingdom == null) ? $"\rКоролевство - {actor_logged.kingdom.name}" : "";
@@ -421,15 +428,20 @@ namespace UnitsLogger_BepInEx
 
                     if (item.modifiers.Count != 0)
                     {
-                        List<(string, string)> items_modifiers = new List<(string, string)>();
+                        // if (items_modifiers.Count != 0) unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != "") ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}");
 
-                        foreach (var item_modifier in item.modifiers)
+                        unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: ");
+
+                        for (int i = 0; i < item.modifiers.Count; i++)
                         {
-                            (string, string) modifier = item_modifier.DecodeModifier();
-                            items_modifiers.Add(modifier);
+                            var item_modifier = item.modifiers[i];
+
+                            var m = item_modifier.DecodeModifier();
+
+                            unit_statistic.Append((m.Item2 != "") ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}, " : $"{("mod_" + m.Item1).GetLocal()}, ");
                         }
 
-                        if (items_modifiers.Count != 0) unit_statistic.Append($"\r{"Модификаторы".GetLocal()}: {string.Join(", ", items_modifiers.Select(m => (m.Item2 != "") ? $"{("mod_" + m.Item1).GetLocal()} {m.Item2}" : $"{("mod_" + m.Item1).GetLocal()}"))}");
+                        unit_statistic.Remove(unit_statistic.Length - 2, 2);
                     }
                 }
             }
