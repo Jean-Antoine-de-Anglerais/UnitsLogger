@@ -774,10 +774,10 @@ namespace UnitsLogger_BepInEx
                         new CodeInstruction(OpCodes.Stloc_S, builder.LocalIndex)
                     };
 
-                    codes.InsertRange(i + 1, newCodes);
+                    codes.InsertRange(i + 2, newCodes);
                 }
 
-                if (codes[i].opcode == OpCodes.Pop && codes[i + 1].opcode == OpCodes.Ldloca_S && codes[i - 1].opcode == OpCodes.Callvirt)
+                if (codes[i].opcode == OpCodes.Pop && codes[i - 3].opcode != OpCodes.Box && codes[i + 1].opcode == OpCodes.Ldloca_S && codes[i - 1].opcode == OpCodes.Callvirt)
                 {
                     Console.WriteLine("FOUND 2");
 
@@ -796,7 +796,7 @@ namespace UnitsLogger_BepInEx
                         new CodeInstruction(OpCodes.Pop)
                     };
 
-                    codes.InsertRange(i, newCodes);
+                    codes.InsertRange(i + 1, newCodes);
                 }
 
                 if (codes[i].opcode == OpCodes.Endfinally)
@@ -831,6 +831,11 @@ namespace UnitsLogger_BepInEx
                 {
                     Console.WriteLine("UNFOUNDED");
                 }
+            }
+
+            for (int j = 0; j < codes.Count; j++)
+            {
+                Console.WriteLine($"{j}  {codes[j].opcode.Name}   " + codes[j]?.operand?.ToString());
             }
 
             return codes.AsEnumerable();
